@@ -1,6 +1,6 @@
 {
-  "name": "@huangshan/eslint-config-ts",
-  "version": "0.0.4",
+  "name": "@pro/eslint-config-ts",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "private": true,

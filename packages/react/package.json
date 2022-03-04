@@ -1,7 +1,6 @@
 {
-  "name": "@huangshan/eslint-config-react",
-  "version": "0.0.4",
-  "private": true,
+  "name": "@pro/eslint-config-react",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "files": [
@@ -12,5 +11,8 @@
     "eslint-config"
   ],
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }

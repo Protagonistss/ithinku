@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Protagonistss/huangshan#readme",
   "devDependencies": {
-    "@huangshan/eslint-config-base": "workspace:^0.0.0",
+    "@pro/eslint-config-base": "workspace:^0.0.0",
     "eslint": "^8.10.0",
     "typescript": "^4.6.2"
   }
