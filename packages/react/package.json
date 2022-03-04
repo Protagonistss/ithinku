@@ -1,0 +1,12 @@
+{
+  "name": "@huangshan/eslint-config-react",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": ["eslint-config-react", "eslint-config"],
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "license": "MIT"
+}

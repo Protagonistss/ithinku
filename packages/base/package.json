@@ -1,0 +1,22 @@
+{
+  "name": "@huangshan/eslint-config-base",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [],
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": "^8.10.0"
+  },
+  "dependencies": {
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0"
+  }
+}

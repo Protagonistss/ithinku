@@ -1,0 +1,17 @@
+{
+  "name": "@huangshan/eslint-config-vue",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "eslint-config"
+  ],
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.10.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "huangshan",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "format": "npx eslint --ext .js --fix .",
+    "release": "lerna publish --conventional-commits"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/huangshan.git"
+  },
+  "keywords": [
+    "utils"
+  ],
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/huangshan/issues"
+  },
+  "homepage": "https://github.com/Protagonistss/huangshan#readme",
+  "devDependencies": {
+    "@huangshan/eslint-config-base": "workspace:^0.0.0",
+    "eslint": "^8.10.0",
+    "typescript": "^4.6.2"
+  }
+}
