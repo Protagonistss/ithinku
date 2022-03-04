@@ -1,6 +1,6 @@
 {
-  "name": "@pro/eslint-config-react",
-  "version": "0.0.5",
+  "name": "@ithinko/eslint-config-react",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "files": [
