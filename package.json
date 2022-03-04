@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "format": "npx eslint --ext .js --fix .",
-    "release": "lerna publish --conventional-commits"
+    "release": "npx lerna publish --conventional-commits"
   },
   "engines": {
     "node": ">=14"
@@ -24,8 +24,9 @@
   },
   "homepage": "https://github.com/Protagonistss/ithinku#readme",
   "devDependencies": {
-    "@ithinku/eslint-config-base": "workspace:^0.0.0",
+    "@ithinku/eslint-config-base": "workspace:*",
     "eslint": "^8.10.0",
+    "lerna": "^4.0.0",
     "typescript": "^4.6.2"
   }
 }

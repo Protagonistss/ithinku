@@ -12,6 +12,7 @@
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
   "dependencies": {
+    "@ithinku/eslint-config-base": "^0.0.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0"
   },

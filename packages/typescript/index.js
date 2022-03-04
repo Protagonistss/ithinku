@@ -1,5 +1,6 @@
 module.exports = {
   extends: [
+    '@ithinku/eslint-config-base',
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
