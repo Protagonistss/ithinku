@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/Protagonistss/huangshan/compare/v0.0.2...v0.0.3) (2022-03-04)
+
+
+### Bug Fixes
+
+* **npm:** publish ([80367cb](https://github.com/Protagonistss/huangshan/commit/80367cb90e6aaa72e2a4e6c81a4b4c49ca9ee30c))
+
+
+
+
+
 ## [0.0.2](https://github.com/Protagonistss/huangshan/compare/v0.0.1...v0.0.2) (2022-03-04)
 
 
