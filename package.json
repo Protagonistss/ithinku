@@ -1,5 +1,5 @@
 {
-  "name": "huangshan",
+  "name": "ithinko",
   "version": "0.0.0",
   "description": "",
   "private": true,
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Protagonistss/huangshan.git"
+    "url": "git+https://github.com/Protagonistss/ithinko.git"
   },
   "keywords": [
     "utils"
@@ -20,11 +20,11 @@
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Protagonistss/huangshan/issues"
+    "url": "https://github.com/Protagonistss/ithinko/issues"
   },
-  "homepage": "https://github.com/Protagonistss/huangshan#readme",
+  "homepage": "https://github.com/Protagonistss/ithinko#readme",
   "devDependencies": {
-    "@pro/eslint-config-base": "workspace:^0.0.0",
+    "@ithinko/eslint-config-base": "workspace:^0.0.0",
     "eslint": "^8.10.0",
     "typescript": "^4.6.2"
   }
