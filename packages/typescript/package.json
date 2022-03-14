@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/eslint-config-ts",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "files": [
@@ -12,7 +12,7 @@
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-base": "^0.0.2",
+    "@ithinku/eslint-config-base": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0"
   },

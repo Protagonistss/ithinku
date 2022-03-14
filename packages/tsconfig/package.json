@@ -1,12 +1,14 @@
 {
   "name": "@ithinku/tsconfig",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "custom tsconfig for huangshan",
   "main": "tsconfig.json",
   "files": [
     "tsconfig.json"
   ],
-  "keywords": ["tsconfig"],
+  "keywords": [
+    "tsconfig"
+  ],
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
   "publishConfig": {
