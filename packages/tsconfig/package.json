@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/tsconfig",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "custom tsconfig for huangshan",
   "main": "tsconfig.json",
   "files": [
