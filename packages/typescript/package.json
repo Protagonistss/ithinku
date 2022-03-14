@@ -1,7 +1,7 @@
 {
   "name": "@ithinku/eslint-config-ts",
   "version": "0.0.3",
-  "description": "",
+  "description": "typescript eslint",
   "main": "index.js",
   "files": [
     "index.js"
