@@ -4,7 +4,8 @@
   "description": "",
   "private": true,
   "scripts": {
-    "format": "npx eslint --ext .js --fix .",
+    "lint": "npx eslint packages/* ",
+    "format": "npx eslint --ext .js,.json --fix packages/*",
     "release": "npx lerna publish --conventional-commits"
   },
   "engines": {

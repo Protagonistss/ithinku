@@ -1,2 +1,2 @@
 extends:
-  - "@huangshan/eslint-config-base"
+  - "@ithinku/eslint-config-base"
