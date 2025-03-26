@@ -8,7 +8,9 @@
     "sourceMap": true,
     "module": "ESNext",
     "target": "ES2018",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/__tests__/**"]

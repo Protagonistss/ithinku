@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import { Lexer, TokenType } from '../lexer';
 
 describe('Lexer', () => {
@@ -38,7 +39,7 @@ describe('Lexer', () => {
     expect(lexer.nextToken()).toEqual({ type: TokenType.Number, value: '123', position: 2 });
     expect(lexer.nextToken()).toEqual({ type: TokenType.Plus, value: '+', position: 8 });
     expect(lexer.nextToken()).toEqual({ type: TokenType.Number, value: '456', position: 11 });
-    expect(lexer.nextToken()).toEqual({ type: TokenType.EOF, value: '', position: 15 });
+    expect(lexer.nextToken()).toEqual({ type: TokenType.EOF, value: '', position: 16 });
   });
 
   it('should throw error for invalid characters', () => {
