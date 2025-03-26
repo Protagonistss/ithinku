@@ -1,4 +1,4 @@
-/// <reference types="jest" />
+import { describe, expect, it } from '@jest/globals';
 import { Lexer, TokenType } from '../lexer';
 
 describe('Lexer', () => {
