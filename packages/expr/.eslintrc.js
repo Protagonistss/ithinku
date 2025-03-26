@@ -1,5 +1,9 @@
 module.exports = {
   extends: ['@ithinku/eslint-config-base'],
+  parserOptions: {
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname
+  },
   rules: {
     // 表达式解析相关规则
     'no-constant-condition': 'off', // 允许在表达式解析中使用常量条件
