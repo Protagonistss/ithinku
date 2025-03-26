@@ -24,6 +24,7 @@
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
   "devDependencies": {
+    "@ithinku/eslint-config-base": "workspace:*",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.28",
     "jest": "^29.7.0",
