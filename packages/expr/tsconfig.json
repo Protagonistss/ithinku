@@ -1,5 +1,5 @@
 {
-  "extends": "@ithinku/tsconfig/base.json",
+  // "extends": "@ithinku/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
