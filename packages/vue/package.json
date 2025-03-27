@@ -17,10 +17,10 @@
   "peerDependencies": {
     "eslint": ">=8.0.0 <9.0.0",
     "typescript": "^5.3.3",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "@ithinku/eslint-config-base": "^0.0.4"
   },
-  "dependencies": {
-    "@ithinku/eslint-config-base": "workspace:*",
+  "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "@vue/eslint-config-prettier": "^8.0.0",
