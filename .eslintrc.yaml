@@ -1,2 +1,6 @@
 extends:
   - "@ithinku/eslint-config-base"
+root: true
+env:
+  node: true
+  es2022: true

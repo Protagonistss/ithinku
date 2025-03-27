@@ -6,6 +6,7 @@
   "scripts": {
     "test:expr": "pnpm -F expr test",
     "build:expr": "pnpm -F expr build",
+    "lint:expr": "pnpm -F expr lint",
     "lint": "npx eslint packages/* ",
     "format": "npx eslint --ext .js,.json --fix packages/*",
     "release": "npx lerna publish --conventional-commits"
