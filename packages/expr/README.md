@@ -9,6 +9,8 @@ A TypeScript expression parser library that can evaluate mathematical expression
 - Variable support
 - Parentheses for grouping
 - Error handling for undefined variables and division by zero
+- Strict TypeScript support
+- Comprehensive ESLint configuration
 
 ## Installation
 
@@ -82,6 +84,40 @@ try {
 } catch (error) {
   console.error(error.message); // "Unexpected token: ..."
 }
+```
+
+## Development
+
+### ESLint Configuration
+
+This project uses a custom ESLint configuration based on `@ithinku/eslint-config-base`. The configuration includes:
+
+- TypeScript-specific rules
+- Expression parsing specific rules
+- Code quality rules
+- Best practices
+
+Key rules include:
+- Strict TypeScript type checking
+- Expression parsing specific allowances
+- Operator precedence and formatting
+- Code quality and best practices
+
+To run the linter:
+```bash
+pnpm run lint
+```
+
+### Building
+
+```bash
+pnpm run build
+```
+
+### Testing
+
+```bash
+pnpm run test
 ```
 
 ## License
