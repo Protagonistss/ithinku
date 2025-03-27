@@ -3,6 +3,7 @@
   "version": "0.0.4",
   "description": "custom tsconfig for huangshan",
   "main": "tsconfig.json",
+  "types": "tsconfig.json",
   "files": [
     "tsconfig.json"
   ],

@@ -73,6 +73,60 @@ importers:
         specifier: ^3.2.5
         version: 3.5.3
 
+  packages/eslint-config-react: {}
+
+  packages/eslint-config-ts:
+    dependencies:
+      '@ithinku/eslint-config-base':
+        specifier: ^0.0.4
+        version: 0.0.4(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1)
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.13.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.13.0
+        version: 5.62.0(eslint@8.57.1)(typescript@4.9.5)
+      eslint:
+        specifier: ^8.10.0
+        version: 8.57.1
+      typescript:
+        specifier: ^4.6.2
+        version: 4.9.5
+
+  packages/eslint-config-vue:
+    dependencies:
+      '@ithinku/eslint-config-base':
+        specifier: ^0.0.4
+        version: 0.0.4(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint@8.57.1)
+      eslint:
+        specifier: '>=8.0.0 <9.0.0'
+        version: 8.57.1
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.2
+      vue:
+        specifier: ^3.0.0
+        version: 3.5.13(typescript@5.8.2)
+    devDependencies:
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.0.1
+        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint@8.57.1)(typescript@5.8.2)
+      '@typescript-eslint/parser':
+        specifier: ^7.0.1
+        version: 7.18.0(eslint@8.57.1)(typescript@5.8.2)
+      '@vue/eslint-config-prettier':
+        specifier: ^8.0.0
+        version: 8.0.0(eslint@8.57.1)(prettier@3.5.3)
+      '@vue/eslint-config-typescript':
+        specifier: ^12.0.0
+        version: 12.0.0(eslint-plugin-vue@9.33.0(eslint@8.57.1))(eslint@8.57.1)(typescript@5.8.2)
+      eslint-plugin-vue:
+        specifier: ^9.21.1
+        version: 9.33.0(eslint@8.57.1)
+      prettier:
+        specifier: ^3.2.5
+        version: 3.5.3
+
   packages/expr:
     devDependencies:
       '@rollup/plugin-commonjs':
@@ -115,61 +169,7 @@ importers:
         specifier: ^5.8.2
         version: 5.8.2
 
-  packages/react: {}
-
   packages/tsconfig: {}
-
-  packages/typescript:
-    dependencies:
-      '@ithinku/eslint-config-base':
-        specifier: ^0.0.4
-        version: 0.0.4(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1)
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.13.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1)(typescript@4.9.5)
-      '@typescript-eslint/parser':
-        specifier: ^5.13.0
-        version: 5.62.0(eslint@8.57.1)(typescript@4.9.5)
-      eslint:
-        specifier: ^8.10.0
-        version: 8.57.1
-      typescript:
-        specifier: ^4.6.2
-        version: 4.9.5
-
-  packages/vue:
-    dependencies:
-      '@ithinku/eslint-config-base':
-        specifier: ^0.0.4
-        version: 0.0.4(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint@8.57.1)
-      eslint:
-        specifier: '>=8.0.0 <9.0.0'
-        version: 8.57.1
-      typescript:
-        specifier: ^5.3.3
-        version: 5.8.2
-      vue:
-        specifier: ^3.0.0
-        version: 3.5.13(typescript@5.8.2)
-    devDependencies:
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.0.1
-        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint@8.57.1)(typescript@5.8.2)
-      '@typescript-eslint/parser':
-        specifier: ^7.0.1
-        version: 7.18.0(eslint@8.57.1)(typescript@5.8.2)
-      '@vue/eslint-config-prettier':
-        specifier: ^8.0.0
-        version: 8.0.0(eslint@8.57.1)(prettier@3.5.3)
-      '@vue/eslint-config-typescript':
-        specifier: ^12.0.0
-        version: 12.0.0(eslint-plugin-vue@9.33.0(eslint@8.57.1))(eslint@8.57.1)(typescript@5.8.2)
-      eslint-plugin-vue:
-        specifier: ^9.21.1
-        version: 9.33.0(eslint@8.57.1)
-      prettier:
-        specifier: ^3.2.5
-        version: 3.5.3
 
 packages:
 
