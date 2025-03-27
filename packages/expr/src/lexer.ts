@@ -8,7 +8,7 @@ export enum TokenType {
   RightParen = 'RightParen',
   Identifier = 'Identifier',
   Dot = 'Dot',
-  EOF = 'EOF'
+  EOF = 'EOF',
 }
 
 export interface Token {
@@ -25,12 +25,14 @@ export class Lexer {
   constructor(input: string) {
     this.input = input;
     this.position = 0;
-    this.currentChar = input.length > 0 ? input[0] : null;
+    this.currentChar
+      = this.position < this.input.length ? this.input[this.position] : null;
   }
 
   private advance(): void {
     this.position++;
-    this.currentChar = this.position < this.input.length ? this.input[this.position] : null;
+    this.currentChar
+      = this.position < this.input.length ? this.input[this.position] : null;
   }
 
   private skipWhitespace(): void {
@@ -55,7 +57,7 @@ export class Lexer {
     let result = '';
     const startPos = this.position;
 
-    while (this.currentChar && /[a-zA-Z_0-9.]/.test(this.currentChar)) {
+    while (this.currentChar && /[\w.]/.test(this.currentChar)) {
       result += this.currentChar;
       this.advance();
     }
@@ -74,35 +76,52 @@ export class Lexer {
         return this.readNumber();
       }
 
-      if (/[a-zA-Z_]/.test(this.currentChar)) {
+      if (/[A-Z_a-z]/.test(this.currentChar)) {
         return this.readIdentifier();
       }
 
       const currentPos = this.position;
       switch (this.currentChar) {
-        case '+':
+        case '+': {
           this.advance();
           return { type: TokenType.Plus, value: '+', position: currentPos };
-        case '-':
+        }
+        case '-': {
           this.advance();
           return { type: TokenType.Minus, value: '-', position: currentPos };
-        case '*':
+        }
+        case '*': {
           this.advance();
           return { type: TokenType.Multiply, value: '*', position: currentPos };
-        case '/':
+        }
+        case '/': {
           this.advance();
           return { type: TokenType.Divide, value: '/', position: currentPos };
-        case '(':
+        }
+        case '(': {
           this.advance();
-          return { type: TokenType.LeftParen, value: '(', position: currentPos };
-        case ')':
+          return {
+            type: TokenType.LeftParen,
+            value: '(',
+            position: currentPos,
+          };
+        }
+        case ')': {
           this.advance();
-          return { type: TokenType.RightParen, value: ')', position: currentPos };
-        default:
-          throw new Error(`Unexpected character: ${this.currentChar} at position ${this.position}`);
+          return {
+            type: TokenType.RightParen,
+            value: ')',
+            position: currentPos,
+          };
+        }
+        default: {
+          throw new Error(
+            `Unexpected character: ${this.currentChar} at position ${this.position}`
+          );
+        }
       }
     }
 
     return { type: TokenType.EOF, value: '', position: this.position };
   }
-} 
+}

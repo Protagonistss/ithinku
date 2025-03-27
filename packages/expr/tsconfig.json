@@ -8,11 +8,14 @@
     "sourceMap": true,
     "module": "ESNext",
     "target": "ES2018",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "strict": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/__tests__/**"]
+  "include": ["src/**/*", "src/**/*.test.ts"],
+  "exclude": ["node_modules", "dist"]
 } 

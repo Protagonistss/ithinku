@@ -1,5 +1,5 @@
-import { Parser } from '../parser';
 import { AST } from '../ast';
+import { Parser } from '../parser';
 
 describe('Parser', () => {
   it('should parse numbers', () => {
@@ -41,7 +41,11 @@ describe('Parser', () => {
       AST.createBinaryOp(
         '*',
         AST.createIdentifier('x'),
-        AST.createBinaryOp('+', AST.createIdentifier('y'), AST.createIdentifier('z.value'))
+        AST.createBinaryOp(
+          '+',
+          AST.createIdentifier('y'),
+          AST.createIdentifier('z.value')
+        )
       )
     );
   });
@@ -50,4 +54,4 @@ describe('Parser', () => {
     const parser = new Parser('2 +');
     expect(() => parser.parse()).toThrow();
   });
-}); 
+});

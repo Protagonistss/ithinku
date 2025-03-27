@@ -11,7 +11,13 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:eslint-comments/recommended',
     'plugin:promise/recommended',
-    'plugin:unicorn/recommended',
+    'prettier'
+  ],
+  plugins: [
+    '@typescript-eslint',
+    'import',
+    'eslint-comments',
+    'promise',
     'prettier'
   ],
   ignorePatterns: [
@@ -152,22 +158,8 @@ module.exports = {
       }
     }],
 
-    // Unicorn rules
-    'unicorn/prevent-abbreviations': 'off',
-    'unicorn/no-null': 'off',
-    'unicorn/no-array-reduce': 'off',
-    'unicorn/no-array-callback-reference': 'off',
-    'unicorn/no-array-for-each': 'off',
-    'unicorn/no-array-push-pop': 'off',
-    'unicorn/no-array-index-of': 'off',
-    'unicorn/no-array-destructuring': 'off',
-    'unicorn/no-array-method-this-argument': 'off',
-    'unicorn/no-array-sort-compare': 'off',
-    'unicorn/no-array-sort': 'off',
-    'unicorn/no-array-splice': 'off',
-    'unicorn/no-array-unshift': 'off',
-    'unicorn/no-array-push': 'off',
-    'unicorn/no-array-pop': 'off',
-    'unicorn/no-array-shift': 'off'
+    'operator-linebreak': 'off',
+
+    'prettier/prettier': 'error'
   }
 }

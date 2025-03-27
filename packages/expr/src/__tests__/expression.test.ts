@@ -26,12 +26,14 @@ describe('Expression', () => {
       user: {
         score: 100,
         stats: {
-          multiplier: 2
-        }
-      }
+          multiplier: 2,
+        },
+      },
     };
-    
-    expect(Expression.evaluate('user.score * user.stats.multiplier', context)).toBe(200);
+
+    expect(
+      Expression.evaluate('user.score * user.stats.multiplier', context)
+    ).toBe(200);
   });
 
   it('should handle operator precedence', () => {
@@ -51,6 +53,8 @@ describe('Expression', () => {
 
   it('should throw error for invalid property access', () => {
     const context = { x: 10 };
-    expect(() => Expression.evaluate('x.y', context)).toThrow('Cannot access property y of number');
+    expect(() => Expression.evaluate('x.y', context)).toThrow(
+      'Cannot access property y of number'
+    );
   });
-}); 
+});

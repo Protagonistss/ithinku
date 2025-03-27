@@ -1,5 +1,5 @@
-import { Parser } from './parser';
 import { Evaluator, Context } from './evaluator';
+import { Parser } from './parser';
 
 export * from './lexer';
 export * from './ast';
@@ -22,5 +22,8 @@ export class Expression {
 // const result = Expression.evaluate('2 * (3 + 4)', { x: 10 }); // Returns 14
 const result2 = Expression.evaluate('x * 2', { x: 10 }); // Returns 20
 console.log(result2);
-const result3 =  Expression.evaluate('d.f.g * 2', { x: 10, d: { c: 1, f: { g: 2 } } }); // Returns 2
+const result3 = Expression.evaluate('d.f.g * 2', {
+  x: 10,
+  d: { c: 1, f: { g: 2 } },
+}); // Returns 2
 console.log(result3);

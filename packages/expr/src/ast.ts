@@ -22,11 +22,15 @@ export class AST {
     return { type: 'number', value };
   }
 
-  public static createBinaryOp(operator: '+' | '-' | '*' | '/', left: ASTNode, right: ASTNode): BinaryOpNode {
+  public static createBinaryOp(
+    operator: '+' | '-' | '*' | '/',
+    left: ASTNode,
+    right: ASTNode
+  ): BinaryOpNode {
     return { type: 'binary', operator, left, right };
   }
 
   public static createIdentifier(name: string): IdentifierNode {
     return { type: 'identifier', name };
   }
-} 
+}

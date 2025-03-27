@@ -1,5 +1,5 @@
-import { Token, TokenType, Lexer } from './lexer';
 import { ASTNode, AST } from './ast';
+import { Token, TokenType, Lexer } from './lexer';
 
 export class Parser {
   private lexer: Lexer;
@@ -25,22 +25,28 @@ export class Parser {
     const token = this.currentToken;
 
     switch (token.type) {
-      case TokenType.Number:
+      case TokenType.Number: {
         this.eat(TokenType.Number);
-        return AST.createNumber(parseFloat(token.value));
+        return AST.createNumber(Number.parseFloat(token.value));
+      }
 
-      case TokenType.Identifier:
+      case TokenType.Identifier: {
         this.eat(TokenType.Identifier);
         return AST.createIdentifier(token.value);
+      }
 
-      case TokenType.LeftParen:
+      case TokenType.LeftParen: {
         this.eat(TokenType.LeftParen);
         const node = this.expr();
         this.eat(TokenType.RightParen);
         return node;
+      }
 
-      default:
-        throw new Error(`Unexpected token: ${token.type} at position ${token.position}`);
+      default: {
+        throw new Error(
+          `Unexpected token: ${token.type} at position ${token.position}`
+        );
+      }
     }
   }
 
@@ -48,7 +54,10 @@ export class Parser {
   private term(): ASTNode {
     let node = this.factor();
 
-    while (this.currentToken.type === TokenType.Multiply || this.currentToken.type === TokenType.Divide) {
+    while (
+      this.currentToken.type === TokenType.Multiply
+      || this.currentToken.type === TokenType.Divide
+    ) {
       const token = this.currentToken;
       if (token.type === TokenType.Multiply) {
         this.eat(TokenType.Multiply);
@@ -66,7 +75,10 @@ export class Parser {
   private expr(): ASTNode {
     let node = this.term();
 
-    while (this.currentToken.type === TokenType.Plus || this.currentToken.type === TokenType.Minus) {
+    while (
+      this.currentToken.type === TokenType.Plus
+      || this.currentToken.type === TokenType.Minus
+    ) {
       const token = this.currentToken;
       if (token.type === TokenType.Plus) {
         this.eat(TokenType.Plus);
@@ -83,8 +95,10 @@ export class Parser {
   public parse(): ASTNode {
     const node = this.expr();
     if (this.currentToken.type !== TokenType.EOF) {
-      throw new Error(`Unexpected token: ${this.currentToken.type} at position ${this.currentToken.position}`);
+      throw new Error(
+        `Unexpected token: ${this.currentToken.type} at position ${this.currentToken.position}`
+      );
     }
     return node;
   }
-} 
+}

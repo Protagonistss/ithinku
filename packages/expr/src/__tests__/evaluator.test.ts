@@ -1,5 +1,5 @@
-import { Evaluator } from '../evaluator';
 import { AST } from '../ast';
+import { Evaluator } from '../evaluator';
 
 describe('Evaluator', () => {
   let evaluator: Evaluator;
@@ -11,9 +11,9 @@ describe('Evaluator', () => {
       obj: {
         a: 2,
         b: {
-          c: 3
-        }
-      }
+          c: 3,
+        },
+      },
     });
   });
 
@@ -22,7 +22,11 @@ describe('Evaluator', () => {
   });
 
   it('should evaluate simple expressions', () => {
-    const ast = AST.createBinaryOp('+', AST.createNumber(2), AST.createNumber(3));
+    const ast = AST.createBinaryOp(
+      '+',
+      AST.createNumber(2),
+      AST.createNumber(3)
+    );
     expect(evaluator.evaluate(ast)).toBe(5);
   });
 
@@ -46,17 +50,27 @@ describe('Evaluator', () => {
   });
 
   it('should handle division by zero', () => {
-    const ast = AST.createBinaryOp('/', AST.createNumber(1), AST.createNumber(0));
+    const ast = AST.createBinaryOp(
+      '/',
+      AST.createNumber(1),
+      AST.createNumber(0)
+    );
     expect(() => evaluator.evaluate(ast)).toThrow('Division by zero');
   });
 
   it('should throw error for undefined variables', () => {
-    expect(() => evaluator.evaluate(AST.createIdentifier('z'))).toThrow('Undefined variable: z');
+    expect(() => evaluator.evaluate(AST.createIdentifier('z'))).toThrow(
+      'Undefined variable: z'
+    );
   });
 
   it('should throw error for invalid nested properties', () => {
-    expect(() => evaluator.evaluate(AST.createIdentifier('obj.d'))).toThrow('Undefined variable: obj.d');
-    expect(() => evaluator.evaluate(AST.createIdentifier('x.y'))).toThrow('Cannot access property y of number');
+    expect(() => evaluator.evaluate(AST.createIdentifier('obj.d'))).toThrow(
+      'Undefined variable: obj.d'
+    );
+    expect(() => evaluator.evaluate(AST.createIdentifier('x.y'))).toThrow(
+      'Cannot access property y of number'
+    );
   });
 
   it('should set and get variables', () => {
@@ -66,4 +80,4 @@ describe('Evaluator', () => {
     evaluator.setVariable('nested.value', 20);
     expect(evaluator.getVariable('nested.value')).toBe(20);
   });
-}); 
+});

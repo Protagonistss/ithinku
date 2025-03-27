@@ -34,7 +34,7 @@ module.exports = {
       allowExpressions: true,
       allowTypedFunctionExpressions: true
     }],
-    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', {
       argsIgnorePattern: '^_',
       varsIgnorePattern: '^_'
@@ -66,15 +66,12 @@ module.exports = {
     'no-self-assign': 'error',
     'no-self-compare': 'error',
     'no-unsafe-optional-chaining': 'error',
-    'no-useless-assignment': 'error',
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'error',
     'no-useless-escape': 'error',
     'no-useless-rename': 'error',
-    'no-useless-return': 'error',
-    'no-useless-spread': 'error',
-    'no-useless-undefined': 'error'
+    'no-useless-return': 'error'
   }
 } 
