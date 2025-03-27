@@ -14,7 +14,6 @@ module.exports = {
     'no-return-assign': 'off', // 允许在 return 语句中使用赋值
     
     // 运算符相关规则
-    'operator-linebreak': ['error', 'before'], // 运算符换行规则
     'operator-assignment': ['error', 'always'], // 使用简写运算符
     
     // 代码风格规则
