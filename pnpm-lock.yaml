@@ -11,6 +11,9 @@ importers:
       '@ithinku/eslint-config-base':
         specifier: workspace:*
         version: link:packages/eslint-config-base
+      '@ithinku/tsconfig':
+        specifier: workspace:*
+        version: link:packages/tsconfig
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
