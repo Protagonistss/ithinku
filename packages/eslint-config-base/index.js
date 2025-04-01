@@ -6,9 +6,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
-    'plugin:import/typescript',
     'plugin:eslint-comments/recommended',
     'plugin:promise/recommended',
     'plugin:unicorn/recommended',
@@ -47,20 +45,6 @@ module.exports = {
       rules: {
         'spaced-comment': 'off'
       }
-    },
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: {
-        '@typescript-eslint/explicit-function-return-type': ['error', {
-          allowExpressions: true,
-          allowTypedFunctionExpressions: true
-        }],
-        '@typescript-eslint/no-explicit-any': 'warn',
-        '@typescript-eslint/no-unused-vars': ['error', {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_'
-        }]
-      }
     }
   ],
   rules: {
@@ -73,8 +57,7 @@ module.exports = {
         'parent',
         'sibling',
         'index',
-        'object',
-        'type'
+        'object'
       ],
       'newlines-between': 'always',
       'alphabetize': { order: 'asc' }
