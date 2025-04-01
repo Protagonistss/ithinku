@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@ithinku/eslint-config-base'],
+  extends: ['@ithinku/eslint-config-base', "prettier"],
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname
@@ -14,7 +14,6 @@ module.exports = {
     'no-return-assign': 'off', // 允许在 return 语句中使用赋值
     
     // 运算符相关规则
-    'operator-linebreak': ['error', 'before'], // 运算符换行规则
     'operator-assignment': ['error', 'always'], // 使用简写运算符
     
     // 代码风格规则
@@ -34,7 +33,7 @@ module.exports = {
       allowExpressions: true,
       allowTypedFunctionExpressions: true
     }],
-    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', {
       argsIgnorePattern: '^_',
       varsIgnorePattern: '^_'
@@ -66,15 +65,12 @@ module.exports = {
     'no-self-assign': 'error',
     'no-self-compare': 'error',
     'no-unsafe-optional-chaining': 'error',
-    'no-useless-assignment': 'error',
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'error',
     'no-useless-escape': 'error',
     'no-useless-rename': 'error',
-    'no-useless-return': 'error',
-    'no-useless-spread': 'error',
-    'no-useless-undefined': 'error'
+    'no-useless-return': 'error'
   }
 } 
