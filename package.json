@@ -29,6 +29,7 @@
   "homepage": "https://github.com/Protagonistss/ithinku#readme",
   "devDependencies": {
     "@ithinku/eslint-config-base": "workspace:*",
+    "@ithinku/eslint-config-ts": "workspace:*",
     "@ithinku/tsconfig": "workspace:*",
     "@jest/globals": "^29.7.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

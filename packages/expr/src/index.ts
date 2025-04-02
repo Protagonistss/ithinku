@@ -1,4 +1,5 @@
-import { Evaluator, Context } from './evaluator'
+import type { Context } from './evaluator';
+import { Evaluator } from './evaluator'
 import { Parser } from './parser'
 
 export * from './lexer'

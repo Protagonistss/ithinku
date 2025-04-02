@@ -1,5 +1,7 @@
-import { ASTNode, AST } from './ast'
-import { Token, TokenType, Lexer } from './lexer'
+import type { ASTNode} from './ast';
+import { AST } from './ast'
+import type { Token} from './lexer';
+import { TokenType, Lexer } from './lexer'
 
 export class Parser {
   private lexer: Lexer

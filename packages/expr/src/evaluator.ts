@@ -1,6 +1,6 @@
-import { ASTNode } from './ast'
+import type { ASTNode } from './ast'
 
-export type Context = {
+export interface Context {
   [key: string]: number | Context
 }
 
@@ -85,7 +85,7 @@ export class Evaluator {
       current = current[parts[i]] as Context
     }
 
-    current[parts[parts.length - 1]] = value
+    current[parts.at(-1)] = value
   }
 
   public getVariable(name: string): number {

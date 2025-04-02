@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@ithinku/eslint-config-base', "prettier"],
+  extends: ['@ithinku/eslint-config-ts', "prettier"],
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname
@@ -26,51 +26,6 @@ module.exports = {
         ['in', 'instanceof']
       ],
       allowSamePrecedence: true
-    }],
-    
-    // TypeScript 特定规则
-    '@typescript-eslint/explicit-function-return-type': ['error', {
-      allowExpressions: true,
-      allowTypedFunctionExpressions: true
-    }],
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/no-unused-vars': ['error', {
-      argsIgnorePattern: '^_',
-      varsIgnorePattern: '^_'
-    }],
-    '@typescript-eslint/no-non-null-assertion': 'error',
-    '@typescript-eslint/no-empty-interface': 'error',
-    '@typescript-eslint/no-inferrable-types': 'error',
-    '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-    '@typescript-eslint/prefer-as-const': 'error',
-    '@typescript-eslint/prefer-optional-chain': 'error',
-    '@typescript-eslint/unified-signatures': 'error',
-    
-    // 代码质量规则
-    'no-console': 'warn',
-    'no-debugger': 'warn',
-    'no-alert': 'warn',
-    'no-eval': 'warn',
-    'no-implied-eval': 'warn',
-    'no-new-func': 'warn',
-    
-    // 最佳实践规则
-    'no-caller': 'error',
-    'no-iterator': 'error',
-    'no-proto': 'error',
-    'no-warning-comments': 'warn',
-    'prefer-promise-reject-errors': 'error',
-    'require-await': 'error',
-    'require-yield': 'error',
-    'no-self-assign': 'error',
-    'no-self-compare': 'error',
-    'no-unsafe-optional-chaining': 'error',
-    'no-useless-call': 'error',
-    'no-useless-computed-key': 'error',
-    'no-useless-concat': 'error',
-    'no-useless-constructor': 'error',
-    'no-useless-escape': 'error',
-    'no-useless-rename': 'error',
-    'no-useless-return': 'error'
+    }]
   }
 } 
