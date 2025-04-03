@@ -1,4 +1,4 @@
-import * as arr from './array'
+import * as arr from './arr'
 export { arr }
 
 import * as map from './map'
@@ -14,7 +14,7 @@ import * as type from './type'
 export { type }
 
 // Re-export all utilities for convenience
-export * from './array'
+export * from './arr'
 export * from './map'
 export * from './route'
 export * from './time'
