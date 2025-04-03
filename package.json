@@ -32,12 +32,13 @@
     "@ithinku/eslint-config-ts": "workspace:*",
     "@ithinku/tsconfig": "workspace:*",
     "@jest/globals": "^29.7.0",
+    "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "eslint": "^8.10.0",
     "lerna": "^4.0.0",
-    "typescript": "~5.3.3",
-    "@types/node": "^20.11.19",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.3.3"
   }
 }
