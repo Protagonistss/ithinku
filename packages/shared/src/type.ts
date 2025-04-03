@@ -1,31 +1,34 @@
-enum Types {
-  '[object Array]' = 'Array',
-  '[object Object]' = 'Object', 
-  '[object String]' = 'String',
-  '[object Number]' = 'Number',
-  '[object Boolean]' = 'Boolean',
-  '[object Function]' = 'Function',
-  '[object Symbol]' = 'Symbol',
-  '[object Date]' = 'Date',
-  '[object RegExp]' = 'RegExp',
-  '[object Error]' = 'Error',
-  '[object Promise]' = 'Promise',
-  '[object Map]' = 'Map',
-  '[object Set]' = 'Set',
-  '[object WeakMap]' = 'WeakMap',
-  '[object WeakSet]' = 'WeakSet',
-  '[object BigInt]' = 'BigInt',
-  '[object Undefined]' = 'Undefined',
-  '[object Null]' = 'Null',
-  '[object BigInt64Array]' = 'BigInt64Array',
-  '[object BigUint64Array]' = 'BigUint64Array',
-  '[object Float32Array]' = 'Float32Array',
-  '[object Float64Array]' = 'Float64Array',
-  '[object Int8Array]' = 'Int8Array',
-  '[object Int16Array]' = 'Int16Array'
-}
+const Types = {
+  '[object Array]': 'Array',
+  '[object Object]': 'Object',
+  '[object String]': 'String', 
+  '[object Number]': 'Number',
+  '[object Boolean]': 'Boolean',
+  '[object Function]': 'Function',
+  '[object AsyncFunction]': 'AsyncFunction',
+  '[object Symbol]': 'Symbol',
+  '[object Date]': 'Date',
+  '[object RegExp]': 'RegExp',
+  '[object Error]': 'Error',
+  '[object Promise]': 'Promise',
+  '[object Map]': 'Map',
+  '[object Set]': 'Set',
+  '[object WeakMap]': 'WeakMap',
+  '[object WeakSet]': 'WeakSet',
+  '[object BigInt]': 'BigInt',
+  '[object Undefined]': 'Undefined',
+  '[object Null]': 'Null',
+  '[object BigInt64Array]': 'BigInt64Array',
+  '[object BigUint64Array]': 'BigUint64Array',
+  '[object Float32Array]': 'Float32Array',
+  '[object Float64Array]': 'Float64Array',
+  '[object Int8Array]': 'Int8Array',
+  '[object Int16Array]': 'Int16Array'
+} as const
 
-const isType = (type: unknown) => {
+type TypeValue = Exclude<typeof Types[keyof typeof Types], never>
+
+const isType = (type: unknown): TypeValue => {
   const typeStr = Object.prototype.toString.call(type)
   return Types[typeStr as keyof typeof Types]
 }
@@ -51,7 +54,10 @@ const isBoolean = (arg: unknown): boolean => {
 }
 
 const isFunction = (arg: unknown): boolean => {
-  return isType(arg) === 'Function'
+  return isAsyncFunction(arg) || isType(arg) === 'Function'
+}
+const isAsyncFunction = (arg: unknown): boolean => {
+  return isType(arg) === 'AsyncFunction'
 }
 
 const isSymbol = (arg: unknown): boolean => {
@@ -133,6 +139,7 @@ export {
   isNumber,
   isBoolean,
   isFunction,
+  isAsyncFunction,
   isSymbol,
   isDate,
   isRegExp,
