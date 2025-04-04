@@ -17,7 +17,9 @@
     "jsx": "preserve",
     "skipLibCheck": true,
     "newLine": "lf",
-    "pretty": true
+    "pretty": true,
+    "isolatedModules": true,
+    "noImplicitAny": true
   },
   "exclude": ["node_modules", "dist"]
 }

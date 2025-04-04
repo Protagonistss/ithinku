@@ -53,11 +53,12 @@ const isBoolean = (arg: unknown): boolean => {
   return isType(arg) === 'Boolean'
 }
 
-const isFunction = (arg: unknown): boolean => {
-  return isAsyncFunction(arg) || isType(arg) === 'Function'
-}
 const isAsyncFunction = (arg: unknown): boolean => {
   return isType(arg) === 'AsyncFunction'
+}
+
+const isFunction = (arg: unknown): boolean => {
+  return isAsyncFunction(arg) || isType(arg) === 'Function'
 }
 
 const isSymbol = (arg: unknown): boolean => {

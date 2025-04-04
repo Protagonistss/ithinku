@@ -14,7 +14,8 @@
     "types": ["jest", "node"],
     "inlineSourceMap": false,
     "inlineSources": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noImplicitAny": false
   },
   "include": ["src/**/*", "src/**/*.test.ts"],
   "exclude": ["node_modules", "dist"]
