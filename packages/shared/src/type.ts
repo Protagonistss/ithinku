@@ -133,7 +133,32 @@ const isInt16Array = (arg: unknown): boolean => {
   return isType(arg) === 'Int16Array'
 }
 
+const isExist = (arg: unknown): boolean => {
+  return !isNull(arg) && !isUndefined(arg)
+}
+
+function isEmpty(arg: string): boolean
+function isEmpty(arg: unknown[]): boolean 
+function isEmpty(arg: Record<string, unknown>): boolean
+function isEmpty(arg: unknown): boolean {
+  if (!isExist(arg)) {
+    return true
+  }
+  if (isString(arg)) {
+    return (arg as string).length === 0
+  }
+  if (isArray(arg)) {
+    return (arg as unknown[]).length === 0
+  }
+  if (isObject(arg)) {
+    return Object.keys(arg as Record<string, unknown>).length === 0
+  }
+  return false
+}
+
 export {
+  isEmpty,
+  isExist,
   isArray,
   isObject,
   isString,

@@ -24,7 +24,9 @@ import {
   isFloat32Array,
   isFloat64Array,
   isInt8Array,
-  isInt16Array
+  isInt16Array,
+  isEmpty,
+  isExist
 } from '../../type'
 
 describe('Type checking functions', () => {
@@ -38,7 +40,7 @@ describe('Type checking functions', () => {
     it('should return false for non-arrays', () => {
       expect(isArray({})).toBe(false)
       expect(isArray(null)).toBe(false)
-      expect(isArray()).toBe(false)
+      expect(isArray(undefined)).toBe(false)
     })
   })
 
@@ -52,7 +54,7 @@ describe('Type checking functions', () => {
     it('should return false for non-objects', () => {
       expect(isObject([])).toBe(false)
       expect(isObject(null)).toBe(false)
-      expect(isObject()).toBe(false)
+      expect(isObject(undefined)).toBe(false)
     })
   })
 
@@ -66,7 +68,7 @@ describe('Type checking functions', () => {
     it('should return false for non-strings', () => {
       expect(isString(123)).toBe(false)
       expect(isString(null)).toBe(false)
-      expect(isString()).toBe(false)
+      expect(isString(undefined)).toBe(false)
     })
   })
 
@@ -80,7 +82,7 @@ describe('Type checking functions', () => {
     it('should return false for non-numbers', () => {
       expect(isNumber('123')).toBe(false)
       expect(isNumber(null)).toBe(false)
-      expect(isNumber()).toBe(false)
+      expect(isNumber(undefined)).toBe(false)
     })
   })
 
@@ -94,7 +96,7 @@ describe('Type checking functions', () => {
     it('should return false for non-booleans', () => {
       expect(isBoolean(1)).toBe(false)
       expect(isBoolean(null)).toBe(false)
-      expect(isBoolean()).toBe(false)
+      expect(isBoolean(undefined)).toBe(false)
     })
   })
 
@@ -108,7 +110,7 @@ describe('Type checking functions', () => {
     it('should return false for non-functions', () => {
       expect(isFunction({})).toBe(false)
       expect(isFunction(null)).toBe(false)
-      expect(isFunction()).toBe(false)
+      expect(isFunction(undefined)).toBe(false)
     })
   })
 
@@ -121,7 +123,7 @@ describe('Type checking functions', () => {
     it('should return false for non-symbols', () => {
       expect(isSymbol('symbol')).toBe(false)
       expect(isSymbol(null)).toBe(false)
-      expect(isSymbol()).toBe(false)
+      expect(isSymbol(undefined)).toBe(false)
     })
   })
 
@@ -134,7 +136,7 @@ describe('Type checking functions', () => {
     it('should return false for non-dates', () => {
       expect(isDate('2024-01-01')).toBe(false)
       expect(isDate(null)).toBe(false)
-      expect(isDate()).toBe(false)
+      expect(isDate(undefined)).toBe(false)
     })
   })
 
@@ -147,7 +149,7 @@ describe('Type checking functions', () => {
     it('should return false for non-regular expressions', () => {
       expect(isRegExp('test')).toBe(false)
       expect(isRegExp(null)).toBe(false)
-      expect(isRegExp()).toBe(false)
+      expect(isRegExp(undefined)).toBe(false)
     })
   })
 
@@ -160,7 +162,7 @@ describe('Type checking functions', () => {
     it('should return false for non-errors', () => {
       expect(isError('error')).toBe(false)
       expect(isError(null)).toBe(false)
-      expect(isError()).toBe(false)
+      expect(isError(undefined)).toBe(false)
     })
   })
 
@@ -173,7 +175,7 @@ describe('Type checking functions', () => {
     it('should return false for non-promises', () => {
       expect(isPromise({})).toBe(false)
       expect(isPromise(null)).toBe(false)
-      expect(isPromise()).toBe(false)
+      expect(isPromise(undefined)).toBe(false)
     })
   })
 
@@ -186,7 +188,7 @@ describe('Type checking functions', () => {
     it('should return false for non-maps', () => {
       expect(isMap({})).toBe(false)
       expect(isMap(null)).toBe(false)
-      expect(isMap()).toBe(false)
+      expect(isMap(undefined)).toBe(false)
     })
   })
 
@@ -199,7 +201,7 @@ describe('Type checking functions', () => {
     it('should return false for non-sets', () => {
       expect(isSet([])).toBe(false)
       expect(isSet(null)).toBe(false)
-      expect(isSet()).toBe(false)
+      expect(isSet(undefined)).toBe(false)
     })
   })
 
@@ -211,7 +213,7 @@ describe('Type checking functions', () => {
     it('should return false for non-weak maps', () => {
       expect(isWeakMap(new Map())).toBe(false)
       expect(isWeakMap(null)).toBe(false)
-      expect(isWeakMap()).toBe(false)
+      expect(isWeakMap(undefined)).toBe(false)
     })
   })
 
@@ -223,7 +225,7 @@ describe('Type checking functions', () => {
     it('should return false for non-weak sets', () => {
       expect(isWeakSet(new Set())).toBe(false)
       expect(isWeakSet(null)).toBe(false)
-      expect(isWeakSet()).toBe(false)
+      expect(isWeakSet(undefined)).toBe(false)
     })
   })
 
@@ -236,13 +238,13 @@ describe('Type checking functions', () => {
     it('should return false for non-big integers', () => {
       expect(isBigInt(1)).toBe(false)
       expect(isBigInt(null)).toBe(false)
-      expect(isBigInt()).toBe(false)
+      expect(isBigInt(undefined)).toBe(false)
     })
   })
 
   describe('isUndefined', () => {
     it('should return true for undefined', () => {
-      expect(isUndefined()).toBe(true)
+      expect(isUndefined(void 0)).toBe(true)
     })
 
     it('should return false for non-undefined', () => {
@@ -258,7 +260,7 @@ describe('Type checking functions', () => {
     })
 
     it('should return false for non-null', () => {
-      expect(isNull()).toBe(false)
+      expect(isNull(void 0)).toBe(false)
       expect(isNull('')).toBe(false)
       expect(isNull(0)).toBe(false)
     })
@@ -295,4 +297,34 @@ describe('Type checking functions', () => {
       expect(isInt16Array(new Int8Array())).toBe(false)
     })
   })
-}) 
+})
+
+describe('isEmpty', () => {
+  it('should return true for empty strings', () => {
+    expect(isEmpty('')).toBe(true)
+  })
+
+  it('should return true for empty arrays', () => {
+    expect(isEmpty([])).toBe(true)
+    })
+
+  it('should return true for empty objects', () => {
+    expect(isEmpty({})).toBe(true)
+  })
+})
+
+
+describe('isExist', () => {
+  it('should return true for existing values', () => {
+    expect(isExist(1)).toBe(true)
+    expect(isExist('string')).toBe(true)
+    expect(isExist({})).toBe(true)
+  })
+
+  it('should return false for non-existing values', () => {
+    expect(isExist(null)).toBe(false)
+    expect(isExist(undefined)).toBe(false)
+  })
+})
+
+
