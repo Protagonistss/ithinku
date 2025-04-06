@@ -140,9 +140,15 @@ const isExist = (arg: unknown): boolean => {
 function isEmpty(arg: string): boolean
 function isEmpty(arg: unknown[]): boolean 
 function isEmpty(arg: Record<string, unknown>): boolean
+function isEmpty(arg: Map<unknown, unknown>): boolean
+function isEmpty(arg: Set<unknown>): boolean
+function isEmpty(arg: boolean): boolean
 function isEmpty(arg: unknown): boolean {
   if (!isExist(arg)) {
     return true
+  }
+  if (isBoolean(arg)) {
+    return false
   }
   if (isString(arg)) {
     return (arg as string).length === 0
@@ -153,10 +159,27 @@ function isEmpty(arg: unknown): boolean {
   if (isObject(arg)) {
     return Object.keys(arg as Record<string, unknown>).length === 0
   }
+  if (isMap(arg)) {
+    return (arg as Map<unknown, unknown>).size === 0
+  }
+  if (isSet(arg)) {
+    return (arg as Set<unknown>).size === 0
+  }
+  return false
+}
+
+const isTrue = (arg: unknown): boolean => {
+  if (arg === true) {
+    return true
+  }
+  if (isString(arg)) {
+    return (arg as string).toLowerCase() === 'true'
+  }
   return false
 }
 
 export {
+  isTrue,
   isEmpty,
   isExist,
   isArray,

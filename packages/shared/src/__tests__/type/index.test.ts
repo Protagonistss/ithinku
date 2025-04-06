@@ -26,7 +26,8 @@ import {
   isInt8Array,
   isInt16Array,
   isEmpty,
-  isExist
+  isExist,
+  isTrue
 } from '../../type'
 
 describe('Type checking functions', () => {
@@ -311,6 +312,34 @@ describe('isEmpty', () => {
   it('should return true for empty objects', () => {
     expect(isEmpty({})).toBe(true)
   })
+
+  it('should return false for non-empty strings', () => {
+    expect(isEmpty('test')).toBe(false)
+  })
+
+  it('should return false for non-empty arrays', () => {
+    expect(isEmpty([1, 2, 3])).toBe(false)
+  })
+
+  it('should return false for non-empty objects', () => {
+    expect(isEmpty({ a: 1 })).toBe(false)
+  })
+  
+  it('should return false for non-empty maps', () => {
+    expect(isEmpty(new Map([['key', 'value']]))).toBe(false)
+  })
+
+  it('should return false for non-empty sets', () => {
+    expect(isEmpty(new Set([1, 2, 3]))).toBe(false)
+  })
+
+  it('should return true for false', () => {
+    expect(isEmpty(false)).toBe(false)
+  })
+
+  it('should return true for false', () => {
+    expect(isEmpty(false)).toBe(false)
+  })
 })
 
 
@@ -327,4 +356,43 @@ describe('isExist', () => {
   })
 })
 
+describe('isTrue', () => {
+  it('should return true for true', () => {
+    expect(isTrue(true)).toBe(true)
+  })
+
+  it('should return true for "true"', () => {
+    expect(isTrue('true')).toBe(true)
+  })
+
+  it('should return false for "false"', () => {
+    expect(isTrue('false')).toBe(false)
+  })
+  it('should return false for "false"', () => {
+    expect(isTrue({})).toBe(false)
+  })
+  it('should return false for null', () => {
+    expect(isTrue(null)).toBe(false)
+  })
+
+  it('should return false for undefined', () => {
+    expect(isTrue(undefined)).toBe(false)
+  })
+
+  it('should return false for numbers', () => {
+    expect(isTrue(1)).toBe(false)
+    expect(isTrue(0)).toBe(false)
+  })
+
+  it('should return false for arrays', () => {
+    expect(isTrue([])).toBe(false)
+    expect(isTrue([true])).toBe(false)
+  })
+
+  it('should return false for other string values', () => {
+    expect(isTrue('yes')).toBe(false)
+    expect(isTrue('1')).toBe(false)
+    expect(isTrue('')).toBe(false)
+  })
+})
 
