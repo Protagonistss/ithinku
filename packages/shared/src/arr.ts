@@ -1,14 +1,22 @@
-// 二位数组拍平
+const flat = (arr: unknown[]):unknown[] => {
+  return arr.flat()
+}
 
+const unique = <T>(arr: T[]):T[] => {
+  return [...new Set(arr)]
+}
 
-// 数组去重
+const sort = (arr: number[]):number[] => {
+  return arr.sort((a, b) => a - b)
+}
 
+const sum = (arr: number[]):number => {
+  return arr.reduce((a, b) => a + b, 0)
+}
 
-// 数组排序
-
-
-// 数组求和
-
+const avg = (arr: number[]):number => {
+  return arr.reduce((a, b) => a + b, 0) / arr.length
+}
 
 // 数组求平均值
 
@@ -21,11 +29,12 @@
 
 // 数组求众数
 
-
 // 数组求中位数
 
 
-// 数组长度
+const len = (arr: unknown[]):number => {
+  return arr.length
+}
 
 // 对象转数组
 
@@ -36,5 +45,11 @@
 
 
 // 字符串转数组
-
-export {}
+export {
+  flat,
+  unique,
+  len,
+  sort,
+  sum,
+  avg
+}
