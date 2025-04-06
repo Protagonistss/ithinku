@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import dts from 'rollup-plugin-dts'
 import { readFileSync } from 'fs'
-import { resolve as resolvePath } from 'path'
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
 
@@ -15,12 +14,12 @@ export default defineConfig([
       {
         file: pkg.main,
         format: 'cjs',
-        sourcemap: true
+        sourcemap: false
       },
       {
         file: pkg.module,
         format: 'es',
-        sourcemap: true
+        sourcemap: false
       }
     ],
     plugins: [
@@ -28,9 +27,8 @@ export default defineConfig([
       commonjs(),
       typescript({
         tsconfig: './tsconfig.json',
-        declaration: true,
-        declarationDir: 'dist',
-        exclude: ['**/__tests__/**']
+        exclude: ['**/__tests__/**'],
+        sourceMap: false
       })
     ],
     external: [
@@ -38,8 +36,8 @@ export default defineConfig([
     ]
   },
   {
-    input: 'dist/types/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'es' }],
+    input: 'src/index.ts',
+    output: [{ file: pkg.types, format: 'es' }],
     plugins: [dts()]
   }
 ]) 
