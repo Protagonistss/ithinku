@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/eslint-config-ts",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "ESLint config for TypeScript projects",
   "main": "index.js",
   "keywords": ["eslint", "typescript", "config"],

@@ -1,14 +1,14 @@
 {
   "name": "@ithinku/eslint-config-vue",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "ESLint config for Vue.js projects",
   "main": "index.js",
   "keywords": ["eslint", "vue", "config"],
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-base": "^0.0.4",
-    "@ithinku/eslint-config-ts": "^0.0.4",
+    "@ithinku/eslint-config-base": "^0.0.5",
+    "@ithinku/eslint-config-ts": "^0.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "eslint-plugin-vue": "^10.3.0"
