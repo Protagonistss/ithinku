@@ -1,0 +1,42 @@
+---
+globs: "packages/eslint-config-*/index.js,packages/eslint-config-*/package.json"
+---
+
+# ESLint 配置包开发模式
+
+## 配置文件结构
+每个 ESLint 配置包应包含：
+- `index.js` - 主配置文件
+- `package.json` - 包配置和依赖
+- `README.md` - 详细文档
+
+## 配置继承模式
+```javascript
+// 正确的 extends 顺序
+module.exports = {
+  extends: [
+    '@ithinku/eslint-config-base',     // 基础规则
+    '@ithinku/eslint-config-ts',       // TypeScript 规则（如果需要）
+    'plugin:framework/recommended',    // 框架规则
+    'framework-config',                // 框架配置
+    'prettier-config'                  // Prettier 集成（最后）
+  ]
+}
+```
+
+## 依赖配置原则
+- 将 ESLint 插件放在 `dependencies` 中
+- 将 ESLint 本身放在 `peerDependencies` 中
+- 内部包引用使用 `^1.0.0` 格式
+- 避免使用 `workspace:*`
+
+## 规则配置最佳实践
+- 关闭过于严格的规则（如 `vue/multi-word-component-names`）
+- 针对现代语法特性进行优化
+- 提供合理的默认配置
+- 支持 TypeScript 和现代 JavaScript 特性
+
+## 版本兼容性
+- 支持 ESLint 8.57.0+
+- 支持 TypeScript 4.8+ 和 5.x
+- 保持与主流框架版本的兼容性

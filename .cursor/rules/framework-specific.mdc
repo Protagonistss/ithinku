@@ -1,0 +1,62 @@
+---
+description: "Vue React TypeScript 框架特定配置指南"
+---
+
+# 框架特定配置指南
+
+## Vue 3 配置要点
+- 必须继承 `@ithinku/eslint-config-ts` 获得 TypeScript 支持
+- 使用 `vue-eslint-parser` 解析器
+- 支持 Composition API 和 `<script setup>`
+- 集成 Prettier 配置
+
+### Vue 关键规则
+```javascript
+{
+  'vue/multi-word-component-names': 'off',  // 允许单词组件名
+  'vue/component-tags-order': ['error', {   // 标签顺序
+    order: ['script', 'template', 'style']
+  }],
+  'vue/define-macros-order': ['error', {    // 宏定义顺序
+    order: ['defineProps', 'defineEmits', 'defineExpose', 'defineOptions']
+  }]
+}
+```
+
+## React 配置要点
+- 支持 React 17+ 的新 JSX 转换
+- 包含 React Hooks 规则
+- 集成无障碍访问检查
+- 支持 TypeScript
+
+### React 关键规则
+```javascript
+{
+  'react/react-in-jsx-scope': 'off',        // React 17+ 不需要导入 React
+  'react-hooks/rules-of-hooks': 'error',    // Hooks 规则
+  'jsx-a11y/alt-text': 'error',             // 无障碍访问
+}
+```
+
+## TypeScript 配置要点
+- 使用 @typescript-eslint v7.x（稳定版本）
+- 支持 TypeScript 4.8+ 和 5.x
+- 现代 ES2022+ 语法支持
+- 类型检查和推断优化
+
+### TypeScript 关键规则
+```javascript
+{
+  '@typescript-eslint/no-unused-vars': 'error',
+  '@typescript-eslint/explicit-function-return-type': 'off',
+  '@typescript-eslint/no-explicit-any': 'warn',
+}
+```
+
+## 框架兼容性矩阵
+| 配置 | ESLint | TypeScript | 框架版本 |
+|------|--------|------------|----------|
+| vue | 8.57.0+ | 4.8+/5.x | Vue 3.x |
+| react | 8.57.0+ | 4.8+/5.x | React 17+/18+ |
+| ts | 8.57.0+ | 4.8+/5.x | - |
+| base | 8.57.0+ | - | - |
