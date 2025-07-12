@@ -1,13 +1,13 @@
 {
   "name": "@ithinku/eslint-config-ts",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "ESLint config for TypeScript projects",
   "main": "index.js",
   "keywords": ["eslint", "typescript", "config"],
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-base": "^0.0.4",
+    "@ithinku/eslint-config-base": "^0.0.6",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0"
   },
