@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
     '@ithinku/eslint-config-base',
+    '@ithinku/eslint-config-ts',
     'plugin:vue/vue3-recommended',
     '@vue/eslint-config-typescript',
     '@vue/eslint-config-prettier'
