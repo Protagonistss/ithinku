@@ -1,7 +1,7 @@
 {
   "name": "ithinku",
-  "version": "0.0.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "ESLint configurations and utilities for modern JavaScript/TypeScript projects",
   "private": true,
   "scripts": {
     "test:expr": "pnpm -F expr test",
@@ -20,7 +20,12 @@
     "url": "git+https://github.com/Protagonistss/ithinku.git"
   },
   "keywords": [
-    "utils"
+    "eslint",
+    "typescript",
+    "javascript",
+    "vue",
+    "react",
+    "config"
   ],
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
@@ -34,9 +39,9 @@
     "@ithinku/tsconfig": "workspace:*",
     "@jest/globals": "^29.7.0",
     "@types/node": "^20.11.19",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "eslint": "^8.10.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
     "lerna": "^4.0.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",

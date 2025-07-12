@@ -1,18 +1,19 @@
 {
   "name": "@ithinku/eslint-config-react",
-  "version": "0.0.4",
-  "description": "",
+  "version": "1.0.0",
+  "description": "ESLint config for React projects",
   "main": "index.js",
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "eslint-config-react",
-    "eslint-config"
-  ],
-  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "keywords": ["eslint", "react", "config"],
+  "author": "ithinku",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "dependencies": {
+    "@ithinku/eslint-config-base": "workspace:*",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2"
+  },
+  "peerDependencies": {
+    "eslint": "^8.57.0",
+    "react": "^17.0.0 || ^18.0.0"
   }
 }

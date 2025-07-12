@@ -48,12 +48,7 @@ module.exports = {
     'vue/no-unused-vars': 'error',
     'vue/no-v-text': 'error',
     'vue/no-v-text-v-html-on-component': 'error',
-    'vue/no-v-model-argument': 'error',
-    'vue/no-v-for-template-key': 'error',
     'vue/no-v-for-template-key-on-child': 'error',
-    'vue/no-v-for-template-key-with-key': 'error',
-    'vue/no-v-for-template-key-with-v-bind': 'error',
-    'vue/no-v-for-template-key-with-v-bind-key': 'error',
     
     // Vue 3 组合式 API 相关规则
     'vue/define-macros-order': ['error', {
@@ -64,8 +59,6 @@ module.exports = {
     'vue/no-unused-refs': 'error',
     'vue/no-unused-properties': 'error',
     'vue/no-unused-components': 'error',
-    'vue/no-unused-imports': 'error',
-    'vue/no-unused-macros': 'error',
     
     // Vue 3 性能相关规则
     'vue/no-async-in-computed-properties': 'error',
@@ -88,18 +81,6 @@ module.exports = {
     'vue/valid-v-pre': 'error',
     'vue/valid-v-show': 'error',
     'vue/valid-v-slot': 'error',
-    'vue/valid-v-text': 'error',
-
-    // Prettier 相关规则
-    'prettier/prettier': ['error', {
-      semi: false,
-      singleQuote: true,
-      tabWidth: 2,
-      trailingComma: 'none',
-      printWidth: 100,
-      bracketSpacing: true,
-      arrowParens: 'avoid',
-      endOfLine: 'auto'
-    }]
+    'vue/valid-v-text': 'error'
   }
 }

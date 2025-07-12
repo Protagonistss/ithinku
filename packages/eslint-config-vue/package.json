@@ -1,34 +1,20 @@
 {
   "name": "@ithinku/eslint-config-vue",
-  "version": "0.0.4",
-  "description": "ESLint configuration for Vue 3 projects",
+  "version": "1.0.0",
+  "description": "ESLint config for Vue.js projects",
   "main": "index.js",
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "eslint",
-    "vue",
-    "vue3",
-    "typescript"
-  ],
-  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "keywords": ["eslint", "vue", "config"],
+  "author": "ithinku",
   "license": "MIT",
+  "dependencies": {
+    "@ithinku/eslint-config-base": "workspace:*",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "eslint-plugin-vue": "^10.3.0"
+  },
   "peerDependencies": {
-    "eslint": ">=8.0.0 <9.0.0",
-    "typescript": "^5.3.3",
-    "vue": "^3.0.0",
-    "@ithinku/eslint-config-base": "^0.0.4"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.0.1",
-    "@typescript-eslint/parser": "^7.0.1",
-    "@vue/eslint-config-prettier": "^8.0.0",
-    "@vue/eslint-config-typescript": "^12.0.0",
-    "eslint-plugin-vue": "^9.21.1",
-    "prettier": "^3.2.5"
-  },
-  "publishConfig": {
-    "access": "public"
+    "eslint": "^8.57.0",
+    "typescript": "^4.8.0 || ^5.0.0",
+    "vue": "^3.0.0"
   }
 }

@@ -1,26 +1,18 @@
 {
   "name": "@ithinku/eslint-config-ts",
-  "version": "0.0.4",
-  "description": "typescript eslint",
+  "version": "1.0.0",
+  "description": "ESLint config for TypeScript projects",
   "main": "index.js",
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "eslint-config"
-  ],
-  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "keywords": ["eslint", "typescript", "config"],
+  "author": "ithinku",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-base": "^0.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0"
+    "@ithinku/eslint-config-base": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0"
   },
   "peerDependencies": {
-    "eslint": "^8.10.0",
-    "typescript": "^4.6.2"
-  },
-  "publishConfig": {
-    "access": "public"
+    "eslint": "^8.57.0",
+    "typescript": "^4.8.0 || ^5.0.0"
   }
 }
