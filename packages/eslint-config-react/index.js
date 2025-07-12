@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
     '@ithinku/eslint-config-base',
+    '@ithinku/eslint-config-ts',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended'
