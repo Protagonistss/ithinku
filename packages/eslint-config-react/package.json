@@ -1,14 +1,14 @@
 {
   "name": "@ithinku/eslint-config-react",
-  "version": "1.0.0",
+  "version": "0.0.7",
   "description": "ESLint config for React projects",
   "main": "index.js",
   "keywords": ["eslint", "react", "config"],
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-base": "^0.0.4",
-    "@ithinku/eslint-config-ts": "^0.0.4",
+    "@ithinku/eslint-config-base": "^0.0.7",
+    "@ithinku/eslint-config-ts": "^0.0.7",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-jsx-a11y": "^6.10.2"

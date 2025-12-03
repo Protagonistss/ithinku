@@ -2,6 +2,8 @@
 
 现代化的ESLint配置包集合，为JavaScript、TypeScript、Vue和React项目提供统一的代码规范。
 
+> 🎉 **v0.0.7 重大优化**: 消除规则冗余，精简配置代码，提升开发体验。
+
 ## 📦 包列表
 
 ### ESLint 配置包
@@ -65,37 +67,41 @@ module.exports = {
 
 ### @ithinku/eslint-config-base
 - 现代JavaScript支持 (ES2022+)
-- 导入/导出规则优化
+- 🆕 优化的 import 规则（循环依赖、重复导入检测）
+- 🆕 精简的 Unicorn 规则（只保留核心规则）
 - 代码风格统一
 - 最佳实践建议
 - 错误预防
-- Unicorn规则集成
-- Prettier集成
+- Prettier 集成
 
 ### @ithinku/eslint-config-ts
-- 基于base配置
-- TypeScript ESLint v7.x支持
+- 基于 base 配置
+- TypeScript ESLint v7.x 支持
+- 🆕 消除重复规则，避免配置冲突
+- 🆕 更灵活的类型检查（explicit-function-return-type）
 - 类型安全检查
-- 现代TypeScript特性
-- 与ESLint 8.57+兼容
+- 现代 TypeScript 特性
+- 与 ESLint 8.57+ 兼容
 
 ### @ithinku/eslint-config-vue
-- 基于base配置
-- Vue 3专用规则
-- 组合式API最佳实践
+- 基于 base 配置
+- Vue 3 专用规则
+- 🆕 精简配置（移除 20+ 冗余规则）
+- 🆕 更灵活的组件标签顺序
+- 🆕 放宽的属性限制
+- 组合式 API 最佳实践
 - 模板语法检查
-- 组件命名规范
-- 性能优化建议
-- TypeScript支持
+- TypeScript 支持
 
 ### @ithinku/eslint-config-react
-- 基于base配置
-- React 17+新特性支持
-- React Hooks规则
-- JSX最佳实践
+- 基于 base 配置
+- React 17+ 新特性支持
+- 🆕 简化的 JSX 样式规则
+- 🆕 优化的 Hooks 配置（支持自定义 hooks）
+- React Hooks 规则
+- JSX 最佳实践
 - 可访问性检查
-- 组件开发规范
-- TypeScript支持
+- TypeScript 支持
 
 ## 📋 版本兼容性
 

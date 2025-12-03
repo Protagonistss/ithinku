@@ -66,6 +66,9 @@ module.exports = {
     'import/no-mutable-exports': 'error',
     'import/no-unresolved': 'off',
     'import/no-absolute-path': 'off',
+    'import/no-duplicates': 'error',
+    'import/no-cycle': 'warn',
+    'import/no-self-import': 'error',
 
     // Style rules
     'semi': 'off',
@@ -135,22 +138,12 @@ module.exports = {
       }
     }],
 
-    // Unicorn rules
+    // Unicorn rules - 只禁用有争议的规则
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/no-null': 'off',
     'unicorn/no-array-reduce': 'off',
     'unicorn/no-array-callback-reference': 'off',
     'unicorn/no-array-for-each': 'off',
-    'unicorn/no-array-push-pop': 'off',
-    'unicorn/no-array-index-of': 'off',
-    'unicorn/no-array-destructuring': 'off',
-    'unicorn/no-array-method-this-argument': 'off',
-    'unicorn/no-array-sort-compare': 'off',
-    'unicorn/no-array-sort': 'off',
-    'unicorn/no-array-splice': 'off',
-    'unicorn/no-array-unshift': 'off',
-    'unicorn/no-array-push': 'off',
-    'unicorn/no-array-pop': 'off',
-    'unicorn/no-array-shift': 'off'
+    'unicorn/filename-case': 'off'
   }
 }

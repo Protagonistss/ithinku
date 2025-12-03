@@ -24,8 +24,8 @@ module.exports = {
     'vue/no-v-html': 'warn',
     'vue/require-default-prop': 'off',
     'vue/require-prop-types': 'off',
-    'vue/max-attributes-per-line': ['error', {
-      singleline: 3,
+    'vue/max-attributes-per-line': ['warn', {
+      singleline: 5,
       multiline: 1
     }],
     'vue/html-self-closing': ['error', {
@@ -44,7 +44,7 @@ module.exports = {
       ignores: []
     }],
     'vue/component-tags-order': ['error', {
-      order: ['script', 'template', 'style']
+      order: [['script', 'template'], 'style']
     }],
     'vue/no-unused-vars': 'error',
     'vue/no-v-text': 'error',
@@ -65,23 +65,6 @@ module.exports = {
     'vue/no-async-in-computed-properties': 'error',
     'vue/no-side-effects-in-computed-properties': 'error',
     'vue/no-watch-after-await': 'error',
-    'vue/no-mutating-props': 'error',
-    
-    // Vue 3 模板语法规则
-    'vue/valid-template-root': 'error',
-    'vue/valid-v-bind': 'error',
-    'vue/valid-v-cloak': 'error',
-    'vue/valid-v-else': 'error',
-    'vue/valid-v-else-if': 'error',
-    'vue/valid-v-for': 'error',
-    'vue/valid-v-html': 'error',
-    'vue/valid-v-if': 'error',
-    'vue/valid-v-model': 'error',
-    'vue/valid-v-on': 'error',
-    'vue/valid-v-once': 'error',
-    'vue/valid-v-pre': 'error',
-    'vue/valid-v-show': 'error',
-    'vue/valid-v-slot': 'error',
-    'vue/valid-v-text': 'error'
+    'vue/no-mutating-props': 'error'
   }
 }

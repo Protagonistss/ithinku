@@ -25,7 +25,6 @@ module.exports = {
     'no-proto': 'error',
     'no-warning-comments': 'warn',
     'prefer-promise-reject-errors': 'error',
-    'require-await': 'error',
     'require-yield': 'error',
     'no-self-assign': 'error',
     'no-self-compare': 'error',
@@ -37,22 +36,19 @@ module.exports = {
     'no-useless-escape': 'error',
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
-     // 代码质量规则
-    'no-console': 'warn',
-    'no-debugger': 'warn',
-    'no-alert': 'warn',
-    'no-eval': 'warn',
-    'no-implied-eval': 'warn',
-    'no-new-func': 'warn',
+    
+    // TypeScript 代码质量规则
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', {
       argsIgnorePattern: '^_',
       varsIgnorePattern: '^_'
     }],
     '@typescript-eslint/prefer-as-const': 'error',
-    '@typescript-eslint/explicit-function-return-type': ['error', {
+    '@typescript-eslint/explicit-function-return-type': ['warn', {
       allowExpressions: true,
-      allowTypedFunctionExpressions: true
+      allowTypedFunctionExpressions: true,
+      allowHigherOrderFunctions: true,
+      allowDirectConstAssertionInArrowFunctions: true
     }],
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-empty-interface': 'error',

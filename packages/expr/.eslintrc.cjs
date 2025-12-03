@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@ithinku/eslint-config-ts', "prettier"],
+  extends: ['@ithinku/eslint-config-ts'],
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname
