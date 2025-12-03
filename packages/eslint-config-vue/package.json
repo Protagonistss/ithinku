@@ -7,7 +7,7 @@
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-ts": "^0.0.7",
+    "@ithinku/eslint-config-ts": "workspace:*",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "eslint-plugin-vue": "^9.0.0"
