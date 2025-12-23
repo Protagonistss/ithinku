@@ -68,6 +68,11 @@ export class Evaluator {
         }
       }
 
+      case 'unary': {
+        const value = this.evaluate(node.operand)
+        return node.operator === '-' ? -value : value
+      }
+
       default: {
         throw new Error(`Unknown node type: ${(node as any).type}`)
       }

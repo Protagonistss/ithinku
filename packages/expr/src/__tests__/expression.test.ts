@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { Expression } from '../index'
 
 describe('Expression', () => {
@@ -40,6 +42,19 @@ describe('Expression', () => {
     expect(Expression.evaluate('2 + 3 * 4')).toBe(14)
     expect(Expression.evaluate('(2 + 3) * 4')).toBe(20)
     expect(Expression.evaluate('10 - 2 * 3')).toBe(4)
+  })
+
+  it('should evaluate unary and exponent numbers', () => {
+    expect(Expression.evaluate('-1 + .5')).toBe(-0.5)
+    expect(Expression.evaluate('1e3 + 2')).toBe(1002)
+  })
+
+  it('should parse and compile expressions', () => {
+    const ast = Expression.parse('x * 2')
+    const compiled = Expression.compile('x * 2')
+    expect(Expression.evaluate('x * 2', { x: 3 })).toBe(6)
+    expect(compiled({ x: 3 })).toBe(6)
+    expect(ast).toBeDefined()
   })
 
   it('should throw error for invalid expressions', () => {

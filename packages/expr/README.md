@@ -6,6 +6,7 @@ A TypeScript expression parser library that can evaluate mathematical expression
 
 - Parse and evaluate mathematical expressions
 - Support for basic arithmetic operations (+, -, *, /)
+- Support unary operators and scientific notation numbers
 - Variable support
 - Parentheses for grouping
 - Error handling for undefined variables and division by zero
@@ -57,6 +58,17 @@ console.log(evaluator.evaluate(ast)); // 25
 // Update variables
 evaluator.setVariable('x', 20);
 console.log(evaluator.evaluate(ast)); // 45
+```
+
+### Compile and Parse
+
+```typescript
+import { Expression } from '@ithinku/expr';
+
+const ast = Expression.parse('x * 2');
+const compiled = Expression.compile('x * 2');
+
+console.log(compiled({ x: 10 })); // 20
 ```
 
 ## Error Handling

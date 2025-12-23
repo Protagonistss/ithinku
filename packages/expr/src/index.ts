@@ -1,4 +1,5 @@
-import type { Context } from './evaluator';
+import type { Context } from './evaluator'
+import type { ASTNode } from './ast'
 import { Evaluator } from './evaluator'
 import { Parser } from './parser'
 
@@ -8,23 +9,23 @@ export * from './parser'
 export * from './evaluator'
 
 export class Expression {
-  private static parser: Parser
-  private static evaluator: Evaluator
-
   public static evaluate(expression: string, context: Context = {}): number {
-    this.parser = new Parser(expression)
-    this.evaluator = new Evaluator(context)
-    const ast = this.parser.parse()
-    return this.evaluator.evaluate(ast)
+    const parser = new Parser(expression)
+    const evaluator = new Evaluator(context)
+    const ast = parser.parse()
+    return evaluator.evaluate(ast)
+  }
+
+  public static parse(expression: string): ASTNode {
+    const parser = new Parser(expression)
+    return parser.parse()
+  }
+
+  public static compile(expression: string): (context?: Context) => number {
+    const ast = this.parse(expression)
+    return (context: Context = {}) => {
+      const evaluator = new Evaluator(context)
+      return evaluator.evaluate(ast)
+    }
   }
 }
-
-// Example usage:
-// const result = Expression.evaluate('2 * (3 + 4)', { x: 10 }); // Returns 14
-const result2 = Expression.evaluate('x * 2', { x: 10 }) // Returns 20
-console.log(result2)
-const result3 = Expression.evaluate('d.f.g * 2', {
-  x: 10,
-  d: { c: 1, f: { g: 2 } }
-}) // Returns 2
-console.log(result3)

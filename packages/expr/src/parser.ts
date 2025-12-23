@@ -1,6 +1,6 @@
-import type { ASTNode} from './ast';
+import type { ASTNode } from './ast'
 import { AST } from './ast'
-import type { Token} from './lexer';
+import type { Token } from './lexer'
 import { TokenType, Lexer } from './lexer'
 
 export class Parser {
@@ -22,8 +22,26 @@ export class Parser {
     }
   }
 
-  // factor : NUMBER | IDENTIFIER | LPAREN expr RPAREN
-  private factor(): ASTNode {
+  private parseIdentifier(): ASTNode {
+    let name = this.currentToken.value
+    this.eat(TokenType.Identifier)
+
+    while (this.currentToken.type === TokenType.Dot) {
+      this.eat(TokenType.Dot)
+      if (this.currentToken.type !== TokenType.Identifier) {
+        throw new Error(
+          `Unexpected token: expected ${TokenType.Identifier}, got ${this.currentToken.type} at position ${this.currentToken.position}`
+        )
+      }
+      name += `.${this.currentToken.value}`
+      this.eat(TokenType.Identifier)
+    }
+
+    return AST.createIdentifier(name)
+  }
+
+  // primary : NUMBER | IDENTIFIER | LPAREN expr RPAREN
+  private primary(): ASTNode {
     const token = this.currentToken
 
     switch (token.type) {
@@ -33,8 +51,7 @@ export class Parser {
       }
 
       case TokenType.Identifier: {
-        this.eat(TokenType.Identifier)
-        return AST.createIdentifier(token.value)
+        return this.parseIdentifier()
       }
 
       case TokenType.LeftParen: {
@@ -50,6 +67,19 @@ export class Parser {
         )
       }
     }
+  }
+
+  // factor : (PLUS | MINUS) factor | primary
+  private factor(): ASTNode {
+    if (this.currentToken.type === TokenType.Plus) {
+      this.eat(TokenType.Plus)
+      return AST.createUnaryOp('+', this.factor())
+    }
+    if (this.currentToken.type === TokenType.Minus) {
+      this.eat(TokenType.Minus)
+      return AST.createUnaryOp('-', this.factor())
+    }
+    return this.primary()
   }
 
   // term : factor ((MUL | DIV) factor)*

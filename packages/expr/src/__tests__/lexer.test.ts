@@ -1,10 +1,10 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 
 import { Lexer, TokenType } from '../lexer'
 
 describe('Lexer', () => {
   it('should tokenize numbers', () => {
-    const lexer = new Lexer('123 456.789')
+    const lexer = new Lexer('123 456.789 .5 1e3 2.5e-2')
     expect(lexer.nextToken()).toEqual({
       type: TokenType.Number,
       value: '123',
@@ -16,9 +16,24 @@ describe('Lexer', () => {
       position: 4
     })
     expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '.5',
+      position: 12
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '1e3',
+      position: 15
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '2.5e-2',
+      position: 19
+    })
+    expect(lexer.nextToken()).toEqual({
       type: TokenType.EOF,
       value: '',
-      position: 11
+      position: 25
     })
   })
 
@@ -51,7 +66,7 @@ describe('Lexer', () => {
     })
   })
 
-  it('should tokenize identifiers and nested properties', () => {
+  it('should tokenize identifiers and dot separators', () => {
     const lexer = new Lexer('abc x123 foo.bar.baz')
     expect(lexer.nextToken()).toEqual({
       type: TokenType.Identifier,
@@ -65,8 +80,28 @@ describe('Lexer', () => {
     })
     expect(lexer.nextToken()).toEqual({
       type: TokenType.Identifier,
-      value: 'foo.bar.baz',
+      value: 'foo',
       position: 9
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Dot,
+      value: '.',
+      position: 12
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Identifier,
+      value: 'bar',
+      position: 13
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Dot,
+      value: '.',
+      position: 16
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Identifier,
+      value: 'baz',
+      position: 17
     })
     expect(lexer.nextToken()).toEqual({
       type: TokenType.EOF,
@@ -128,5 +163,10 @@ describe('Lexer', () => {
     expect(() => lexer.nextToken()).toThrow(
       'Unexpected character: @ at position 0'
     )
+  })
+
+  it('should throw error for invalid numbers', () => {
+    const lexer = new Lexer('1..2')
+    expect(() => lexer.nextToken()).toThrow('Invalid number at position 0')
   })
 })

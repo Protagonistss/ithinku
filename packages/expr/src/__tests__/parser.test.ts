@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import { AST } from '../ast'
 import { Parser } from '../parser'
 
@@ -5,6 +7,17 @@ describe('Parser', () => {
   it('should parse numbers', () => {
     const parser = new Parser('123')
     expect(parser.parse()).toEqual(AST.createNumber(123))
+  })
+
+  it('should parse decimals and exponents', () => {
+    const parser = new Parser('.5 + 1e3')
+    expect(parser.parse()).toEqual(
+      AST.createBinaryOp(
+        '+',
+        AST.createNumber(0.5),
+        AST.createNumber(1000)
+      )
+    )
   })
 
   it('should parse simple expressions', () => {
@@ -35,6 +48,17 @@ describe('Parser', () => {
     expect(parser.parse()).toEqual(AST.createIdentifier('foo.bar.baz'))
   })
 
+  it('should parse unary operators', () => {
+    const parser = new Parser('-x + +2')
+    expect(parser.parse()).toEqual(
+      AST.createBinaryOp(
+        '+',
+        AST.createUnaryOp('-', AST.createIdentifier('x')),
+        AST.createUnaryOp('+', AST.createNumber(2))
+      )
+    )
+  })
+
   it('should parse complex expressions with identifiers', () => {
     const parser = new Parser('x * (y + z.value)')
     expect(parser.parse()).toEqual(
@@ -53,5 +77,10 @@ describe('Parser', () => {
   it('should throw error for invalid syntax', () => {
     const parser = new Parser('2 +')
     expect(() => parser.parse()).toThrow()
+  })
+
+  it('should throw error for invalid dotted paths', () => {
+    expect(() => new Parser('a.').parse()).toThrow()
+    expect(() => new Parser('a..b').parse()).toThrow()
   })
 })

@@ -1,3 +1,5 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { AST } from '../ast'
 import { Evaluator } from '../evaluator'
 
@@ -47,6 +49,15 @@ describe('Evaluator', () => {
       AST.createBinaryOp('+', AST.createIdentifier('y'), AST.createNumber(2))
     )
     expect(evaluator.evaluate(ast)).toBe(70) // 10 * (5 + 2)
+  })
+
+  it('should evaluate unary operators', () => {
+    const ast = AST.createBinaryOp(
+      '+',
+      AST.createUnaryOp('-', AST.createIdentifier('x')),
+      AST.createUnaryOp('+', AST.createNumber(2))
+    )
+    expect(evaluator.evaluate(ast)).toBe(-8)
   })
 
   it('should handle division by zero', () => {

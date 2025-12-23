@@ -10,12 +10,18 @@ export interface BinaryOpNode {
   right: ASTNode
 }
 
+export interface UnaryOpNode {
+  type: 'unary'
+  operator: '+' | '-'
+  operand: ASTNode
+}
+
 export interface IdentifierNode {
   type: 'identifier'
   name: string
 }
 
-export type ASTNode = NumberNode | BinaryOpNode | IdentifierNode
+export type ASTNode = NumberNode | BinaryOpNode | UnaryOpNode | IdentifierNode
 
 export class AST {
   public static createNumber(value: number): NumberNode {
@@ -28,6 +34,13 @@ export class AST {
     right: ASTNode
   ): BinaryOpNode {
     return { type: 'binary', operator, left, right }
+  }
+
+  public static createUnaryOp(
+    operator: '+' | '-',
+    operand: ASTNode
+  ): UnaryOpNode {
+    return { type: 'unary', operator, operand }
   }
 
   public static createIdentifier(name: string): IdentifierNode {

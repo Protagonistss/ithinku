@@ -35,6 +35,11 @@ export class Lexer {
       this.position < this.input.length ? this.input[this.position] : null
   }
 
+  private peek(): string | null {
+    const nextPos = this.position + 1
+    return nextPos < this.input.length ? this.input[nextPos] : null
+  }
+
   private skipWhitespace(): void {
     while (this.currentChar && /\s/.test(this.currentChar)) {
       this.advance()
@@ -44,10 +49,60 @@ export class Lexer {
   private readNumber(): Token {
     let result = ''
     const startPos = this.position
+    let hasDigits = false
+    let hasDot = false
 
-    while (this.currentChar && /[\d.]/.test(this.currentChar)) {
+    if (this.currentChar === '.') {
+      hasDot = true
+      result += '.'
+      this.advance()
+    }
+
+    while (this.currentChar && /\d/.test(this.currentChar)) {
+      hasDigits = true
       result += this.currentChar
       this.advance()
+    }
+
+    if (this.currentChar === '.') {
+      if (hasDot) {
+        throw new Error(`Invalid number at position ${startPos}`)
+      }
+      hasDot = true
+      result += '.'
+      this.advance()
+      let fractionalDigits = 0
+      while (this.currentChar && /\d/.test(this.currentChar)) {
+        fractionalDigits++
+        result += this.currentChar
+        this.advance()
+      }
+      if (fractionalDigits === 0) {
+        throw new Error(`Invalid number at position ${startPos}`)
+      }
+      hasDigits = true
+    }
+
+    if (!hasDigits) {
+      throw new Error(`Invalid number at position ${startPos}`)
+    }
+
+    if (this.currentChar && /[eE]/.test(this.currentChar)) {
+      result += this.currentChar
+      this.advance()
+      if (this.currentChar === '+' || this.currentChar === '-') {
+        result += this.currentChar
+        this.advance()
+      }
+      let exponentDigits = 0
+      while (this.currentChar && /\d/.test(this.currentChar)) {
+        exponentDigits++
+        result += this.currentChar
+        this.advance()
+      }
+      if (exponentDigits === 0) {
+        throw new Error(`Invalid number at position ${startPos}`)
+      }
     }
 
     return { type: TokenType.Number, value: result, position: startPos }
@@ -57,7 +112,7 @@ export class Lexer {
     let result = ''
     const startPos = this.position
 
-    while (this.currentChar && /[\w.]/.test(this.currentChar)) {
+    while (this.currentChar && /[A-Z_a-z0-9]/.test(this.currentChar)) {
       result += this.currentChar
       this.advance()
     }
@@ -72,7 +127,10 @@ export class Lexer {
         continue
       }
 
-      if (/\d/.test(this.currentChar)) {
+      if (
+        /\d/.test(this.currentChar) ||
+        (this.currentChar === '.' && this.peek() && /\d/.test(this.peek()))
+      ) {
         return this.readNumber()
       }
 
@@ -113,6 +171,10 @@ export class Lexer {
             value: ')',
             position: currentPos
           }
+        }
+        case '.': {
+          this.advance()
+          return { type: TokenType.Dot, value: '.', position: currentPos }
         }
         default: {
           throw new Error(
