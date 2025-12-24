@@ -10,7 +10,7 @@ const config = defineConfig([
     input: 'src/index.ts',
     output: [
       {
-        file: 'dist/index.js',
+        file: 'dist/index.cjs',
         format: 'cjs',
         sourcemap: true,
       },
@@ -30,7 +30,7 @@ const config = defineConfig([
       resolve(),
       commonjs(),
       typescript({
-        tsconfig: './tsconfig.json',
+        tsconfig: './tsconfig.build.json',
         declaration: true,
         declarationDir: './dist',
         exclude: ['**/__tests__/**']
