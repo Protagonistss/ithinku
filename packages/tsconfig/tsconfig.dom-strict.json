@@ -1,3 +1,9 @@
 {
-  "extends": ["./tsconfig.dom.json", "./tsconfig.strict.json"]
+  "extends": "./tsconfig.strict.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsx": "preserve"
+  }
 }

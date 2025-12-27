@@ -1,232 +1,106 @@
 # iThinkU
 
-现代化的ESLint配置包集合，为JavaScript、TypeScript、Vue和React项目提供统一的代码规范。
+现代化、高性能的 JavaScript/TypeScript 工具库与配置集合。
 
-> 🎉 **v0.0.7 重大优化**: 消除规则冗余，精简配置代码，提升开发体验。
+本项目采用 Monorepo 架构管理，旨在为现代前端开发提供统一的基础设施，包含 ESLint 配置、TypeScript 配置以及常用的工具函数库。
 
-## 📦 包列表
+> 🎉 **v1.0.0 Update**: 全面升级至 **ESLint v9 (Flat Config)**，拥抱未来标准。
 
-### ESLint 配置包
+## 📦 核心包列表
 
-- `@ithinku/eslint-config-base`: JavaScript项目的基础ESLint配置
-- `@ithinku/eslint-config-ts`: TypeScript项目的ESLint配置  
-- `@ithinku/eslint-config-vue`: Vue 3 + TypeScript项目的ESLint配置
-- `@ithinku/eslint-config-react`: React + TypeScript项目的ESLint配置
+### 🛠️ 工具库 (Libraries)
 
-### 工具包
+| 包名 | 描述 | 版本 |
+|------|------|------|
+| [`@ithinku/shared`](./packages/shared) | 高性能、类型安全的通用工具函数库 (Array, Type, Time 等) | ![npm](https://img.shields.io/npm/v/@ithinku/shared) |
+| [`@ithinku/expr`](./packages/expr) | 强大的 TypeScript 表达式解析与求值引擎 | ![npm](https://img.shields.io/npm/v/@ithinku/expr) |
 
-- `@ithinku/expr`: TypeScript表达式解析器库
-- `@ithinku/shared`: 共享工具函数库
-- `@ithinku/tsconfig`: 通用TypeScript配置
+### ⚙️ 规范配置 (Configurations)
+
+| 包名 | 描述 | 适用场景 |
+|------|------|----------|
+| [`@ithinku/eslint-config-base`](./packages/eslint-config-base) | 基础 Flat Config 配置 | 纯 JavaScript 项目 |
+| [`@ithinku/eslint-config-ts`](./packages/eslint-config-ts) | TypeScript 增强配置 | TypeScript 项目 |
+| [`@ithinku/eslint-config-vue`](./packages/eslint-config-vue) | Vue 3 + TS 专用配置 | Vue 3 项目 |
+| [`@ithinku/eslint-config-react`](./packages/eslint-config-react) | React + TS 专用配置 | React 项目 |
+| [`@ithinku/tsconfig`](./packages/tsconfig) | 可复用的 TSConfig 基座 | 所有 TS 项目 |
 
 ## 🚀 快速开始
 
-### 安装
+### 安装 ESLint 配置
 
 ```bash
-# JavaScript项目
-npm install -D @ithinku/eslint-config-base
+# JavaScript 项目
+npm install -D @ithinku/eslint-config-base eslint
 
-# TypeScript项目  
-npm install -D @ithinku/eslint-config-ts
+# TypeScript 项目
+npm install -D @ithinku/eslint-config-ts eslint
 
-# Vue 3 + TypeScript项目
-npm install -D @ithinku/eslint-config-vue
+# Vue 3 项目
+npm install -D @ithinku/eslint-config-vue eslint
 
-# React + TypeScript项目
-npm install -D @ithinku/eslint-config-react
+# React 项目
+npm install -D @ithinku/eslint-config-react eslint
 ```
 
-### 使用
+### 使用 (eslint.config.js)
 
-在项目根目录创建 `.eslintrc.js` 文件：
+ESLint v9 不再支持 `.eslintrc`，请在根目录创建 `eslint.config.js`：
 
 ```javascript
-// JavaScript项目
-module.exports = {
-  extends: ['@ithinku/eslint-config-base']
-}
+// eslint.config.js
+import ithinkuConfig from '@ithinku/eslint-config-vue' // 或其他包
 
-// TypeScript项目
-module.exports = {
-  extends: ['@ithinku/eslint-config-ts']
-}
-
-// Vue 3 项目
-module.exports = {
-  extends: ['@ithinku/eslint-config-vue']
-}
-
-// React 项目
-module.exports = {
-  extends: ['@ithinku/eslint-config-react']
-}
-```
-
-## 🛠️ 功能特性
-
-### @ithinku/eslint-config-base
-- 现代JavaScript支持 (ES2022+)
-- 🆕 优化的 import 规则（循环依赖、重复导入检测）
-- 🆕 精简的 Unicorn 规则（只保留核心规则）
-- 代码风格统一
-- 最佳实践建议
-- 错误预防
-- Prettier 集成
-
-### @ithinku/eslint-config-ts
-- 基于 base 配置
-- TypeScript ESLint v7.x 支持
-- 🆕 消除重复规则，避免配置冲突
-- 🆕 更灵活的类型检查（explicit-function-return-type）
-- 类型安全检查
-- 现代 TypeScript 特性
-- 与 ESLint 8.57+ 兼容
-
-### @ithinku/eslint-config-vue
-- 基于 base 配置
-- Vue 3 专用规则
-- 🆕 精简配置（移除 20+ 冗余规则）
-- 🆕 更灵活的组件标签顺序
-- 🆕 放宽的属性限制
-- 组合式 API 最佳实践
-- 模板语法检查
-- TypeScript 支持
-
-### @ithinku/eslint-config-react
-- 基于 base 配置
-- React 17+ 新特性支持
-- 🆕 简化的 JSX 样式规则
-- 🆕 优化的 Hooks 配置（支持自定义 hooks）
-- React Hooks 规则
-- JSX 最佳实践
-- 可访问性检查
-- TypeScript 支持
-
-## 📋 版本兼容性
-
-| 工具 | 版本要求 |
-|------|----------|
-| ESLint | ^8.57.0 |
-| TypeScript | ^4.8.0 \|\| ^5.0.0 |
-| Vue | ^3.0.0 |
-| React | ^17.0.0 \|\| ^18.0.0 |
-| Node.js | >= 14 |
-
-## 🔧 推荐配置
-
-### VS Code设置
-
-创建 `.vscode/settings.json`:
-
-```json
-{
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact", 
-    "typescript",
-    "typescriptreact",
-    "vue"
-  ]
-}
-```
-
-### 推荐的npm脚本
-
-```json
-{
-  "scripts": {
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.vue",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.vue --fix",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,vue,json,md}\""
+export default [
+  ...ithinkuConfig,
+  {
+    // 你的自定义覆盖配置
+    rules: {
+      'no-console': 'warn'
+    }
   }
-}
+]
 ```
 
-## 🏗️ 开发环境
+## 🛠️ 开发指南
+
+本项目使用 [pnpm](https://pnpm.io/) workspace 进行管理。
 
 ### 环境要求
+- Node.js >= 18
+- pnpm >= 8
 
-- Node.js >= 14
-- pnpm
-- npm账户访问权限
-
-### 项目设置
+### 常用命令
 
 ```bash
 # 安装依赖
 pnpm install
 
-# 构建包
+# 构建所有包
 pnpm run build
 
-# 运行测试
+# 运行所有测试
 pnpm run test
 
-# 代码检查
+# 代码风格检查
 pnpm run lint
+
+# 自动修复代码风格
+pnpm run format
 ```
 
-## 📝 发布流程
+### 提交规范
 
-### 发布所有包
+本项目遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范。
 
-```bash
-pnpm run release
-```
-
-这将会：
-1. 检查需要更新的包
-2. 提示输入版本号
-3. 创建git标签
-4. 发布到npm
-
-### 发布特定包
-
-```bash
-# 发布base配置
-lerna publish --scope=@ithinku/eslint-config-base
-
-# 发布TypeScript配置
-lerna publish --scope=@ithinku/eslint-config-ts
-
-# 发布Vue配置  
-lerna publish --scope=@ithinku/eslint-config-vue
-
-# 发布React配置
-lerna publish --scope=@ithinku/eslint-config-react
-```
-
-### 版本管理
-
-- 每个包可以独立版本控制
-- 遵循语义化版本控制
-- 版本类型由提交信息决定：
-  - `feat:` - 新功能 (minor)
-  - `fix:` - 错误修复 (patch)  
-  - `BREAKING CHANGE:` - 破坏性变更 (major)
-
-## 🔍 故障排除
-
-发布失败时的检查项：
-1. 检查npm权限
-2. 确保所有测试通过
-3. 验证package.json版本
-4. 检查git状态
-5. 尝试使用 `--skip-npm` 进行测试
+- `feat`: 新功能
+- `fix`: 修复 bug
+- `docs`: 文档变更
+- `style`: 代码格式修改（不影响逻辑）
+- `refactor`: 代码重构
+- `test`: 测试用例修改
+- `chore`: 构建过程或辅助工具变动
 
 ## 📄 许可证
 
-MIT
-
-## 🤝 贡献
-
-欢迎提交Issue和Pull Request！请确保：
-- 遵循现有的代码风格
-- 添加适当的测试
-- 更新相关文档
+MIT License © 2024 [Protagonistss](https://github.com/Protagonistss)

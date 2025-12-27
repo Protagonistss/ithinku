@@ -6,6 +6,7 @@ const Types = {
   '[object Boolean]': 'Boolean',
   '[object Function]': 'Function',
   '[object AsyncFunction]': 'AsyncFunction',
+  '[object GeneratorFunction]': 'GeneratorFunction',
   '[object Symbol]': 'Symbol',
   '[object Date]': 'Date',
   '[object RegExp]': 'RegExp',
@@ -26,15 +27,19 @@ const Types = {
   '[object Int16Array]': 'Int16Array'
 } as const
 
-type TypeValue = Exclude<typeof Types[keyof typeof Types], never>
+type TypeKey = keyof typeof Types
+type TypeValue = typeof Types[TypeKey]
 
-const isType = (type: unknown): TypeValue => {
+const isType = (type: unknown): TypeValue | 'Unknown' => {
   const typeStr = Object.prototype.toString.call(type)
-  return Types[typeStr as keyof typeof Types]
+  if (Object.prototype.hasOwnProperty.call(Types, typeStr)) {
+    return Types[typeStr as TypeKey]
+  }
+  return 'Unknown'
 }
 
 const isArray = (arg: unknown): boolean => {
-  return isType(arg) === 'Array'
+  return Array.isArray(arg)
 }
 
 const isObject = (arg: unknown): boolean => {
@@ -46,7 +51,7 @@ const isString = (arg: unknown): boolean => {
 }
 
 const isNumber = (arg: unknown): boolean => {
-  return isType(arg) === 'Number'
+  return isType(arg) === 'Number' && !Number.isNaN(arg)
 }
 
 const isBoolean = (arg: unknown): boolean => {
@@ -58,7 +63,7 @@ const isAsyncFunction = (arg: unknown): boolean => {
 }
 
 const isFunction = (arg: unknown): boolean => {
-  return isAsyncFunction(arg) || isType(arg) === 'Function'
+  return typeof arg === 'function'
 }
 
 const isSymbol = (arg: unknown): boolean => {
@@ -102,11 +107,11 @@ const isBigInt = (arg: unknown): boolean => {
 }
 
 const isUndefined = (arg: unknown): boolean => {
-  return isType(arg) === 'Undefined'
+  return arg === undefined
 }
 
 const isNull = (arg: unknown): boolean => {
-  return isType(arg) === 'Null'
+  return arg === null
 }
 
 const isBigInt64Array = (arg: unknown): boolean => {
@@ -142,7 +147,7 @@ function isEmpty(arg: unknown): boolean {
   if (!isExist(arg)) {
     return true
   }
-  if (isBoolean(arg)) {
+  if (isBoolean(arg) || isNumber(arg) || isFunction(arg) || isSymbol(arg)) {
     return false
   }
   if (isString(arg)) {
@@ -151,14 +156,14 @@ function isEmpty(arg: unknown): boolean {
   if (isArray(arg)) {
     return (arg as unknown[]).length === 0
   }
-  if (isObject(arg)) {
-    return Object.keys(arg as Record<string, unknown>).length === 0
-  }
   if (isMap(arg)) {
     return (arg as Map<unknown, unknown>).size === 0
   }
   if (isSet(arg)) {
     return (arg as Set<unknown>).size === 0
+  }
+  if (isObject(arg)) {
+    return Object.keys(arg as Record<string, unknown>).length === 0
   }
   return false
 }

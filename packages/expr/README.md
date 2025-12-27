@@ -1,137 +1,95 @@
 # @ithinku/expr
 
-A TypeScript expression parser library that can evaluate mathematical expressions with variables.
+A powerful and type-safe TypeScript expression parser and evaluator.
 
-## Features
+Capable of parsing mathematical expressions, handling variables, and executing safe evaluations.
 
-- Parse and evaluate mathematical expressions
-- Support for basic arithmetic operations (+, -, *, /)
-- Support unary operators and scientific notation numbers
-- Variable support
-- Parentheses for grouping
-- Error handling for undefined variables and division by zero
-- Strict TypeScript support
-- Comprehensive ESLint configuration
+## ✨ Features
 
-## Installation
+- **Safe Evaluation**: Does not use `eval()` or `Function()`.
+- **Variable Support**: Supports dynamic variable injection.
+- **Arithmetic Operations**: `+`, `-`, `*`, `/`, unary `-`.
+- **Scientific Notation**: Supports `1.2e3`, `1e-5`.
+- **Error Handling**: Detailed error messages for syntax errors or runtime issues (e.g., division by zero).
+- **TypeScript**: Written in strict TypeScript.
+
+## 📦 Installation
 
 ```bash
 npm install @ithinku/expr
-# or
-yarn add @ithinku/expr
-# or
-pnpm add @ithinku/expr
 ```
 
-## Usage
+## 🚀 Usage
 
-### Basic Usage
+### Simple Evaluation
 
 ```typescript
 import { Expression } from '@ithinku/expr';
 
-// Simple arithmetic
-const result1 = Expression.evaluate('2 * (3 + 4)');
-console.log(result1); // 14
+// Basic math
+const result = Expression.evaluate('2 * (3 + 4)');
+console.log(result); // 14
 
-// Using variables
-const context = { x: 10, y: 5 };
-const result2 = Expression.evaluate('x * y + 2', context);
-console.log(result2); // 52
+// Scientific notation
+console.log(Expression.evaluate('1e2 * 3')); // 300
 ```
 
-### Advanced Usage
+### Using Variables (Context)
+
+```typescript
+import { Expression } from '@ithinku/expr';
+
+const context = { 
+  x: 10, 
+  y: 5,
+  user: {
+    age: 18
+  }
+};
+
+// Access variables including nested properties
+const result = Expression.evaluate('x * y + user.age', context);
+console.log(result); // 10 * 5 + 18 = 68
+```
+
+### Advanced: Parser & Evaluator Separation
+
+For better performance when evaluating the same expression multiple times with different variables.
 
 ```typescript
 import { Parser, Evaluator } from '@ithinku/expr';
 
-// Create a parser and evaluator instance for reuse
-const parser = new Parser('2 * x + y');
-const evaluator = new Evaluator({ x: 10, y: 5 });
-
-// Parse the expression once
+// 1. Parse once (Build AST)
+const parser = new Parser('x * 2 + y');
 const ast = parser.parse();
 
-// Evaluate with different contexts
-console.log(evaluator.evaluate(ast)); // 25
+// 2. Create Evaluator
+const evaluator = new Evaluator({ x: 10, y: 1 });
 
-// Update variables
+// 3. Evaluate multiple times
+console.log(evaluator.evaluate(ast)); // 21
+
+// Update variable
 evaluator.setVariable('x', 20);
-console.log(evaluator.evaluate(ast)); // 45
+console.log(evaluator.evaluate(ast)); // 41
 ```
 
-### Compile and Parse
+## ⚠️ Error Handling
 
 ```typescript
-import { Expression } from '@ithinku/expr';
-
-const ast = Expression.parse('x * 2');
-const compiled = Expression.compile('x * 2');
-
-console.log(compiled({ x: 10 })); // 20
-```
-
-## Error Handling
-
-The library throws errors for various cases:
-
-```typescript
-// Division by zero
 try {
   Expression.evaluate('1 / 0');
 } catch (error) {
-  console.error(error.message); // "Division by zero"
+  // Error: Division by zero
 }
 
-// Undefined variable
 try {
-  Expression.evaluate('x + 1');
+  Expression.evaluate('unknown_var * 2');
 } catch (error) {
-  console.error(error.message); // "Undefined variable: x"
-}
-
-// Invalid syntax
-try {
-  Expression.evaluate('2 + * 3');
-} catch (error) {
-  console.error(error.message); // "Unexpected token: ..."
+  // Error: Undefined variable: unknown_var
 }
 ```
 
-## Development
+## 📄 License
 
-### ESLint Configuration
-
-This project uses a custom ESLint configuration based on `@ithinku/eslint-config-base`. The configuration includes:
-
-- TypeScript-specific rules
-- Expression parsing specific rules
-- Code quality rules
-- Best practices
-
-Key rules include:
-- Strict TypeScript type checking
-- Expression parsing specific allowances
-- Operator precedence and formatting
-- Code quality and best practices
-
-To run the linter:
-```bash
-pnpm run lint
-```
-
-### Building
-
-```bash
-pnpm run build
-```
-
-### Testing
-
-```bash
-pnpm run test
-```
-
-## License
-
-MIT 
+MIT

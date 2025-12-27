@@ -1,55 +1,93 @@
-const flat = (arr: unknown[]):unknown[] => {
+const flat = (arr: unknown[]): unknown[] => {
   return arr.flat()
 }
 
-const unique = <T>(arr: T[]):T[] => {
+const unique = <T>(arr: T[]): T[] => {
   return [...new Set(arr)]
 }
 
-const sort = (arr: number[]):number[] => {
-  return arr.sort((a, b) => a - b)
+const sort = (arr: number[]): number[] => {
+  return [...arr].sort((a, b) => a - b)
 }
 
-const sum = (arr: number[]):number => {
+const sum = (arr: number[]): number => {
   return arr.reduce((a, b) => a + b, 0)
 }
 
-const avg = (arr: number[]):number => {
-  return arr.reduce((a, b) => a + b, 0) / arr.length
+const avg = (arr: number[]): number => {
+  if (arr.length === 0) return 0
+  return sum(arr) / arr.length
 }
 
-// 数组求平均值
+const max = (arr: number[]): number | undefined => {
+  if (arr.length === 0) return undefined
+  return Math.max(...arr)
+}
 
+const min = (arr: number[]): number | undefined => {
+  if (arr.length === 0) return undefined
+  return Math.min(...arr)
+}
 
-// 数组求最大值
+const mode = (arr: number[]): number[] => {
+  if (arr.length === 0) return []
+  const counts = new Map<number, number>()
+  let maxCount = 0
+  
+  for (const num of arr) {
+    const count = (counts.get(num) || 0) + 1
+    counts.set(num, count)
+    maxCount = Math.max(maxCount, count)
+  }
 
+  return [...counts.entries()]
+    .filter(([_, count]) => count === maxCount)
+    .map(([num]) => num)
+}
 
-// 数组求最小值
+const median = (arr: number[]): number | undefined => {
+  if (arr.length === 0) return undefined
+  const sorted = [...arr].sort((a, b) => a - b)
+  const mid = Math.floor(sorted.length / 2)
+  
+  return sorted.length % 2 !== 0
+    ? sorted[mid]
+    : (sorted[mid - 1] + sorted[mid]) / 2
+}
 
-
-// 数组求众数
-
-// 数组求中位数
-
-
-const len = (arr: unknown[]):number => {
+const len = (arr: unknown[]): number => {
   return arr.length
 }
 
-// 对象转数组
+const objToArr = <T extends Record<string, unknown>>(obj: T): Array<[string, T[keyof T]]> => {
+  return Object.entries(obj)
+}
 
+const arrToObj = <T>(arr: Array<[string, T]>): Record<string, T> => {
+  return Object.fromEntries(arr)
+}
 
-// 数组转对象
+const arrToStr = (arr: unknown[], separator = ','): string => {
+  return arr.join(separator)
+}
 
-// 数组转字符串
+const strToArr = (str: string, separator = ','): string[] => {
+  return str.split(separator)
+}
 
-
-// 字符串转数组
 export {
   flat,
   unique,
   len,
   sort,
   sum,
-  avg
+  avg,
+  max,
+  min,
+  mode,
+  median,
+  objToArr,
+  arrToObj,
+  arrToStr,
+  strToArr
 }
