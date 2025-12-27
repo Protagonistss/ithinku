@@ -156,8 +156,8 @@ describe('Type checking functions', () => {
 
   describe('isError', () => {
     it('should return true for errors', () => {
-      expect(isError(new Error())).toBe(true)
-      expect(isError(new TypeError())).toBe(true)
+      expect(isError(new Error('error'))).toBe(true)
+      expect(isError(new TypeError('error'))).toBe(true)
     })
 
     it('should return false for non-errors', () => {
@@ -245,7 +245,7 @@ describe('Type checking functions', () => {
 
   describe('isUndefined', () => {
     it('should return true for undefined', () => {
-      expect(isUndefined(void 0)).toBe(true)
+      expect(isUndefined()).toBe(true)
     })
 
     it('should return false for non-undefined', () => {
@@ -261,7 +261,7 @@ describe('Type checking functions', () => {
     })
 
     it('should return false for non-null', () => {
-      expect(isNull(void 0)).toBe(false)
+      expect(isNull()).toBe(false)
       expect(isNull('')).toBe(false)
       expect(isNull(0)).toBe(false)
     })

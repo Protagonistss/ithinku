@@ -46,6 +46,7 @@ export class Lexer {
     }
   }
 
+  // eslint-disable-next-line complexity
   private readNumber(): Token {
     let result = ''
     const startPos = this.position
@@ -120,6 +121,7 @@ export class Lexer {
     return { type: TokenType.Identifier, value: result, position: startPos }
   }
 
+  // eslint-disable-next-line complexity
   public nextToken(): Token {
     while (this.currentChar !== null) {
       if (/\s/.test(this.currentChar)) {

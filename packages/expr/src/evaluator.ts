@@ -43,6 +43,7 @@ export class Evaluator {
     return current
   }
 
+  // eslint-disable-next-line complexity
   public evaluate(node: ASTNode): number {
     switch (node.type) {
       case 'number': {
@@ -85,6 +86,7 @@ export class Evaluator {
       }
 
       default: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         throw new Error(`Unknown node type: ${(node as any).type}`)
       }
     }
