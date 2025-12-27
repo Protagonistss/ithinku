@@ -1,20 +1,24 @@
 {
   "name": "@ithinku/eslint-config-vue",
   "version": "0.0.7",
-  "description": "ESLint config for Vue.js projects",
+  "description": "ESLint config for Vue.js projects (Flat Config)",
   "main": "index.js",
-  "keywords": ["eslint", "vue", "config"],
+  "keywords": [
+    "eslint",
+    "vue",
+    "config",
+    "flat-config"
+  ],
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
     "@ithinku/eslint-config-ts": "workspace:*",
-    "@vue/eslint-config-prettier": "^9.0.0",
-    "@vue/eslint-config-typescript": "^13.0.0",
-    "eslint-plugin-vue": "^9.0.0"
+    "eslint-plugin-vue": "^9.22.0",
+    "vue-eslint-parser": "^9.4.0"
   },
   "peerDependencies": {
-    "eslint": "^8.57.0",
-    "typescript": "^4.8.0 || ^5.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.0.0",
     "vue": "^3.0.0"
   }
 }

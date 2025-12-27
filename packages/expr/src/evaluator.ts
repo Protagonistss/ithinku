@@ -108,7 +108,7 @@ export class Evaluator {
       current = current[part] as Context
     }
 
-    const lastPart = parts[parts.length - 1]
+    const lastPart = parts.at(-1)
     if (!lastPart) {
       throw new Error('Invalid variable name')
     }

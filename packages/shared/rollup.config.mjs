@@ -3,9 +3,9 @@ import typescript from '@rollup/plugin-typescript'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import dts from 'rollup-plugin-dts'
-import { readFileSync } from 'fs'
+import { readFileSync } from 'node:fs'
 
-const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
+const pkg = JSON.parse(readFileSync(new URL('package.json', import.meta.url)))
 
 export default defineConfig([
   {

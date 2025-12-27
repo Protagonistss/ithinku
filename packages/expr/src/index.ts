@@ -1,5 +1,5 @@
-import type { Context } from './evaluator'
 import type { ASTNode } from './ast'
+import type { Context } from './evaluator'
 import { Evaluator } from './evaluator'
 import { Parser } from './parser'
 

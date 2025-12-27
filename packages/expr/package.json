@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/expr",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A TypeScript expression parser library",
   "type": "module",
   "main": "dist/index.cjs",
@@ -20,8 +20,8 @@
     "build": "rollup -c",
     "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "test": "vitest run",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "clean": "rimraf dist",
     "prepublishOnly": "pnpm run clean && pnpm run build",
     "debug": "node --loader ts-node/esm --experimental-specifier-resolution=node src/index.ts"

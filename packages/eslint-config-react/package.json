@@ -1,21 +1,25 @@
 {
   "name": "@ithinku/eslint-config-react",
   "version": "0.0.7",
-  "description": "ESLint config for React projects",
+  "description": "ESLint config for React projects (Flat Config)",
   "main": "index.js",
-  "keywords": ["eslint", "react", "config"],
+  "keywords": [
+    "eslint",
+    "react",
+    "config",
+    "flat-config"
+  ],
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
-    "@ithinku/eslint-config-base": "workspace:*",
     "@ithinku/eslint-config-ts": "workspace:*",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2"
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.0.0"
   },
   "peerDependencies": {
-    "eslint": "^8.57.0",
-    "react": "^17.0.0 || ^18.0.0",
-    "typescript": "^4.8.0 || ^5.0.0"
+    "eslint": "^9.0.0",
+    "react": "^18.0.0",
+    "typescript": "^5.0.0"
   }
 }

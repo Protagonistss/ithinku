@@ -6,14 +6,14 @@
   "scripts": {
     "test:expr": "pnpm -F expr test",
     "build:expr": "pnpm -F expr build",
-    "lint:expr": "pnpm -F expr lint:fix",
-    "lint:shared": "pnpm -F shared lint:fix",
-    "lint": "npx eslint packages/* ",
-    "format": "npx eslint --ext .js,.json --fix packages/*",
+    "lint:expr": "pnpm -F expr lint",
+    "lint:shared": "pnpm -F shared lint",
+    "lint": "eslint packages",
+    "format": "eslint --fix packages",
     "release": "npx lerna publish --conventional-commits"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
@@ -39,12 +39,12 @@
     "@ithinku/tsconfig": "workspace:*",
     "@jest/globals": "^29.7.0",
     "@types/node": "^20.11.19",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
     "lerna": "^4.0.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "typescript-eslint": "^8.0.0"
   }
 }

@@ -1,18 +1,22 @@
 {
   "name": "@ithinku/eslint-config-ts",
   "version": "0.0.7",
-  "description": "ESLint config for TypeScript projects",
+  "description": "ESLint config for TypeScript projects (Flat Config)",
   "main": "index.js",
-  "keywords": ["eslint", "typescript", "config"],
+  "keywords": [
+    "eslint",
+    "typescript",
+    "config",
+    "flat-config"
+  ],
   "author": "ithinku",
   "license": "MIT",
   "dependencies": {
     "@ithinku/eslint-config-base": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0"
+    "typescript-eslint": "^8.0.0"
   },
   "peerDependencies": {
-    "eslint": "^8.57.0",
-    "typescript": "^4.8.0 || ^5.0.0"
+    "eslint": "^9.0.0",
+    "typescript": "^5.0.0"
   }
 }
