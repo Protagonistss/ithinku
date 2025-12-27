@@ -4,13 +4,17 @@
   "description": "ESLint configurations and utilities for modern JavaScript/TypeScript projects",
   "private": true,
   "scripts": {
+    "build": "pnpm -r build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "publish": "changeset publish",
     "test:expr": "pnpm -F expr test",
     "build:expr": "pnpm -F expr build",
     "lint:expr": "pnpm -F expr lint",
     "lint:shared": "pnpm -F shared lint",
     "lint": "eslint packages",
     "format": "eslint --fix packages",
-    "release": "npx lerna publish --conventional-commits"
+    "release": "pnpm -r build && changeset publish"
   },
   "engines": {
     "node": ">=18"
@@ -34,6 +38,7 @@
   },
   "homepage": "https://github.com/Protagonistss/ithinku#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.27.8",
     "@ithinku/eslint-config-base": "workspace:*",
     "@ithinku/eslint-config-ts": "workspace:*",
     "@ithinku/tsconfig": "workspace:*",
@@ -41,7 +46,6 @@
     "@types/node": "^20.11.19",
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
-    "lerna": "^4.0.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.3.3",
