@@ -1,22 +1,13 @@
 {
-  "extends": "@ithinku/tsconfig/tsconfig.json",
+  "extends": "@ithinku/tsconfig/bundler-strict",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
     "declaration": true,
     "declarationDir": "./dist",
     "sourceMap": true,
-    "module": "ESNext",
-    "target": "ES2018",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "strict": true,
-    "types": ["node"],
-    "inlineSourceMap": false,
-    "inlineSources": false,
-    "skipLibCheck": true,
-    "noImplicitAny": false
+    "target": "ES2018"
   },
-  "include": ["src/**/*", "src/**/*.test.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/__tests__/**", "src/**/*.test.ts", "node_modules", "dist"]
 } 

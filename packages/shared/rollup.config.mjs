@@ -26,7 +26,7 @@ export default defineConfig([
       resolve(),
       commonjs(),
       typescript({
-        tsconfig: './tsconfig.json',
+        tsconfig: './tsconfig.build.json',
         exclude: ['**/__tests__/**'],
         sourceMap: false
       })

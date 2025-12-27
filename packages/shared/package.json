@@ -13,6 +13,7 @@
     "dev": "rollup -c -w",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
+    "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "prebuild": "pnpm clean",
     "test": "vitest",
     "test:watch": "vitest watch",

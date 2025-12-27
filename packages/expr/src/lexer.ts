@@ -26,18 +26,18 @@ export class Lexer {
     this.input = input
     this.position = 0
     this.currentChar =
-      this.position < this.input.length ? this.input[this.position] : null
+      this.position < this.input.length ? this.input.charAt(this.position) : null
   }
 
   private advance(): void {
     this.position++
     this.currentChar =
-      this.position < this.input.length ? this.input[this.position] : null
+      this.position < this.input.length ? this.input.charAt(this.position) : null
   }
 
   private peek(): string | null {
     const nextPos = this.position + 1
-    return nextPos < this.input.length ? this.input[nextPos] : null
+    return nextPos < this.input.length ? this.input.charAt(nextPos) : null
   }
 
   private skipWhitespace(): void {
@@ -127,9 +127,10 @@ export class Lexer {
         continue
       }
 
+      const nextChar = this.peek()
       if (
         /\d/.test(this.currentChar) ||
-        (this.currentChar === '.' && this.peek() && /\d/.test(this.peek()))
+        (this.currentChar === '.' && nextChar !== null && /\d/.test(nextChar))
       ) {
         return this.readNumber()
       }

@@ -28,12 +28,13 @@ export class Parser {
 
     while (this.currentToken.type === TokenType.Dot) {
       this.eat(TokenType.Dot)
-      if (this.currentToken.type !== TokenType.Identifier) {
+      const nextToken: Token = this.currentToken
+      if (nextToken.type !== TokenType.Identifier) {
         throw new Error(
-          `Unexpected token: expected ${TokenType.Identifier}, got ${this.currentToken.type} at position ${this.currentToken.position}`
+          `Unexpected token: expected ${TokenType.Identifier}, got ${nextToken.type} at position ${nextToken.position}`
         )
       }
-      name += `.${this.currentToken.value}`
+      name += `.${nextToken.value}`
       this.eat(TokenType.Identifier)
     }
 

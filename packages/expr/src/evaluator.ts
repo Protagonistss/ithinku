@@ -12,19 +12,29 @@ export class Evaluator {
   }
 
   private resolveValue(obj: Context, path: string[]): number {
-    let current: number | Context = obj[path[0]]
-    if (current === undefined) {
-      throw new Error(`Undefined variable: ${path[0]}`)
+    const firstPart = path[0]
+    if (!firstPart) {
+      throw new Error('Invalid variable name')
     }
+    const initial = obj[firstPart]
+    if (initial === undefined) {
+      throw new Error(`Undefined variable: ${firstPart}`)
+    }
+    let current: number | Context = initial
 
     for (let i = 1; i < path.length; i++) {
-      if (typeof current === 'number') {
-        throw new TypeError(`Cannot access property ${path[i]} of number`)
+      const part = path[i]
+      if (!part) {
+        throw new Error('Invalid variable name')
       }
-      current = current[path[i]]
-      if (current === undefined) {
+      if (typeof current === 'number') {
+        throw new TypeError(`Cannot access property ${part} of number`)
+      }
+      const next = current[part]
+      if (next === undefined) {
         throw new Error(`Undefined variable: ${path.slice(0, i + 1).join('.')}`)
       }
+      current = next
     }
 
     if (typeof current !== 'number') {
@@ -47,8 +57,9 @@ export class Evaluator {
       case 'binary': {
         const left = this.evaluate(node.left)
         const right = this.evaluate(node.right)
+        const operator = node.operator
 
-        switch (node.operator) {
+        switch (operator) {
           case '+': {
             return left + right
           }
@@ -63,7 +74,7 @@ export class Evaluator {
             return left / right
           }
           default: {
-            throw new Error(`Unknown operator: ${node.operator}`)
+            return this.unreachableOperator(operator)
           }
         }
       }
@@ -81,19 +92,34 @@ export class Evaluator {
 
   public setVariable(name: string, value: number | Context): void {
     const parts = name.split('.')
+    if (parts.length === 0 || !parts[0]) {
+      throw new Error('Invalid variable name')
+    }
     let current = this.context
 
     for (let i = 0; i < parts.length - 1; i++) {
-      if (!(parts[i] in current) || typeof current[parts[i]] === 'number') {
-        current[parts[i]] = {}
+      const part = parts[i]
+      if (!part) {
+        throw new Error('Invalid variable name')
       }
-      current = current[parts[i]] as Context
+      if (!(part in current) || typeof current[part] === 'number') {
+        current[part] = {}
+      }
+      current = current[part] as Context
     }
 
-    current[parts.at(-1)] = value
+    const lastPart = parts[parts.length - 1]
+    if (!lastPart) {
+      throw new Error('Invalid variable name')
+    }
+    current[lastPart] = value
   }
 
   public getVariable(name: string): number {
     return this.resolveValue(this.context, name.split('.'))
+  }
+
+  private unreachableOperator(operator: never): never {
+    throw new Error(`Unknown operator: ${operator}`)
   }
 }
