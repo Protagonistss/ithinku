@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - dev
+    paths:
+      - ".changeset/*.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
   workflow_dispatch:
 
 permissions:
@@ -31,7 +35,38 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Check changesets
+        id: changesets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin changeset-release/dev:refs/remotes/origin/changeset-release/dev || true
+          if git show-ref --verify --quiet refs/remotes/origin/changeset-release/dev; then
+            ahead=$(git rev-list --count origin/changeset-release/dev..HEAD)
+          else
+            ahead=1
+          fi
+          shopt -s nullglob
+          files=(.changeset/*.md)
+          has_changeset=false
+          for f in "${files[@]}"; do
+            if [[ "$(basename "$f")" != "README.md" ]]; then
+              has_changeset=true
+              break
+            fi
+          done
+          if [[ "$ahead" -eq 0 ]]; then
+            echo "has_changeset=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$has_changeset" == "true" ]]; then
+            echo "has_changeset=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changeset=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Create release PR or publish
+        if: steps.changesets.outputs.has_changeset == 'true'
         uses: changesets/action@v1
         with:
           version: pnpm version
