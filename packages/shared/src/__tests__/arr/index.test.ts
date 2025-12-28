@@ -1,14 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  avg,
-  max,
-  min,
-  mode,
-  median,
-  unique,
-  sum,
-  sort
-} from '../../arr'
+import { avg, max, min, mode, median, unique, sum, sort } from '../../arr'
 
 describe('Array Utils Consistency', () => {
   it('sort should not mutate the original array', () => {

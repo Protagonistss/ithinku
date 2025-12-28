@@ -20,7 +20,8 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "keywords": [
     "utils",
@@ -30,11 +31,13 @@
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
   "devDependencies": {
+    "@ithinku/prettier-config": "workspace:^",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@vitest/coverage-v8": "^1.0.0",
     "@vitest/ui": "^1.2.2",
+    "prettier": "^3.7.4",
     "rollup": "^4.9.6",
     "rollup-plugin-dts": "^6.1.0",
     "vitest": "^1.0.0"

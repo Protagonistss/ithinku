@@ -6,6 +6,5 @@ module.exports = {
   trailingComma: 'none',
   bracketSpacing: true,
   arrowParens: 'avoid',
-  endOfLine: 'lf',
-  operatorLinebreak: 'before'
+  endOfLine: 'lf'
 }

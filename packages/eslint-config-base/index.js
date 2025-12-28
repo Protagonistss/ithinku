@@ -1,11 +1,11 @@
-const globals = require('globals');
-const pluginUnicorn = require('eslint-plugin-unicorn');
-const pluginPromise = require('eslint-plugin-promise');
-const pluginImport = require('eslint-plugin-import-x');
-const pluginComments = require('eslint-plugin-eslint-comments');
-const configPrettier = require('eslint-config-prettier');
-const parserJsonc = require('jsonc-eslint-parser');
-const parserYaml = require('yaml-eslint-parser');
+const globals = require('globals')
+const pluginUnicorn = require('eslint-plugin-unicorn')
+const pluginPromise = require('eslint-plugin-promise')
+const pluginImport = require('eslint-plugin-import-x')
+const pluginComments = require('eslint-plugin-eslint-comments')
+const configPrettier = require('eslint-config-prettier')
+const parserJsonc = require('jsonc-eslint-parser')
+const parserYaml = require('yaml-eslint-parser')
 
 module.exports = [
   // 1. 全局忽略 (对应原 ignorePatterns)
@@ -58,21 +58,16 @@ module.exports = [
       ...pluginComments.configs.recommended.rules,
       // import-x 暂无官方 flat recommended 导出，手动复用或配置
       // 这里手动配置原有的 import 规则
-      
+
       // Import rules
-      'import/order': ['error', {
-        'groups': [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object'
-        ],
-        'newlines-between': 'always',
-        'alphabetize': { order: 'asc' }
-      }],
+      'import/order': [
+        'error',
+        {
+          'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
+          'newlines-between': 'always',
+          'alphabetize': {order: 'asc'}
+        }
+      ],
       'import/first': 'error',
       'import/no-mutable-exports': 'error',
       'import/no-unresolved': 'off',
@@ -101,25 +96,35 @@ module.exports = [
       'no-unused-vars': 'off',
       'no-param-reassign': 'error',
       'no-var': 'error',
-      'prefer-const': ['error', {
-        destructuring: 'any',
-        ignoreReadBeforeAssign: true
-      }],
-      'prefer-arrow-callback': ['error', {
-        allowNamedFunctions: false,
-        allowUnboundThis: true
-      }],
-      'object-shorthand': ['error', 'always', {
-        ignoreConstructors: false,
-        avoidQuotes: true
-      }],
+      'prefer-const': [
+        'error',
+        {
+          destructuring: 'any',
+          ignoreReadBeforeAssign: true
+        }
+      ],
+      'prefer-arrow-callback': [
+        'error',
+        {
+          allowNamedFunctions: false,
+          allowUnboundThis: true
+        }
+      ],
+      'object-shorthand': [
+        'error',
+        'always',
+        {
+          ignoreConstructors: false,
+          avoidQuotes: true
+        }
+      ],
       'prefer-rest-params': 'error',
       'prefer-spread': 'error',
       'prefer-template': 'error',
 
       // Error prevention
       'no-debugger': 'error',
-      'no-console': ['error', { allow: ['warn', 'error'] }],
+      'no-console': ['error', {allow: ['warn', 'error']}],
       'no-constant-condition': 'warn',
       'no-return-await': 'error',
       'require-await': 'error',
@@ -137,17 +142,21 @@ module.exports = [
       'no-alert': 'warn',
 
       // Comments
-      'spaced-comment': ['error', 'always', {
-        line: {
-          markers: ['/'],
-          exceptions: ['/', '#']
-        },
-        block: {
-          markers: ['!'],
-          exceptions: ['*'],
-          balanced: true
+      'spaced-comment': [
+        'error',
+        'always',
+        {
+          line: {
+            markers: ['/'],
+            exceptions: ['/', '#']
+          },
+          block: {
+            markers: ['!'],
+            exceptions: ['*'],
+            balanced: true
+          }
         }
-      }],
+      ],
 
       // Unicorn rules overrides
       'unicorn/prevent-abbreviations': 'off',
@@ -185,4 +194,4 @@ module.exports = [
 
   // 5. Prettier 配置 (最后加载以覆盖冲突规则)
   configPrettier
-];
+]

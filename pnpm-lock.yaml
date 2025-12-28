@@ -17,6 +17,9 @@ importers:
       '@ithinku/eslint-config-ts':
         specifier: workspace:*
         version: link:packages/eslint-config-ts
+      '@ithinku/prettier-config':
+        specifier: workspace:^
+        version: link:packages/prettier-config
       '@ithinku/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
@@ -32,6 +35,9 @@ importers:
       globals:
         specifier: ^15.0.0
         version: 15.15.0
+      prettier:
+        specifier: ^3.7.4
+        version: 3.7.4
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
@@ -140,6 +146,9 @@ importers:
 
   packages/expr:
     devDependencies:
+      '@ithinku/prettier-config':
+        specifier: workspace:^
+        version: link:../prettier-config
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.8(rollup@4.37.0)
@@ -152,6 +161,9 @@ importers:
       '@types/node':
         specifier: ^20.17.27
         version: 20.17.27
+      prettier:
+        specifier: ^3.7.4
+        version: 3.7.4
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
@@ -178,6 +190,9 @@ importers:
 
   packages/shared:
     devDependencies:
+      '@ithinku/prettier-config':
+        specifier: workspace:^
+        version: link:../prettier-config
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.8(rollup@4.37.0)
@@ -193,6 +208,9 @@ importers:
       '@vitest/ui':
         specifier: ^1.2.2
         version: 1.6.1(vitest@1.6.1)
+      prettier:
+        specifier: ^3.7.4
+        version: 3.7.4
       rollup:
         specifier: ^4.9.6
         version: 4.37.0
@@ -2444,6 +2462,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prettier@3.7.4:
+    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -3827,10 +3850,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2)(typescript@5.8.2))(eslint@9.39.2)(typescript@5.8.2)':
+  '@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2)(typescript@5.3.3))(eslint@9.39.2)(typescript@5.8.2)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.50.1(eslint@9.39.2)(typescript@5.8.2)
+      '@typescript-eslint/parser': 8.50.1(eslint@9.39.2)(typescript@5.3.3)
       '@typescript-eslint/scope-manager': 8.50.1
       '@typescript-eslint/type-utils': 8.50.1(eslint@9.39.2)(typescript@5.8.2)
       '@typescript-eslint/utils': 8.50.1(eslint@9.39.2)(typescript@5.8.2)
@@ -5720,6 +5743,8 @@ snapshots:
 
   prettier@3.5.3: {}
 
+  prettier@3.7.4: {}
+
   pretty-format@29.7.0:
     dependencies:
       '@jest/schemas': 29.6.3
@@ -6215,7 +6240,7 @@ snapshots:
 
   typescript-eslint@8.50.1(eslint@9.39.2)(typescript@5.8.2):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2)(typescript@5.8.2))(eslint@9.39.2)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2)(typescript@5.3.3))(eslint@9.39.2)(typescript@5.8.2)
       '@typescript-eslint/parser': 8.50.1(eslint@9.39.2)(typescript@5.8.2)
       '@typescript-eslint/typescript-estree': 8.50.1(typescript@5.8.2)
       '@typescript-eslint/utils': 8.50.1(eslint@9.39.2)(typescript@5.8.2)

@@ -12,11 +12,7 @@ describe('Parser', () => {
   it('should parse decimals and exponents', () => {
     const parser = new Parser('.5 + 1e3')
     expect(parser.parse()).toEqual(
-      AST.createBinaryOp(
-        '+',
-        AST.createNumber(0.5),
-        AST.createNumber(1000)
-      )
+      AST.createBinaryOp('+', AST.createNumber(0.5), AST.createNumber(1000))
     )
   })
 
