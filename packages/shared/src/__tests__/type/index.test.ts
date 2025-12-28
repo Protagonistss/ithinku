@@ -307,7 +307,7 @@ describe('isEmpty', () => {
 
   it('should return true for empty arrays', () => {
     expect(isEmpty([])).toBe(true)
-    })
+  })
 
   it('should return true for empty objects', () => {
     expect(isEmpty({})).toBe(true)
@@ -324,7 +324,7 @@ describe('isEmpty', () => {
   it('should return false for non-empty objects', () => {
     expect(isEmpty({ a: 1 })).toBe(false)
   })
-  
+
   it('should return false for non-empty maps', () => {
     expect(isEmpty(new Map([['key', 'value']]))).toBe(false)
   })
@@ -341,7 +341,6 @@ describe('isEmpty', () => {
     expect(isEmpty(false)).toBe(false)
   })
 })
-
 
 describe('isExist', () => {
   it('should return true for existing values', () => {
@@ -395,4 +394,3 @@ describe('isTrue', () => {
     expect(isTrue('')).toBe(false)
   })
 })
-

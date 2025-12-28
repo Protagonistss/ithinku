@@ -26,13 +26,17 @@ export class Lexer {
     this.input = input
     this.position = 0
     this.currentChar =
-      this.position < this.input.length ? this.input.charAt(this.position) : null
+      this.position < this.input.length
+        ? this.input.charAt(this.position)
+        : null
   }
 
   private advance(): void {
     this.position++
     this.currentChar =
-      this.position < this.input.length ? this.input.charAt(this.position) : null
+      this.position < this.input.length
+        ? this.input.charAt(this.position)
+        : null
   }
 
   private peek(): string | null {

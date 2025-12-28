@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/prettier-config",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Shared Prettier configuration for iThinkU projects",
   "main": "index.cjs",
   "exports": {

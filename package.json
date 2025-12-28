@@ -13,7 +13,7 @@
     "lint:expr": "pnpm -F expr lint",
     "lint:shared": "pnpm -F shared lint",
     "lint": "eslint packages",
-    "format": "eslint --fix packages",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
     "release": "pnpm -r build && changeset publish"
   },
   "engines": {
@@ -41,11 +41,13 @@
     "@changesets/cli": "^2.27.8",
     "@ithinku/eslint-config-base": "workspace:*",
     "@ithinku/eslint-config-ts": "workspace:*",
+    "@ithinku/prettier-config": "workspace:^",
     "@ithinku/tsconfig": "workspace:*",
     "@jest/globals": "^29.7.0",
     "@types/node": "^20.11.19",
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
+    "prettier": "^3.7.4",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.3.3",

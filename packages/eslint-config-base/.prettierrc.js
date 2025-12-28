@@ -20,9 +20,9 @@ module.exports = {
       files: '*.{json,json5}',
       options: {
         singleQuote: false,
-        quoteProps: 'always',
+        quoteProps: 'preserve',
         trailingComma: 'none'
       }
     }
   ]
-} 
+}

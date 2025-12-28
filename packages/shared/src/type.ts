@@ -1,7 +1,7 @@
 const Types = {
   '[object Array]': 'Array',
   '[object Object]': 'Object',
-  '[object String]': 'String', 
+  '[object String]': 'String',
   '[object Number]': 'Number',
   '[object Boolean]': 'Boolean',
   '[object Function]': 'Function',
@@ -28,7 +28,7 @@ const Types = {
 } as const
 
 type TypeKey = keyof typeof Types
-type TypeValue = typeof Types[TypeKey]
+type TypeValue = (typeof Types)[TypeKey]
 
 const isType = (type: unknown): TypeValue | 'Unknown' => {
   const typeStr = Object.prototype.toString.call(type)
@@ -142,7 +142,15 @@ const isExist = (arg: unknown): boolean => {
   return !isNull(arg) && !isUndefined(arg)
 }
 
-function isEmpty(arg: string | unknown[] | Record<string, unknown> | Map<unknown, unknown> | Set<unknown> | boolean): boolean
+function isEmpty(
+  arg:
+    | string
+    | unknown[]
+    | Record<string, unknown>
+    | Map<unknown, unknown>
+    | Set<unknown>
+    | boolean
+): boolean
 function isEmpty(arg: unknown): boolean {
   if (!isExist(arg)) {
     return true

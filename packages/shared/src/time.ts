@@ -1,25 +1,33 @@
 type YearFormat = 'YYYY'
-type MonthFormat = 'MM'  
+type MonthFormat = 'MM'
 type DayFormat = 'DD'
 type HourFormat = 'HH'
 type MinuteFormat = 'mm'
 type SecondFormat = 'ss'
 type MillisecondFormat = 'SSS'
 
-type DateFormat = 
+type DateFormat =
   | YearFormat
-  | `${YearFormat}-${MonthFormat}` 
+  | `${YearFormat}-${MonthFormat}`
   | `${YearFormat}-${MonthFormat}-${DayFormat}`
 
-type TimeFormat = 
+type TimeFormat =
   | HourFormat
   | `${HourFormat}:${MinuteFormat}`
   | `${HourFormat}:${MinuteFormat}:${SecondFormat}`
 
-type Format = string // 放宽类型限制以支持任意格式字符串，如 "YYYY年MM月"
+type TimeFormatWithMillis =
+  `${HourFormat}:${MinuteFormat}:${SecondFormat}.${MillisecondFormat}`
+type DateTimeFormat = `${DateFormat} ${TimeFormat | TimeFormatWithMillis}`
+type Format =
+  | DateFormat
+  | TimeFormat
+  | TimeFormatWithMillis
+  | DateTimeFormat
+  | string // 放宽类型限制以支持任意格式字符串，如 "YYYY年MM月"
 
 interface FormatOptions {
-  format?: Format,
+  format?: Format
   // 暂未完全实现时区转换，但预留接口
   timezone?: string
 }
@@ -30,9 +38,12 @@ const padStart = (num: number, len = 2): string => {
   return num.toString().padStart(len, '0')
 }
 
-const format = (timestamp: number | Date | string, options: FormatOptions = {}): string => {
+const format = (
+  timestamp: number | Date | string,
+  options: FormatOptions = {}
+): string => {
   const date = new Date(timestamp)
-  
+
   if (Number.isNaN(date.getTime())) {
     throw new Error('Invalid Date')
   }
@@ -57,9 +68,10 @@ const format = (timestamp: number | Date | string, options: FormatOptions = {}):
     SSS: padStart(milliseconds, 3)
   }
 
-  return fmtStr.replace(/YYYY|MM|DD|HH|mm|ss|SSS/g, match => matches[match])
+  return fmtStr.replace(
+    /YYYY|MM|DD|HH|mm|ss|SSS/g,
+    match => matches[match] ?? match
+  )
 }
 
-export {
-  format
-}
+export { format }

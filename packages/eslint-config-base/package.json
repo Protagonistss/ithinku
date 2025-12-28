@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/eslint-config-base",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Base ESLint configuration for JavaScript projects (Flat Config)",
   "main": "index.js",
   "keywords": [

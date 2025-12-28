@@ -96,7 +96,10 @@ import { objToArr, arrToObj } from '@ithinku/shared'
 const obj = { a: 1, b: 2 }
 objToArr(obj) // [['a', 1], ['b', 2]]
 
-const entries = [['a', 1], ['b', 2]]
+const entries = [
+  ['a', 1],
+  ['b', 2]
+]
 arrToObj(entries) // { a: 1, b: 2 }
 ```
 
