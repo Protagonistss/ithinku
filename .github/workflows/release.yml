@@ -33,6 +33,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Debug Changesets State
+        run: |
+          echo "=== Changeset Files ==="
+          ls -l .changeset/
+          echo "=== Changeset Status ==="
+          pnpm changeset status --verbose
+          echo "=== Dry Run Version ==="
+          pnpm changeset version
+          echo "=== Git Status after Version ==="
+          git status
+          echo "=== Resetting ==="
+          git reset --hard
+
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
