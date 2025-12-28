@@ -6,17 +6,19 @@ type MinuteFormat = 'mm'
 type SecondFormat = 'ss'
 type MillisecondFormat = 'SSS'
 
-type DateFormat = 
+type DateFormat =
   | YearFormat
   | `${YearFormat}-${MonthFormat}` 
   | `${YearFormat}-${MonthFormat}-${DayFormat}`
 
-type TimeFormat = 
+type TimeFormat =
   | HourFormat
   | `${HourFormat}:${MinuteFormat}`
   | `${HourFormat}:${MinuteFormat}:${SecondFormat}`
 
-type Format = string // 放宽类型限制以支持任意格式字符串，如 "YYYY年MM月"
+type TimeFormatWithMillis = `${HourFormat}:${MinuteFormat}:${SecondFormat}.${MillisecondFormat}`
+type DateTimeFormat = `${DateFormat} ${TimeFormat | TimeFormatWithMillis}`
+type Format = DateFormat | TimeFormat | TimeFormatWithMillis | DateTimeFormat | string // 放宽类型限制以支持任意格式字符串，如 "YYYY年MM月"
 
 interface FormatOptions {
   format?: Format,
@@ -57,7 +59,7 @@ const format = (timestamp: number | Date | string, options: FormatOptions = {}):
     SSS: padStart(milliseconds, 3)
   }
 
-  return fmtStr.replace(/YYYY|MM|DD|HH|mm|ss|SSS/g, match => matches[match])
+  return fmtStr.replace(/YYYY|MM|DD|HH|mm|ss|SSS/g, match => matches[match] ?? match)
 }
 
 export {

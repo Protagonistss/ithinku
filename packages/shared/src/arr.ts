@@ -50,9 +50,18 @@ const median = (arr: number[]): number | undefined => {
   const sorted = [...arr].sort((a, b) => a - b)
   const mid = Math.floor(sorted.length / 2)
   
-  return sorted.length % 2 !== 0
-    ? sorted[mid]
-    : (sorted[mid - 1] + sorted[mid]) / 2
+  if (sorted.length % 2 !== 0) {
+    return sorted[mid]
+  }
+
+  const left = sorted[mid - 1]
+  const right = sorted[mid]
+
+  if (left === undefined || right === undefined) {
+    return undefined
+  }
+
+  return (left + right) / 2
 }
 
 const len = (arr: unknown[]): number => {
@@ -60,7 +69,7 @@ const len = (arr: unknown[]): number => {
 }
 
 const objToArr = <T extends Record<string, unknown>>(obj: T): Array<[string, T[keyof T]]> => {
-  return Object.entries(obj)
+  return Object.entries(obj) as Array<[string, T[keyof T]]>
 }
 
 const arrToObj = <T>(arr: Array<[string, T]>): Record<string, T> => {
