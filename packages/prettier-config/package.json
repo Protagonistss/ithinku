@@ -1,0 +1,21 @@
+{
+  "name": "@ithinku/prettier-config",
+  "version": "0.0.1",
+  "description": "Shared Prettier configuration for iThinkU projects",
+  "main": "index.cjs",
+  "exports": {
+    ".": "./index.cjs"
+  },
+  "files": [
+    "index.cjs"
+  ],
+  "keywords": [
+    "prettier",
+    "config"
+  ],
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

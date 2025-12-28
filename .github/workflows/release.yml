@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".changeset/*.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check changesets
+        id: changesets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin changeset-release/dev:refs/remotes/origin/changeset-release/dev || true
+          has_changeset=false
+          if git show-ref --verify --quiet refs/remotes/origin/changeset-release/dev; then
+            changes=$(git diff --name-only origin/changeset-release/dev...HEAD -- .changeset || true)
+            while IFS= read -r file; do
+              if [[ "$file" == ".changeset/"* && "$file" != ".changeset/README.md" ]]; then
+                has_changeset=true
+                break
+              fi
+            done <<< "$changes"
+          else
+            shopt -s nullglob
+            files=(.changeset/*.md)
+            for f in "${files[@]}"; do
+              if [[ "$(basename "$f")" != "README.md" ]]; then
+                has_changeset=true
+                break
+              fi
+            done
+          fi
+          echo "has_changeset=$has_changeset" >> "$GITHUB_OUTPUT"
+
+      - name: Create release PR or publish
+        if: steps.changesets.outputs.has_changeset == 'true'
+        uses: changesets/action@v1
+        with:
+          version: pnpm version
+          publish: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
