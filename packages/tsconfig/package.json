@@ -1,19 +1,27 @@
 {
   "name": "@ithinku/tsconfig",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "custom tsconfig for huangshan",
   "main": "tsconfig.json",
   "types": "tsconfig.json",
   "exports": {
     "./tsconfig.json": "./tsconfig.json",
     "./base": "./tsconfig.base.json",
+    "./base.json": "./tsconfig.base.json",
     "./strict": "./tsconfig.strict.json",
+    "./strict.json": "./tsconfig.strict.json",
     "./dom": "./tsconfig.dom.json",
+    "./dom.json": "./tsconfig.dom.json",
     "./dom-strict": "./tsconfig.dom-strict.json",
+    "./dom-strict.json": "./tsconfig.dom-strict.json",
     "./node": "./tsconfig.node.json",
+    "./node.json": "./tsconfig.node.json",
     "./node-strict": "./tsconfig.node-strict.json",
+    "./node-strict.json": "./tsconfig.node-strict.json",
     "./bundler": "./tsconfig.bundler.json",
-    "./bundler-strict": "./tsconfig.bundler-strict.json"
+    "./bundler.json": "./tsconfig.bundler.json",
+    "./bundler-strict": "./tsconfig.bundler-strict.json",
+    "./bundler-strict.json": "./tsconfig.bundler-strict.json"
   },
   "files": [
     "tsconfig.json",
