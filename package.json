@@ -6,15 +6,15 @@
   "scripts": {
     "build": "pnpm -r build",
     "changeset": "changeset",
-    "version": "changeset version",
-    "publish": "changeset publish",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
     "test:expr": "pnpm -F expr test",
     "build:expr": "pnpm -F expr build",
     "lint:expr": "pnpm -F expr lint",
     "lint:shared": "pnpm -F shared lint",
     "lint": "eslint packages",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "release": "pnpm -r build && changeset publish"
+    "release": "pnpm -r build && pnpm changeset:publish"
   },
   "engines": {
     "node": ">=18.18"
