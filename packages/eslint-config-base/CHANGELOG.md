@@ -1,5 +1,11 @@
 # @ithinku/eslint-config-base
 
+## 0.1.1
+
+### Patch Changes
+
+- 8f70b76: Republish the ESLint config packages as `0.1.1` because npm permanently rejects reusing the previously published `0.1.0` version.
+
 ## 0.1.0
 
 ### Minor Changes
