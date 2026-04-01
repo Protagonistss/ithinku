@@ -17,7 +17,7 @@
     "release": "pnpm -r build && changeset publish"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.18"
   },
   "repository": {
     "type": "git",

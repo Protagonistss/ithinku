@@ -11,6 +11,9 @@
   ],
   "author": "ithinku",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.18"
+  },
   "dependencies": {
     "@ithinku/eslint-config-base": "workspace:*",
     "typescript-eslint": "^8.0.0"
