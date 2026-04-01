@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/eslint-config-vue",
-  "version": "0.0.8",
+  "version": "0.1.1",
   "description": "ESLint config for Vue.js projects (Flat Config)",
   "main": "index.js",
   "keywords": [
@@ -23,5 +23,8 @@
     "eslint": "^9.0.0",
     "typescript": "^5.0.0",
     "vue": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

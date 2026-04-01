@@ -6,6 +6,10 @@ on:
       - dev
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
@@ -29,29 +33,48 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Validate publish auth
+        shell: bash
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::NPM_TOKEN secret is missing"
+            exit 1
+          fi
+
+      - name: Configure npm auth
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cat <<EOF > "$HOME/.npmrc"
+          registry=https://registry.npmjs.org/
+          //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
+          always-auth=true
+          EOF
 
       - name: Debug Changesets State
         run: |
           echo "=== Changeset Files ==="
           ls -l .changeset/
           echo "=== Changeset Status ==="
-          pnpm changeset status --verbose
-          echo "=== Dry Run Version ==="
-          pnpm changeset version
-          echo "=== Git Status after Version ==="
-          git status
-          echo "=== Resetting ==="
-          git reset --hard
+          pnpm changeset status --verbose || true
 
       - name: Create release PR or publish
+        id: changesets
         uses: changesets/action@v1
         with:
-          version: pnpm version
+          version: pnpm changeset:version
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          npm_config_registry: "https://registry.npmjs.org/"
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          npm_config_registry: https://registry.npmjs.org/
