@@ -67,7 +67,7 @@ export default [
 本项目使用 [pnpm](https://pnpm.io/) workspace 进行管理。
 
 ### 环境要求
-- Node.js >= 18
+- Node.js >= 18.18
 - pnpm >= 8
 
 ### 常用命令

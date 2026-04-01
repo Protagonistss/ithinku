@@ -1,11 +1,12 @@
 const globals = require('globals')
 const pluginUnicorn = require('eslint-plugin-unicorn')
 const pluginPromise = require('eslint-plugin-promise')
-const pluginImport = require('eslint-plugin-import-x')
+const pluginImportModule = require('eslint-plugin-import-x')
 const pluginComments = require('eslint-plugin-eslint-comments')
 const configPrettier = require('eslint-config-prettier')
 const parserJsonc = require('jsonc-eslint-parser')
 const parserYaml = require('yaml-eslint-parser')
+const pluginImport = pluginImportModule.importX ?? pluginImportModule.default ?? pluginImportModule
 
 module.exports = [
   // 1. 全局忽略 (对应原 ignorePatterns)
