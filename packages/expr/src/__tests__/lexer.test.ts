@@ -66,6 +66,44 @@ describe('Lexer', () => {
     })
   })
 
+  it('should tokenize modulo operator', () => {
+    const lexer = new Lexer('10 % 3')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '10',
+      position: 0
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Modulo,
+      value: '%',
+      position: 3
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '3',
+      position: 5
+    })
+  })
+
+  it('should tokenize power operator **', () => {
+    const lexer = new Lexer('2 ** 3')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '2',
+      position: 0
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Power,
+      value: '**',
+      position: 2
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Number,
+      value: '3',
+      position: 5
+    })
+  })
+
   it('should tokenize identifiers and dot separators', () => {
     const lexer = new Lexer('abc x123 foo.bar.baz')
     expect(lexer.nextToken()).toEqual({
@@ -168,5 +206,128 @@ describe('Lexer', () => {
   it('should throw error for invalid numbers', () => {
     const lexer = new Lexer('1..2')
     expect(() => lexer.nextToken()).toThrow('Invalid number at position 0')
+  })
+
+  it('should tokenize comparison operators', () => {
+    const lexer = new Lexer('< > <= >= == !=')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Less,
+      value: '<',
+      position: 0
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Greater,
+      value: '>',
+      position: 2
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.LessEqual,
+      value: '<=',
+      position: 4
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.GreaterEqual,
+      value: '>=',
+      position: 7
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Equal,
+      value: '==',
+      position: 10
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.NotEqual,
+      value: '!=',
+      position: 13
+    })
+  })
+
+  it('should tokenize logical operators', () => {
+    const lexer = new Lexer('&& || !')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.And,
+      value: '&&',
+      position: 0
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Or,
+      value: '||',
+      position: 3
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Not,
+      value: '!',
+      position: 6
+    })
+  })
+
+  it('should throw error for single =', () => {
+    const lexer = new Lexer('=')
+    expect(() => lexer.nextToken()).toThrow('Did you mean ==?')
+  })
+
+  it('should throw error for single &', () => {
+    const lexer = new Lexer('&')
+    expect(() => lexer.nextToken()).toThrow('Did you mean &&?')
+  })
+
+  it('should throw error for single |', () => {
+    const lexer = new Lexer('|')
+    expect(() => lexer.nextToken()).toThrow('Did you mean ||?')
+  })
+
+  it('should tokenize string literals', () => {
+    const lexer = new Lexer('"hello"')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.String,
+      value: 'hello',
+      position: 0
+    })
+  })
+
+  it('should tokenize single-quoted strings', () => {
+    const lexer = new Lexer("'world'")
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.String,
+      value: 'world',
+      position: 0
+    })
+  })
+
+  it('should tokenize string with escape sequences', () => {
+    const lexer = new Lexer('"hello\\nworld"')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.String,
+      value: 'hello\nworld',
+      position: 0
+    })
+  })
+
+  it('should throw error for unterminated strings', () => {
+    const lexer = new Lexer('"hello')
+    expect(() => lexer.nextToken()).toThrow('Unterminated string')
+  })
+
+  it('should tokenize ternary operators', () => {
+    const lexer = new Lexer('?:')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Question,
+      value: '?',
+      position: 0
+    })
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Colon,
+      value: ':',
+      position: 1
+    })
+  })
+
+  it('should tokenize comma', () => {
+    const lexer = new Lexer(',')
+    expect(lexer.nextToken()).toEqual({
+      type: TokenType.Comma,
+      value: ',',
+      position: 0
+    })
   })
 })

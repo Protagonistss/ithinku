@@ -36,12 +36,12 @@ describe('Parser', () => {
 
   it('should parse identifiers', () => {
     const parser = new Parser('x')
-    expect(parser.parse()).toEqual(AST.createIdentifier('x'))
+    expect(parser.parse()).toEqual(AST.createIdentifier(['x']))
   })
 
   it('should parse nested properties', () => {
     const parser = new Parser('foo.bar.baz')
-    expect(parser.parse()).toEqual(AST.createIdentifier('foo.bar.baz'))
+    expect(parser.parse()).toEqual(AST.createIdentifier(['foo', 'bar', 'baz']))
   })
 
   it('should parse unary operators', () => {
@@ -49,7 +49,7 @@ describe('Parser', () => {
     expect(parser.parse()).toEqual(
       AST.createBinaryOp(
         '+',
-        AST.createUnaryOp('-', AST.createIdentifier('x')),
+        AST.createUnaryOp('-', AST.createIdentifier(['x'])),
         AST.createUnaryOp('+', AST.createNumber(2))
       )
     )
@@ -60,11 +60,11 @@ describe('Parser', () => {
     expect(parser.parse()).toEqual(
       AST.createBinaryOp(
         '*',
-        AST.createIdentifier('x'),
+        AST.createIdentifier(['x']),
         AST.createBinaryOp(
           '+',
-          AST.createIdentifier('y'),
-          AST.createIdentifier('z.value')
+          AST.createIdentifier(['y']),
+          AST.createIdentifier(['z', 'value'])
         )
       )
     )
