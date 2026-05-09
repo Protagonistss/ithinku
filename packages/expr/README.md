@@ -1,192 +1,141 @@
 # @ithinku/expr
 
-A powerful and type-safe TypeScript expression parser and evaluator.
+[![npm version](https://img.shields.io/npm/v/@ithinku/expr.svg)](https://www.npmjs.com/package/@ithinku/expr)
+[![license](https://img.shields.io/npm/l/@ithinku/expr.svg)](https://github.com/Protagonisths/ithinku/blob/main/LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](https://www.typescriptlang.org/)
 
-Capable of parsing mathematical expressions, handling variables, executing safe evaluations, supporting comparisons, logical operators, conditional expressions, function calls, and string operations.
+**English** | [简体中文](./README.zh-CN.md)
 
-## Features
+**Modern, High-performance, and Type-safe Expression Engine for TypeScript**
 
-- **Safe Evaluation**: Does not use `eval()` or `Function()`.
-- **Variable Support**: Supports dynamic variable injection with dot notation.
-- **Arithmetic Operations**: `+`, `-`, `*`, `/`, `%` (modulo), `**` (power).
-- **Comparison Operators**: `<`, `>`, `<=`, `>=`, `==`, `!=`.
-- **Logical Operators**: `&&`, `||`, `!`.
-- **Conditional Expression**: `condition ? a : b` (ternary).
-- **Function Calls**: Built-in math and string functions, plus custom functions.
-- **String Literals**: Double-quoted `"hello"` and single-quoted `'world'` with escape sequences.
-- **Scientific Notation**: Supports `1.2e3`, `1e-5`.
-- **Error Handling**: Detailed error messages for syntax errors or runtime issues.
-- **TypeScript**: Written in strict TypeScript.
-- **Visitor Pattern**: Extensible `ASTVisitor` interface for custom AST traversal.
-- **Native Compilation**: `compileToFunction()` compiles expressions to native JS functions for maximum performance.
+`@ithinku/expr` is a zero-dependency expression parsing and evaluation library designed for secure dynamic logic execution. It supports extensive mathematical operations, logical reasoning, and function calls, while offering "Native Function Compilation" to achieve near-native JavaScript performance.
 
-## Installation
+---
 
+## ✨ Key Features
+
+- **🔒 Ultra Secure**: Custom-built lexer and parser. No `eval()` or `new Function()`, completely eliminating injection risks.
+- **🚀 Top Performance**: Supports pre-compiling AST into native JS functions (JIT), boosting performance by 10-100x compared to traditional tree traversal.
+- **🛠️ Scenario Oriented**: Built-in support for deep property access (`a.b.c`), ternary operators, and string template concatenation.
+- **💪 Type Safe**: Written in strict TypeScript, providing full type definitions and an AST Visitor pattern interface.
+
+---
+
+## 📖 Typical Use Cases
+
+### 1. 🧩 Low-Code / No-Code Platforms
+Used for configuring component properties or deriving data via formulas.
+```typescript
+// Config: Background turns red when stock is below safety level
+const formula = 'stock < safetyLevel ? "red" : "white"';
+const style = {
+  backgroundColor: Expression.evaluate(formula, { stock: 5, safetyLevel: 10 })
+};
+```
+
+### 2. 🛡️ Rule Engines & Form Validation
+Dynamically generate business logic validation results.
+```typescript
+// Rule: Adult and signed agreement, OR has parental consent
+const rule = '(age >= 18 && hasSigned) || hasParentalConsent';
+const canAccess = Expression.evaluate(rule, {
+  age: 16,
+  hasSigned: false,
+  hasParentalConsent: true
+});
+```
+
+### 3. 📝 Template Interpolation
+Lightweight expression calculation for template engines (like Vue/React).
+```typescript
+// Parse variables in templates
+const template = 'Hello, ${upper(user.name)}! You have ${count + 1} messages.';
+```
+
+### 4. ⚡ High-Performance Data Processing
+Maintain peak performance when iterating over massive datasets using `compileToFunction`.
+```typescript
+const filterFn = Expression.compileToFunction('item.price * item.tax > 100');
+const expensiveItems = largeArray.filter(item => filterFn({ item }));
+```
+
+---
+
+## 🚀 Quick Start
+
+### Installation
 ```bash
-npm install @ithinku/expr
+pnpm add @ithinku/expr
 ```
 
-## Usage
-
-### Simple Evaluation
-
+### Basic Usage
 ```typescript
-import { Expression } from '@ithinku/expr'
+import { Expression } from '@ithinku/expr';
 
-// Basic math
-Expression.evaluate('2 * (3 + 4)') // 14
+// 1. Simple Evaluation
+Expression.evaluate('1 + 2 * 3'); // 7
 
-// Modulo and power
-Expression.evaluate('10 % 3')  // 1
-Expression.evaluate('2 ** 10') // 1024
+// 2. Variables & Deep Access
+const context = { user: { score: 95 }, base: 10 };
+Expression.evaluate('user.score + base', context); // 105
 
-// Scientific notation
-Expression.evaluate('1e2 * 3') // 300
+// 3. Logic & Ternary Operators
+Expression.evaluate('score >= 60 ? "Pass" : "Fail"', { score: 80 }); // "Pass"
 ```
 
-### Using Variables (Context)
+---
 
+## 🎨 Feature Overview
+
+| Category | Supported Features | Example |
+| :--- | :--- | :--- |
+| **Arithmetic** | `+`, `-`, `*`, `/`, `%` (modulo), `**` (power) | `2 ** 10 === 1024` |
+| **Comparison** | `<`, `>`, `<=`, `>=`, `==`, `!=` | `age >= 18` |
+| **Logical** | `&&` (AND), `||` (OR), `!` (NOT) | `!isValid && hasError` |
+| **Numeric** | Integer, Decimal, Scientific Notation | `1.2e3`, `.5`, `1e-5` |
+| **String** | Single/Double quotes, Escaping, Concatenation | `'Hello ' + name` |
+| **Functions** | Math (sin/cos/max...), String (len/trim...) | `max(a, b, c)`, `len(str)` |
+
+---
+
+## ⚡ Performance Optimization
+
+`@ithinku/expr` provides two compilation modes for different execution frequencies:
+
+### Mode A: Pre-parse
+**Use Case**: Same expression executed multiple times in a complex environment.
 ```typescript
-const context = {
-  x: 10,
-  y: 5,
-  user: {
-    age: 18
-  }
-}
-
-Expression.evaluate('x * y + user.age', context) // 68
+const compiled = Expression.compile('x * y'); 
+compiled({ x: 10, y: 2 }); // Reuses AST, avoids re-parsing string
 ```
 
-### Comparison and Logic
-
+### Mode B: Native Compilation 🚀
+**Use Case**: Extreme speed for hot loops or big data processing.
 ```typescript
-Expression.evaluate('3 > 2')               // true
-Expression.evaluate('x > y && x < 100', { x: 10, y: 5 }) // true
-Expression.evaluate('!(3 > 5)')            // true
+const fastFn = Expression.compileToFunction('a + b'); 
+// Generates native JS code from AST, near-native speed
+fastFn({ a: 1, b: 2 });
 ```
 
-### Conditional Expression
+---
 
-```typescript
-Expression.evaluate('score >= 60 ? "pass" : "fail"', { score: 85 }) // "pass"
-
-// Nested ternary
-Expression.evaluate('x > y ? x : y', { x: 3, y: 7 }) // 7
-```
-
-### Function Calls
-
-Built-in math functions: `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow`.
-
-Built-in string functions: `len`, `upper`, `lower`, `trim`.
-
-```typescript
-Expression.evaluate('abs(-5)')        // 5
-Expression.evaluate('max(1, 3, 2)')   // 3
-Expression.evaluate('sqrt(16)')       // 4
-Expression.evaluate('len("hello")')   // 5
-Expression.evaluate('upper("hi")')    // "HI"
-```
+## 🧩 Extensibility
 
 ### Custom Functions
-
+Inject your own business functions into the engine:
 ```typescript
 const functions = {
-  double: (x: number) => x * 2,
-  greet: (name: string) => 'Hello, ' + name
-}
-
-Expression.evaluate('double(5)', {}, functions)              // 10
-Expression.evaluate('greet("World")', {}, functions)        // "Hello, World"
+  isVip: (user) => user.level > 5,
+  format: (val) => val.toFixed(2)
+};
+Expression.evaluate('isVip(user) ? format(price) : price', context, functions);
 ```
 
-### Strings
+### AST Visitor Pattern
+Use the `ASTVisitor` interface to customize AST traversal behavior (e.g., static analysis, formatting).
 
-```typescript
-Expression.evaluate('"hello" + " " + "world"') // "hello world"
-Expression.evaluate('"count: " + 5')           // "count: 5"
-Expression.evaluate('"abc" == "abc"')          // true
-```
+---
 
-### Advanced: Compile for Performance
+## 📄 License
 
-**Tree-walking compile** — parse once, reuse Evaluator, evaluate many times:
-
-```typescript
-const compiled = Expression.compile('x * 2 + y')
-
-compiled({ x: 10, y: 1 }) // 21
-compiled({ x: 20, y: 3 }) // 43
-```
-
-**Native compile** — compiles AST to a native JavaScript function (10-100x faster for hot loops):
-
-```typescript
-const fn = Expression.compileToFunction('x * 2 + y')
-
-fn({ x: 10, y: 1 }) // 21
-fn({ x: 20, y: 3 }) // 43
-```
-
-### Advanced: Visitor Pattern
-
-Implement `ASTVisitor<T>` for custom AST traversal (serialization, analysis, optimization):
-
-```typescript
-import { ASTVisitor, walk } from '@ithinku/expr'
-
-class Serializer implements ASTVisitor<string> {
-  visitNumber(node) { return String(node.value) }
-  visitBinary(node) {
-    return `(${this.visit(node.left)} ${node.operator} ${this.visit(node.right)})`
-  }
-  // ... implement other visit methods
-}
-
-const serializer = new Serializer()
-walk(ast, serializer) // returns string representation
-```
-
-Parse once, evaluate many times with different contexts.
-
-### Advanced: Parser & Evaluator Separation
-
-```typescript
-import { Parser, Evaluator } from '@ithinku/expr'
-
-const parser = new Parser('x * 2 + y')
-const ast = parser.parse()
-
-const evaluator = new Evaluator({ x: 10, y: 1 })
-evaluator.evaluate(ast) // 21
-
-evaluator.setVariable('x', 20)
-evaluator.evaluate(ast) // 41
-```
-
-## Error Handling
-
-```typescript
-try {
-  Expression.evaluate('1 / 0')
-} catch (error) {
-  // Error: Division by zero
-}
-
-try {
-  Expression.evaluate('unknown_var * 2')
-} catch (error) {
-  // Error: Undefined variable: unknown_var
-}
-
-try {
-  Expression.evaluate('unknown_fn(1)')
-} catch (error) {
-  // Error: Unknown function: unknown_fn
-}
-```
-
-## License
-
-MIT
+MIT © [Protagonisths](https://github.com/Protagonisths)
