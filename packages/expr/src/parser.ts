@@ -1,4 +1,4 @@
-import type { ASTNode } from './ast'
+import type { ASTNode, ComparisonOperator } from './ast'
 import { AST } from './ast'
 import type { Token } from './lexer'
 import { TokenType, Lexer } from './lexer'
@@ -22,26 +22,7 @@ export class Parser {
     }
   }
 
-  private parseIdentifier(): ASTNode {
-    let name = this.currentToken.value
-    this.eat(TokenType.Identifier)
-
-    while (this.currentToken.type === TokenType.Dot) {
-      this.eat(TokenType.Dot)
-      const nextToken: Token = this.currentToken
-      if (nextToken.type !== TokenType.Identifier) {
-        throw new Error(
-          `Unexpected token: expected ${TokenType.Identifier}, got ${nextToken.type} at position ${nextToken.position}`
-        )
-      }
-      name += `.${nextToken.value}`
-      this.eat(TokenType.Identifier)
-    }
-
-    return AST.createIdentifier(name)
-  }
-
-  // primary : NUMBER | IDENTIFIER | LPAREN expr RPAREN
+  // primary : NUMBER | IDENTIFIER | IDENTIFIER LPAREN (expr (COMMA expr)*)? RPAREN | LPAREN expr RPAREN
   private primary(): ASTNode {
     const token = this.currentToken
 
@@ -51,13 +32,40 @@ export class Parser {
         return AST.createNumber(Number.parseFloat(token.value))
       }
 
+      case TokenType.String: {
+        this.eat(TokenType.String)
+        return AST.createString(token.value)
+      }
+
       case TokenType.Identifier: {
-        return this.parseIdentifier()
+        const name = this.currentToken.value
+        this.eat(TokenType.Identifier)
+
+        // Check if this is a function call: identifier followed by (
+        if (this.currentToken.type === TokenType.LeftParen) {
+          return this.parseFunctionCall(name)
+        }
+
+        // Otherwise it's a variable reference, possibly with dot access
+        let fullName = name
+        while (this.currentToken.type === TokenType.Dot) {
+          this.eat(TokenType.Dot)
+          const nextToken: Token = this.currentToken
+          if (nextToken.type !== TokenType.Identifier) {
+            throw new Error(
+              `Unexpected token: expected ${TokenType.Identifier}, got ${nextToken.type} at position ${nextToken.position}`
+            )
+          }
+          fullName += `.${nextToken.value}`
+          this.eat(TokenType.Identifier)
+        }
+
+        return AST.createIdentifier(fullName)
       }
 
       case TokenType.LeftParen: {
         this.eat(TokenType.LeftParen)
-        const node = this.expr()
+        const node = this.or()
         this.eat(TokenType.RightParen)
         return node
       }
@@ -70,7 +78,33 @@ export class Parser {
     }
   }
 
-  // factor : (PLUS | MINUS) factor | primary
+  private parseFunctionCall(name: string): ASTNode {
+    this.eat(TokenType.LeftParen)
+    const args: ASTNode[] = []
+
+    if (this.currentToken.type !== TokenType.RightParen) {
+      args.push(this.or())
+      while (this.currentToken.type === TokenType.Comma) {
+        this.eat(TokenType.Comma)
+        args.push(this.or())
+      }
+    }
+
+    this.eat(TokenType.RightParen)
+    return AST.createFunctionCall(name, args)
+  }
+
+  // power : primary (POWER power)?  (right-associative)
+  private power(): ASTNode {
+    const node = this.primary()
+    if (this.currentToken.type === TokenType.Power) {
+      this.eat(TokenType.Power)
+      return AST.createBinaryOp('**', node, this.power())
+    }
+    return node
+  }
+
+  // factor : (PLUS | MINUS | NOT) factor | power
   private factor(): ASTNode {
     if (this.currentToken.type === TokenType.Plus) {
       this.eat(TokenType.Plus)
@@ -80,16 +114,21 @@ export class Parser {
       this.eat(TokenType.Minus)
       return AST.createUnaryOp('-', this.factor())
     }
-    return this.primary()
+    if (this.currentToken.type === TokenType.Not) {
+      this.eat(TokenType.Not)
+      return AST.createUnaryOp('!', this.factor())
+    }
+    return this.power()
   }
 
-  // term : factor ((MUL | DIV) factor)*
+  // term : factor ((MUL | DIV | MODULO) factor)*
   private term(): ASTNode {
     let node = this.factor()
 
     while (
       this.currentToken.type === TokenType.Multiply ||
-      this.currentToken.type === TokenType.Divide
+      this.currentToken.type === TokenType.Divide ||
+      this.currentToken.type === TokenType.Modulo
     ) {
       const token = this.currentToken
       if (token.type === TokenType.Multiply) {
@@ -98,14 +137,17 @@ export class Parser {
       } else if (token.type === TokenType.Divide) {
         this.eat(TokenType.Divide)
         node = AST.createBinaryOp('/', node, this.factor())
+      } else if (token.type === TokenType.Modulo) {
+        this.eat(TokenType.Modulo)
+        node = AST.createBinaryOp('%', node, this.factor())
       }
     }
 
     return node
   }
 
-  // expr : term ((PLUS | MINUS) term)*
-  private expr(): ASTNode {
+  // additive : term ((PLUS | MINUS) term)*
+  private additive(): ASTNode {
     let node = this.term()
 
     while (
@@ -123,6 +165,77 @@ export class Parser {
     }
 
     return node
+  }
+
+  // comparison : additive ((< | > | <= | >= | == | !=) additive)*
+  private comparison(): ASTNode {
+    let node = this.additive()
+
+    while (
+      this.currentToken.type === TokenType.Less ||
+      this.currentToken.type === TokenType.Greater ||
+      this.currentToken.type === TokenType.LessEqual ||
+      this.currentToken.type === TokenType.GreaterEqual ||
+      this.currentToken.type === TokenType.Equal ||
+      this.currentToken.type === TokenType.NotEqual
+    ) {
+      const token = this.currentToken
+      const opMap: Partial<Record<TokenType, ComparisonOperator>> = {
+        [TokenType.Less]: '<',
+        [TokenType.Greater]: '>',
+        [TokenType.LessEqual]: '<=',
+        [TokenType.GreaterEqual]: '>=',
+        [TokenType.Equal]: '==',
+        [TokenType.NotEqual]: '!='
+      }
+      const op = opMap[token.type]!
+      this.eat(token.type)
+      node = AST.createBinaryOp(op, node, this.additive())
+    }
+
+    return node
+  }
+
+  // and : comparison (AND comparison)*
+  private and(): ASTNode {
+    let node = this.comparison()
+
+    while (this.currentToken.type === TokenType.And) {
+      this.eat(TokenType.And)
+      node = AST.createBinaryOp('&&', node, this.comparison())
+    }
+
+    return node
+  }
+
+  // or : and (OR and)*
+  private or(): ASTNode {
+    let node = this.and()
+
+    while (this.currentToken.type === TokenType.Or) {
+      this.eat(TokenType.Or)
+      node = AST.createBinaryOp('||', node, this.and())
+    }
+
+    return node
+  }
+
+  // conditional : or (QUESTION conditional COLON conditional)?
+  private conditional(): ASTNode {
+    const node = this.or()
+    if (this.currentToken.type === TokenType.Question) {
+      this.eat(TokenType.Question)
+      const consequent = this.conditional()
+      this.eat(TokenType.Colon)
+      const alternate = this.conditional()
+      return AST.createConditional(node, consequent, alternate)
+    }
+    return node
+  }
+
+  // expr : conditional (top-level entry)
+  private expr(): ASTNode {
+    return this.conditional()
   }
 
   public parse(): ASTNode {

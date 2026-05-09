@@ -2,24 +2,29 @@
 
 A powerful and type-safe TypeScript expression parser and evaluator.
 
-Capable of parsing mathematical expressions, handling variables, and executing safe evaluations.
+Capable of parsing mathematical expressions, handling variables, executing safe evaluations, supporting comparisons, logical operators, conditional expressions, function calls, and string operations.
 
-## ✨ Features
+## Features
 
 - **Safe Evaluation**: Does not use `eval()` or `Function()`.
-- **Variable Support**: Supports dynamic variable injection.
-- **Arithmetic Operations**: `+`, `-`, `*`, `/`, unary `-`.
+- **Variable Support**: Supports dynamic variable injection with dot notation.
+- **Arithmetic Operations**: `+`, `-`, `*`, `/`, `%` (modulo), `**` (power).
+- **Comparison Operators**: `<`, `>`, `<=`, `>=`, `==`, `!=`.
+- **Logical Operators**: `&&`, `||`, `!`.
+- **Conditional Expression**: `condition ? a : b` (ternary).
+- **Function Calls**: Built-in math and string functions, plus custom functions.
+- **String Literals**: Double-quoted `"hello"` and single-quoted `'world'` with escape sequences.
 - **Scientific Notation**: Supports `1.2e3`, `1e-5`.
-- **Error Handling**: Detailed error messages for syntax errors or runtime issues (e.g., division by zero).
+- **Error Handling**: Detailed error messages for syntax errors or runtime issues.
 - **TypeScript**: Written in strict TypeScript.
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install @ithinku/expr
 ```
 
-## 🚀 Usage
+## Usage
 
 ### Simple Evaluation
 
@@ -27,18 +32,19 @@ npm install @ithinku/expr
 import { Expression } from '@ithinku/expr'
 
 // Basic math
-const result = Expression.evaluate('2 * (3 + 4)')
-console.log(result) // 14
+Expression.evaluate('2 * (3 + 4)') // 14
+
+// Modulo and power
+Expression.evaluate('10 % 3')  // 1
+Expression.evaluate('2 ** 10') // 1024
 
 // Scientific notation
-console.log(Expression.evaluate('1e2 * 3')) // 300
+Expression.evaluate('1e2 * 3') // 300
 ```
 
 ### Using Variables (Context)
 
 ```typescript
-import { Expression } from '@ithinku/expr'
-
 const context = {
   x: 10,
   y: 5,
@@ -47,34 +53,87 @@ const context = {
   }
 }
 
-// Access variables including nested properties
-const result = Expression.evaluate('x * y + user.age', context)
-console.log(result) // 10 * 5 + 18 = 68
+Expression.evaluate('x * y + user.age', context) // 68
+```
+
+### Comparison and Logic
+
+```typescript
+Expression.evaluate('3 > 2')               // true
+Expression.evaluate('x > y && x < 100', { x: 10, y: 5 }) // true
+Expression.evaluate('!(3 > 5)')            // true
+```
+
+### Conditional Expression
+
+```typescript
+Expression.evaluate('score >= 60 ? "pass" : "fail"', { score: 85 }) // "pass"
+
+// Nested ternary
+Expression.evaluate('x > y ? x : y', { x: 3, y: 7 }) // 7
+```
+
+### Function Calls
+
+Built-in math functions: `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow`.
+
+Built-in string functions: `len`, `upper`, `lower`, `trim`.
+
+```typescript
+Expression.evaluate('abs(-5)')        // 5
+Expression.evaluate('max(1, 3, 2)')   // 3
+Expression.evaluate('sqrt(16)')       // 4
+Expression.evaluate('len("hello")')   // 5
+Expression.evaluate('upper("hi")')    // "HI"
+```
+
+### Custom Functions
+
+```typescript
+const functions = {
+  double: (x: number) => x * 2,
+  greet: (name: string) => 'Hello, ' + name
+}
+
+Expression.evaluate('double(5)', {}, functions)              // 10
+Expression.evaluate('greet("World")', {}, functions)        // "Hello, World"
+```
+
+### Strings
+
+```typescript
+Expression.evaluate('"hello" + " " + "world"') // "hello world"
+Expression.evaluate('"count: " + 5')           // "count: 5"
+Expression.evaluate('"abc" == "abc"')          // true
+```
+
+### Advanced: Compile for Performance
+
+Parse once, evaluate many times with different contexts.
+
+```typescript
+const compiled = Expression.compile('x * 2 + y')
+
+compiled({ x: 10, y: 1 }) // 21
+compiled({ x: 20, y: 3 }) // 43
 ```
 
 ### Advanced: Parser & Evaluator Separation
 
-For better performance when evaluating the same expression multiple times with different variables.
-
 ```typescript
 import { Parser, Evaluator } from '@ithinku/expr'
 
-// 1. Parse once (Build AST)
 const parser = new Parser('x * 2 + y')
 const ast = parser.parse()
 
-// 2. Create Evaluator
 const evaluator = new Evaluator({ x: 10, y: 1 })
+evaluator.evaluate(ast) // 21
 
-// 3. Evaluate multiple times
-console.log(evaluator.evaluate(ast)) // 21
-
-// Update variable
 evaluator.setVariable('x', 20)
-console.log(evaluator.evaluate(ast)) // 41
+evaluator.evaluate(ast) // 41
 ```
 
-## ⚠️ Error Handling
+## Error Handling
 
 ```typescript
 try {
@@ -88,8 +147,14 @@ try {
 } catch (error) {
   // Error: Undefined variable: unknown_var
 }
+
+try {
+  Expression.evaluate('unknown_fn(1)')
+} catch (error) {
+  // Error: Unknown function: unknown_fn
+}
 ```
 
-## 📄 License
+## License
 
 MIT

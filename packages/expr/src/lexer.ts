@@ -1,9 +1,24 @@
 export enum TokenType {
   Number = 'Number',
+  String = 'String',
   Plus = 'Plus',
   Minus = 'Minus',
   Multiply = 'Multiply',
   Divide = 'Divide',
+  Modulo = 'Modulo',
+  Power = 'Power',
+  Less = 'Less',
+  Greater = 'Greater',
+  LessEqual = 'LessEqual',
+  GreaterEqual = 'GreaterEqual',
+  Equal = 'Equal',
+  NotEqual = 'NotEqual',
+  And = 'And',
+  Or = 'Or',
+  Not = 'Not',
+  Comma = 'Comma',
+  Question = 'Question',
+  Colon = 'Colon',
   LeftParen = 'LeftParen',
   RightParen = 'RightParen',
   Identifier = 'Identifier',
@@ -125,6 +140,41 @@ export class Lexer {
     return { type: TokenType.Identifier, value: result, position: startPos }
   }
 
+  private readString(quote: string): Token {
+    const startPos = this.position
+    this.advance() // skip opening quote
+    let result = ''
+
+    while (this.currentChar !== null && this.currentChar !== quote) {
+      if (this.currentChar === '\\') {
+        this.advance()
+        if (this.currentChar === null) {
+          throw new Error(`Unterminated string at position ${startPos}`)
+        }
+        const escaped: string = this.currentChar
+        switch (escaped) {
+          case 'n': result += '\n'; break
+          case 't': result += '\t'; break
+          case 'r': result += '\r'; break
+          case '\\': result += '\\'; break
+          case "'": result += "'"; break
+          case '"': result += '"'; break
+          default: result += escaped
+        }
+      } else {
+        result += this.currentChar
+      }
+      this.advance()
+    }
+
+    if (this.currentChar === null) {
+      throw new Error(`Unterminated string at position ${startPos}`)
+    }
+    this.advance() // skip closing quote
+
+    return { type: TokenType.String, value: result, position: startPos }
+  }
+
   // eslint-disable-next-line complexity
   public nextToken(): Token {
     while (this.currentChar !== null) {
@@ -141,12 +191,17 @@ export class Lexer {
         return this.readNumber()
       }
 
+      if (this.currentChar === '"' || this.currentChar === "'") {
+        return this.readString(this.currentChar)
+      }
+
       if (/[A-Z_a-z]/.test(this.currentChar)) {
         return this.readIdentifier()
       }
 
       const currentPos = this.position
-      switch (this.currentChar) {
+      const ch: string | null = this.currentChar
+      switch (ch) {
         case '+': {
           this.advance()
           return { type: TokenType.Plus, value: '+', position: currentPos }
@@ -157,11 +212,105 @@ export class Lexer {
         }
         case '*': {
           this.advance()
+          if (this.currentChar === '*') {
+            this.advance()
+            return { type: TokenType.Power, value: '**', position: currentPos }
+          }
           return { type: TokenType.Multiply, value: '*', position: currentPos }
         }
         case '/': {
           this.advance()
           return { type: TokenType.Divide, value: '/', position: currentPos }
+        }
+        case '%': {
+          this.advance()
+          return { type: TokenType.Modulo, value: '%', position: currentPos }
+        }
+        case '<': {
+          this.advance()
+          const nextLt = this.currentChar
+          if (nextLt === '=') {
+            this.advance()
+            return {
+              type: TokenType.LessEqual,
+              value: '<=',
+              position: currentPos
+            }
+          }
+          return { type: TokenType.Less, value: '<', position: currentPos }
+        }
+        case '>': {
+          this.advance()
+          const nextGt = this.currentChar
+          if (nextGt === '=') {
+            this.advance()
+            return {
+              type: TokenType.GreaterEqual,
+              value: '>=',
+              position: currentPos
+            }
+          }
+          return { type: TokenType.Greater, value: '>', position: currentPos }
+        }
+        case '=': {
+          this.advance()
+          const nextEq = this.currentChar
+          if (nextEq === '=') {
+            this.advance()
+            return {
+              type: TokenType.Equal,
+              value: '==',
+              position: currentPos
+            }
+          }
+          throw new Error(
+            `Unexpected character: = at position ${currentPos}. Did you mean ==?`
+          )
+        }
+        case '!': {
+          this.advance()
+          const nextNot = this.currentChar
+          if (nextNot === '=') {
+            this.advance()
+            return {
+              type: TokenType.NotEqual,
+              value: '!=',
+              position: currentPos
+            }
+          }
+          return { type: TokenType.Not, value: '!', position: currentPos }
+        }
+        case '&': {
+          this.advance()
+          if (this.currentChar === '&') {
+            this.advance()
+            return { type: TokenType.And, value: '&&', position: currentPos }
+          }
+          throw new Error(
+            `Unexpected character: & at position ${currentPos}. Did you mean &&?`
+          )
+        }
+        case '|': {
+          this.advance()
+          if (this.currentChar === '|') {
+            this.advance()
+            return { type: TokenType.Or, value: '||', position: currentPos }
+          }
+          throw new Error(
+            `Unexpected character: | at position ${currentPos}. Did you mean ||?`
+          )
+        }
+        case ',': {
+          this.advance()
+          return { type: TokenType.Comma, value: ',', position: currentPos }
+        }
+        case '?': {
+          this.advance()
+          return { type: TokenType.Question, value: '?', position: currentPos }
+        }
+        case ':': {
+          this.advance()
+          return { type: TokenType.Colon, value: ':', position: currentPos }
         }
         case '(': {
           this.advance()

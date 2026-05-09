@@ -91,4 +91,74 @@ describe('Evaluator', () => {
     evaluator.setVariable('nested.value', 20)
     expect(evaluator.getVariable('nested.value')).toBe(20)
   })
+
+  it('should evaluate modulo operator', () => {
+    const ast = AST.createBinaryOp(
+      '%',
+      AST.createNumber(10),
+      AST.createNumber(3)
+    )
+    expect(evaluator.evaluate(ast)).toBe(1)
+  })
+
+  it('should evaluate power operator', () => {
+    const ast = AST.createBinaryOp(
+      '**',
+      AST.createNumber(2),
+      AST.createNumber(3)
+    )
+    expect(evaluator.evaluate(ast)).toBe(8)
+  })
+
+  it('should evaluate comparison operators', () => {
+    expect(evaluator.evaluate(AST.createBinaryOp('>', AST.createNumber(3), AST.createNumber(2)))).toBe(true)
+    expect(evaluator.evaluate(AST.createBinaryOp('<', AST.createNumber(3), AST.createNumber(2)))).toBe(false)
+    expect(evaluator.evaluate(AST.createBinaryOp('==', AST.createNumber(3), AST.createNumber(3)))).toBe(true)
+    expect(evaluator.evaluate(AST.createBinaryOp('!=', AST.createNumber(3), AST.createNumber(2)))).toBe(true)
+  })
+
+  it('should evaluate logical operators', () => {
+    expect(
+      evaluator.evaluate(
+        AST.createBinaryOp('&&', AST.createBoolean(true), AST.createBoolean(true))
+      )
+    ).toBe(true)
+    expect(
+      evaluator.evaluate(
+        AST.createBinaryOp('||', AST.createBoolean(false), AST.createBoolean(true))
+      )
+    ).toBe(true)
+  })
+
+  it('should evaluate not operator', () => {
+    expect(evaluator.evaluate(AST.createUnaryOp('!', AST.createBoolean(true)))).toBe(false)
+    expect(evaluator.evaluate(AST.createUnaryOp('!', AST.createBoolean(false)))).toBe(true)
+  })
+
+  it('should evaluate string nodes', () => {
+    expect(evaluator.evaluate(AST.createString('hello'))).toBe('hello')
+  })
+
+  it('should evaluate string concatenation', () => {
+    const ast = AST.createBinaryOp('+', AST.createString('hello '), AST.createString('world'))
+    expect(evaluator.evaluate(ast)).toBe('hello world')
+  })
+
+  it('should evaluate conditional node', () => {
+    const ast = AST.createConditional(
+      AST.createBoolean(true),
+      AST.createNumber(1),
+      AST.createNumber(2)
+    )
+    expect(evaluator.evaluate(ast)).toBe(1)
+  })
+
+  it('should evaluate conditional node with false condition', () => {
+    const ast = AST.createConditional(
+      AST.createBoolean(false),
+      AST.createNumber(1),
+      AST.createNumber(2)
+    )
+    expect(evaluator.evaluate(ast)).toBe(2)
+  })
 })
