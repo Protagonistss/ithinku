@@ -1,4 +1,15 @@
-import type { ASTNode } from './ast'
+import type {
+  ASTNode,
+  NumberNode,
+  BooleanNode,
+  StringNode,
+  BinaryOpNode,
+  UnaryOpNode,
+  IdentifierNode,
+  FunctionCallNode,
+  ConditionalNode
+} from './ast'
+import type { ASTVisitor } from './visitor'
 
 export type ExprValue = number | boolean | string
 
@@ -8,7 +19,7 @@ export interface Context {
   [key: string]: ExprValue | Context | ExprFunction
 }
 
-const builtinFunctions: Record<string, ExprFunction> = {
+export const builtinFunctions: Record<string, ExprFunction> = {
   abs: (x) => Math.abs(x as number),
   ceil: (x) => Math.ceil(x as number),
   floor: (x) => Math.floor(x as number),
@@ -42,13 +53,19 @@ const builtinFunctions: Record<string, ExprFunction> = {
   }
 }
 
-export class Evaluator {
-  private context: Context
+export class Evaluator implements ASTVisitor<ExprValue> {
+  public context: Context
   private functions: Record<string, ExprFunction>
 
   constructor(context: Context = {}, functions: Record<string, ExprFunction> = {}) {
     this.context = context
-    this.functions = { ...builtinFunctions, ...functions }
+    this.functions = Object.keys(functions).length > 0
+      ? { ...builtinFunctions, ...functions }
+      : builtinFunctions
+  }
+
+  public static get builtins(): Record<string, ExprFunction> {
+    return builtinFunctions
   }
 
   private resolveValue(obj: Context, path: string[]): ExprValue {
@@ -94,120 +111,123 @@ export class Evaluator {
     return value.length > 0
   }
 
-  // eslint-disable-next-line complexity
   public evaluate(node: ASTNode): ExprValue {
     switch (node.type) {
-      case 'number': {
-        return node.value
+      case 'number': return this.visitNumber(node)
+      case 'boolean': return this.visitBoolean(node)
+      case 'string': return this.visitString(node)
+      case 'binary': return this.visitBinary(node)
+      case 'unary': return this.visitUnary(node)
+      case 'identifier': return this.visitIdentifier(node)
+      case 'call': return this.visitCall(node)
+      case 'conditional': return this.visitConditional(node)
+    }
+  }
+
+  public visitNumber(node: NumberNode): ExprValue {
+    return node.value
+  }
+
+  public visitBoolean(node: BooleanNode): ExprValue {
+    return node.value
+  }
+
+  public visitString(node: StringNode): ExprValue {
+    return node.value
+  }
+
+  public visitIdentifier(node: IdentifierNode): ExprValue {
+    return this.resolveValue(this.context, node.path)
+  }
+
+  public visitCall(node: FunctionCallNode): ExprValue {
+    const fn = this.functions[node.name]
+    if (!fn) {
+      throw new Error(`Unknown function: ${node.name}`)
+    }
+    const args = node.args.map((arg) => this.evaluate(arg))
+    return fn(...args)
+  }
+
+  public visitConditional(node: ConditionalNode): ExprValue {
+    const condition = this.evaluate(node.condition)
+    return this.toBoolean(condition)
+      ? this.evaluate(node.consequent)
+      : this.evaluate(node.alternate)
+  }
+
+  // eslint-disable-next-line complexity
+  public visitBinary(node: BinaryOpNode): ExprValue {
+    const operator = node.operator
+
+    // Short-circuit for logical operators
+    if (operator === '&&') {
+      const left = this.evaluate(node.left)
+      return this.toBoolean(left) && this.evaluate(node.right)
+    }
+    if (operator === '||') {
+      const left = this.evaluate(node.left)
+      return this.toBoolean(left) || this.evaluate(node.right)
+    }
+
+    const left = this.evaluate(node.left)
+    const right = this.evaluate(node.right)
+
+    // Comparison operators
+    switch (operator) {
+      case '<': {
+        if (typeof left === 'string' && typeof right === 'string') return left < right
+        return this.toNumber(left) < this.toNumber(right)
       }
-
-      case 'boolean': {
-        return node.value
+      case '>': {
+        if (typeof left === 'string' && typeof right === 'string') return left > right
+        return this.toNumber(left) > this.toNumber(right)
       }
-
-      case 'string': {
-        return node.value
+      case '<=': {
+        if (typeof left === 'string' && typeof right === 'string') return left <= right
+        return this.toNumber(left) <= this.toNumber(right)
       }
-
-      case 'identifier': {
-        const parts = node.name.split('.')
-        return this.resolveValue(this.context, parts)
+      case '>=': {
+        if (typeof left === 'string' && typeof right === 'string') return left >= right
+        return this.toNumber(left) >= this.toNumber(right)
       }
+      case '==': return left === right
+      case '!=': return left !== right
+      default: break
+    }
 
-      case 'call': {
-        const fn = this.functions[node.name]
-        if (!fn) {
-          throw new Error(`Unknown function: ${node.name}`)
-        }
-        const args = node.args.map((arg) => this.evaluate(arg))
-        return fn(...args)
+    // Arithmetic operators - + supports string concatenation
+    if (operator === '+' && (typeof left === 'string' || typeof right === 'string')) {
+      return String(left) + String(right)
+    }
+
+    const leftNum = this.toNumber(left)
+    const rightNum = this.toNumber(right)
+
+    switch (operator) {
+      case '+': return leftNum + rightNum
+      case '-': return leftNum - rightNum
+      case '*': return leftNum * rightNum
+      case '/': {
+        if (rightNum === 0) throw new Error('Division by zero')
+        return leftNum / rightNum
       }
-
-      case 'conditional': {
-        const condition = this.evaluate(node.condition)
-        return this.toBoolean(condition)
-          ? this.evaluate(node.consequent)
-          : this.evaluate(node.alternate)
+      case '%': {
+        if (rightNum === 0) throw new Error('Division by zero')
+        return leftNum % rightNum
       }
-
-      case 'binary': {
-        const operator = node.operator
-
-        // Short-circuit for logical operators
-        if (operator === '&&') {
-          const left = this.evaluate(node.left)
-          return this.toBoolean(left) && this.evaluate(node.right)
-        }
-        if (operator === '||') {
-          const left = this.evaluate(node.left)
-          return this.toBoolean(left) || this.evaluate(node.right)
-        }
-
-        const left = this.evaluate(node.left)
-        const right = this.evaluate(node.right)
-
-        // Comparison operators
-        switch (operator) {
-          case '<': {
-            if (typeof left === 'string' && typeof right === 'string') return left < right
-            return this.toNumber(left) < this.toNumber(right)
-          }
-          case '>': {
-            if (typeof left === 'string' && typeof right === 'string') return left > right
-            return this.toNumber(left) > this.toNumber(right)
-          }
-          case '<=': {
-            if (typeof left === 'string' && typeof right === 'string') return left <= right
-            return this.toNumber(left) <= this.toNumber(right)
-          }
-          case '>=': {
-            if (typeof left === 'string' && typeof right === 'string') return left >= right
-            return this.toNumber(left) >= this.toNumber(right)
-          }
-          case '==': return left === right
-          case '!=': return left !== right
-          default: break
-        }
-
-        // Arithmetic operators - + supports string concatenation
-        if (operator === '+' && (typeof left === 'string' || typeof right === 'string')) {
-          return String(left) + String(right)
-        }
-
-        const leftNum = this.toNumber(left)
-        const rightNum = this.toNumber(right)
-
-        switch (operator) {
-          case '+': return leftNum + rightNum
-          case '-': return leftNum - rightNum
-          case '*': return leftNum * rightNum
-          case '/': {
-            if (rightNum === 0) throw new Error('Division by zero')
-            return leftNum / rightNum
-          }
-          case '%': {
-            if (rightNum === 0) throw new Error('Division by zero')
-            return leftNum % rightNum
-          }
-          case '**': return leftNum ** rightNum
-          default: {
-            return this.unreachableOperator(operator)
-          }
-        }
-      }
-
-      case 'unary': {
-        const value = this.evaluate(node.operand)
-        if (node.operator === '-') return -this.toNumber(value)
-        if (node.operator === '+') return this.toNumber(value)
-        return !this.toBoolean(value)
-      }
-
+      case '**': return leftNum ** rightNum
       default: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        throw new Error(`Unknown node type: ${(node as any).type}`)
+        return this.unreachableOperator(operator)
       }
     }
+  }
+
+  public visitUnary(node: UnaryOpNode): ExprValue {
+    const value = this.evaluate(node.operand)
+    if (node.operator === '-') return -this.toNumber(value)
+    if (node.operator === '+') return this.toNumber(value)
+    return !this.toBoolean(value)
   }
 
   public setVariable(name: string, value: ExprValue | Context): void {

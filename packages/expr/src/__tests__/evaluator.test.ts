@@ -33,20 +33,20 @@ describe('Evaluator', () => {
   })
 
   it('should evaluate variables', () => {
-    expect(evaluator.evaluate(AST.createIdentifier('x'))).toBe(10)
-    expect(evaluator.evaluate(AST.createIdentifier('y'))).toBe(5)
+    expect(evaluator.evaluate(AST.createIdentifier(['x']))).toBe(10)
+    expect(evaluator.evaluate(AST.createIdentifier(['y']))).toBe(5)
   })
 
   it('should evaluate nested properties', () => {
-    expect(evaluator.evaluate(AST.createIdentifier('obj.a'))).toBe(2)
-    expect(evaluator.evaluate(AST.createIdentifier('obj.b.c'))).toBe(3)
+    expect(evaluator.evaluate(AST.createIdentifier(['obj', 'a']))).toBe(2)
+    expect(evaluator.evaluate(AST.createIdentifier(['obj', 'b', 'c']))).toBe(3)
   })
 
   it('should evaluate complex expressions', () => {
     const ast = AST.createBinaryOp(
       '*',
-      AST.createIdentifier('x'),
-      AST.createBinaryOp('+', AST.createIdentifier('y'), AST.createNumber(2))
+      AST.createIdentifier(['x']),
+      AST.createBinaryOp('+', AST.createIdentifier(['y']), AST.createNumber(2))
     )
     expect(evaluator.evaluate(ast)).toBe(70) // 10 * (5 + 2)
   })
@@ -54,7 +54,7 @@ describe('Evaluator', () => {
   it('should evaluate unary operators', () => {
     const ast = AST.createBinaryOp(
       '+',
-      AST.createUnaryOp('-', AST.createIdentifier('x')),
+      AST.createUnaryOp('-', AST.createIdentifier(['x'])),
       AST.createUnaryOp('+', AST.createNumber(2))
     )
     expect(evaluator.evaluate(ast)).toBe(-8)
@@ -70,16 +70,16 @@ describe('Evaluator', () => {
   })
 
   it('should throw error for undefined variables', () => {
-    expect(() => evaluator.evaluate(AST.createIdentifier('z'))).toThrow(
+    expect(() => evaluator.evaluate(AST.createIdentifier(['z']))).toThrow(
       'Undefined variable: z'
     )
   })
 
   it('should throw error for invalid nested properties', () => {
-    expect(() => evaluator.evaluate(AST.createIdentifier('obj.d'))).toThrow(
+    expect(() => evaluator.evaluate(AST.createIdentifier(['obj', 'd']))).toThrow(
       'Undefined variable: obj.d'
     )
-    expect(() => evaluator.evaluate(AST.createIdentifier('x.y'))).toThrow(
+    expect(() => evaluator.evaluate(AST.createIdentifier(['x', 'y']))).toThrow(
       'Cannot access property y of number'
     )
   })

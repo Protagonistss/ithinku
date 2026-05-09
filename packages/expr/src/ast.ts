@@ -35,7 +35,7 @@ export interface UnaryOpNode {
 
 export interface IdentifierNode {
   type: 'identifier'
-  name: string
+  path: string[]
 }
 
 export interface FunctionCallNode {
@@ -89,8 +89,8 @@ export class AST {
     return { type: 'unary', operator, operand }
   }
 
-  public static createIdentifier(name: string): IdentifierNode {
-    return { type: 'identifier', name }
+  public static createIdentifier(path: string[]): IdentifierNode {
+    return { type: 'identifier', path }
   }
 
   public static createFunctionCall(name: string, args: ASTNode[]): FunctionCallNode {

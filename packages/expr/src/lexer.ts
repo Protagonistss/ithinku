@@ -59,8 +59,24 @@ export class Lexer {
     return nextPos < this.input.length ? this.input.charAt(nextPos) : null
   }
 
+  private static isWhitespace(ch: string): boolean {
+    return ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r'
+  }
+
+  private static isDigit(ch: string): boolean {
+    return ch >= '0' && ch <= '9'
+  }
+
+  private static isAlpha(ch: string): boolean {
+    return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch === '_'
+  }
+
+  private static isAlphaNumeric(ch: string): boolean {
+    return Lexer.isAlpha(ch) || Lexer.isDigit(ch)
+  }
+
   private skipWhitespace(): void {
-    while (this.currentChar && /\s/.test(this.currentChar)) {
+    while (this.currentChar !== null && Lexer.isWhitespace(this.currentChar)) {
       this.advance()
     }
   }
@@ -78,7 +94,7 @@ export class Lexer {
       this.advance()
     }
 
-    while (this.currentChar && /\d/.test(this.currentChar)) {
+    while (this.currentChar !== null && Lexer.isDigit(this.currentChar)) {
       hasDigits = true
       result += this.currentChar
       this.advance()
@@ -92,7 +108,7 @@ export class Lexer {
       result += '.'
       this.advance()
       let fractionalDigits = 0
-      while (this.currentChar && /\d/.test(this.currentChar)) {
+      while (this.currentChar !== null && Lexer.isDigit(this.currentChar)) {
         fractionalDigits++
         result += this.currentChar
         this.advance()
@@ -115,7 +131,7 @@ export class Lexer {
         this.advance()
       }
       let exponentDigits = 0
-      while (this.currentChar && /\d/.test(this.currentChar)) {
+      while (this.currentChar !== null && Lexer.isDigit(this.currentChar)) {
         exponentDigits++
         result += this.currentChar
         this.advance()
@@ -132,7 +148,7 @@ export class Lexer {
     let result = ''
     const startPos = this.position
 
-    while (this.currentChar && /[A-Z_a-z0-9]/.test(this.currentChar)) {
+    while (this.currentChar !== null && Lexer.isAlphaNumeric(this.currentChar)) {
       result += this.currentChar
       this.advance()
     }
@@ -178,15 +194,15 @@ export class Lexer {
   // eslint-disable-next-line complexity
   public nextToken(): Token {
     while (this.currentChar !== null) {
-      if (/\s/.test(this.currentChar)) {
+      if (this.currentChar !== null && Lexer.isWhitespace(this.currentChar)) {
         this.skipWhitespace()
         continue
       }
 
       const nextChar = this.peek()
       if (
-        /\d/.test(this.currentChar) ||
-        (this.currentChar === '.' && nextChar !== null && /\d/.test(nextChar))
+        Lexer.isDigit(this.currentChar!) ||
+        (this.currentChar === '.' && nextChar !== null && Lexer.isDigit(nextChar))
       ) {
         return this.readNumber()
       }
@@ -195,7 +211,7 @@ export class Lexer {
         return this.readString(this.currentChar)
       }
 
-      if (/[A-Z_a-z]/.test(this.currentChar)) {
+      if (Lexer.isAlpha(this.currentChar!)) {
         return this.readIdentifier()
       }
 

@@ -17,6 +17,8 @@ Capable of parsing mathematical expressions, handling variables, executing safe 
 - **Scientific Notation**: Supports `1.2e3`, `1e-5`.
 - **Error Handling**: Detailed error messages for syntax errors or runtime issues.
 - **TypeScript**: Written in strict TypeScript.
+- **Visitor Pattern**: Extensible `ASTVisitor` interface for custom AST traversal.
+- **Native Compilation**: `compileToFunction()` compiles expressions to native JS functions for maximum performance.
 
 ## Installation
 
@@ -109,7 +111,7 @@ Expression.evaluate('"abc" == "abc"')          // true
 
 ### Advanced: Compile for Performance
 
-Parse once, evaluate many times with different contexts.
+**Tree-walking compile** — parse once, reuse Evaluator, evaluate many times:
 
 ```typescript
 const compiled = Expression.compile('x * 2 + y')
@@ -117,6 +119,36 @@ const compiled = Expression.compile('x * 2 + y')
 compiled({ x: 10, y: 1 }) // 21
 compiled({ x: 20, y: 3 }) // 43
 ```
+
+**Native compile** — compiles AST to a native JavaScript function (10-100x faster for hot loops):
+
+```typescript
+const fn = Expression.compileToFunction('x * 2 + y')
+
+fn({ x: 10, y: 1 }) // 21
+fn({ x: 20, y: 3 }) // 43
+```
+
+### Advanced: Visitor Pattern
+
+Implement `ASTVisitor<T>` for custom AST traversal (serialization, analysis, optimization):
+
+```typescript
+import { ASTVisitor, walk } from '@ithinku/expr'
+
+class Serializer implements ASTVisitor<string> {
+  visitNumber(node) { return String(node.value) }
+  visitBinary(node) {
+    return `(${this.visit(node.left)} ${node.operator} ${this.visit(node.right)})`
+  }
+  // ... implement other visit methods
+}
+
+const serializer = new Serializer()
+walk(ast, serializer) // returns string representation
+```
+
+Parse once, evaluate many times with different contexts.
 
 ### Advanced: Parser & Evaluator Separation
 

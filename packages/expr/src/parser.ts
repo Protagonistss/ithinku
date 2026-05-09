@@ -46,8 +46,8 @@ export class Parser {
           return this.parseFunctionCall(name)
         }
 
-        // Otherwise it's a variable reference, possibly with dot access
-        let fullName = name
+        // Variable reference, possibly with dot access
+        const path = [name]
         while (this.currentToken.type === TokenType.Dot) {
           this.eat(TokenType.Dot)
           const nextToken: Token = this.currentToken
@@ -56,11 +56,11 @@ export class Parser {
               `Unexpected token: expected ${TokenType.Identifier}, got ${nextToken.type} at position ${nextToken.position}`
             )
           }
-          fullName += `.${nextToken.value}`
+          path.push(nextToken.value)
           this.eat(TokenType.Identifier)
         }
 
-        return AST.createIdentifier(fullName)
+        return AST.createIdentifier(path)
       }
 
       case TokenType.LeftParen: {

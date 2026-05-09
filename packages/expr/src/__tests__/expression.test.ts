@@ -265,4 +265,43 @@ describe('Expression', () => {
     expect(Expression.evaluate('1 ? "truthy" : "falsy"')).toBe('truthy')
     expect(Expression.evaluate('0 ? "truthy" : "falsy"')).toBe('falsy')
   })
+
+  it('should compile to native function', () => {
+    const fn = Expression.compileToFunction('x * 2 + 1')
+    expect(fn({ x: 5 })).toBe(11)
+    expect(fn({ x: 10 })).toBe(21)
+  })
+
+  it('should compile complex expression to native function', () => {
+    const fn = Expression.compileToFunction('(a + b) * c')
+    expect(fn({ a: 1, b: 2, c: 3 })).toBe(9)
+  })
+
+  it('should compile with built-in functions', () => {
+    const fn = Expression.compileToFunction('abs(x) + max(a, b)')
+    expect(fn({ x: -5, a: 3, b: 7 })).toBe(12)
+  })
+
+  it('should compile with custom functions', () => {
+    const fn = Expression.compileToFunction('double(x)', {
+      double: (x: number) => x * 2
+    })
+    expect(fn({ x: 5 })).toBe(10)
+  })
+
+  it('should compile conditional expression', () => {
+    const fn = Expression.compileToFunction('x > 0 ? "positive" : "negative"')
+    expect(fn({ x: 5 })).toBe('positive')
+    expect(fn({ x: -1 })).toBe('negative')
+  })
+
+  it('should compile nested property access', () => {
+    const fn = Expression.compileToFunction('user.score * 2')
+    expect(fn({ user: { score: 50 } })).toBe(100)
+  })
+
+  it('should handle division by zero in compiled function', () => {
+    const fn = Expression.compileToFunction('1 / 0')
+    expect(() => fn()).toThrow('Division by zero')
+  })
 })
