@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { Lexer, TokenType } from '../lexer'
+import { LexerError } from '../errors'
 
 describe('Lexer', () => {
   it('should tokenize numbers', () => {
@@ -198,14 +199,22 @@ describe('Lexer', () => {
 
   it('should throw error for invalid characters', () => {
     const lexer = new Lexer('@')
-    expect(() => lexer.nextToken()).toThrow(
-      'Unexpected character: @ at position 0'
-    )
+    expect(() => lexer.nextToken()).toThrow(LexerError)
+    try {
+      lexer.nextToken()
+    } catch (e) {
+      expect((e as LexerError).message).toContain('Unexpected character: @')
+    }
   })
 
   it('should throw error for invalid numbers', () => {
     const lexer = new Lexer('1..2')
-    expect(() => lexer.nextToken()).toThrow('Invalid number at position 0')
+    expect(() => lexer.nextToken()).toThrow(LexerError)
+    try {
+      lexer.nextToken()
+    } catch (e) {
+      expect((e as LexerError).message).toContain('Invalid number')
+    }
   })
 
   it('should tokenize comparison operators', () => {

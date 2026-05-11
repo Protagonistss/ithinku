@@ -2,22 +2,58 @@ import type { ASTNode, ComparisonOperator } from './ast'
 import { AST } from './ast'
 import type { Token } from './lexer'
 import { TokenType, Lexer } from './lexer'
+import { ParserError } from './errors'
 
 export class Parser {
   private lexer: Lexer
   private currentToken: Token
+  private input: string
 
   constructor(input: string) {
+    this.input = input
     this.lexer = new Lexer(input)
     this.currentToken = this.lexer.nextToken()
+  }
+
+  private tokenName(tokenType: TokenType): string {
+    const nameMap: Record<TokenType, string> = {
+      [TokenType.Number]: 'number',
+      [TokenType.String]: 'string',
+      [TokenType.Plus]: '+',
+      [TokenType.Minus]: '-',
+      [TokenType.Multiply]: '*',
+      [TokenType.Divide]: '/',
+      [TokenType.Modulo]: '%',
+      [TokenType.Power]: '**',
+      [TokenType.Less]: '<',
+      [TokenType.Greater]: '>',
+      [TokenType.LessEqual]: '<=',
+      [TokenType.GreaterEqual]: '>=',
+      [TokenType.Equal]: '==',
+      [TokenType.NotEqual]: '!=',
+      [TokenType.And]: '&&',
+      [TokenType.Or]: '||',
+      [TokenType.Not]: '!',
+      [TokenType.Comma]: ',',
+      [TokenType.Question]: '?',
+      [TokenType.Colon]: ':',
+      [TokenType.LeftParen]: '(',
+      [TokenType.RightParen]: ')',
+      [TokenType.Identifier]: 'identifier',
+      [TokenType.Dot]: '.',
+      [TokenType.EOF]: 'end of input'
+    }
+    return nameMap[tokenType] || tokenType
   }
 
   private eat(tokenType: TokenType): void {
     if (this.currentToken.type === tokenType) {
       this.currentToken = this.lexer.nextToken()
     } else {
-      throw new Error(
-        `Unexpected token: expected ${tokenType}, got ${this.currentToken.type} at position ${this.currentToken.position}`
+      throw new ParserError(
+        `Expected ${this.tokenName(tokenType)} but found ${this.tokenName(this.currentToken.type)}`,
+        this.currentToken.position,
+        this.input
       )
     }
   }
@@ -52,8 +88,10 @@ export class Parser {
           this.eat(TokenType.Dot)
           const nextToken: Token = this.currentToken
           if (nextToken.type !== TokenType.Identifier) {
-            throw new Error(
-              `Unexpected token: expected ${TokenType.Identifier}, got ${nextToken.type} at position ${nextToken.position}`
+            throw new ParserError(
+              `Expected ${this.tokenName(TokenType.Identifier)} but found ${this.tokenName(nextToken.type)}`,
+              nextToken.position,
+              this.input
             )
           }
           path.push(nextToken.value)
@@ -71,8 +109,10 @@ export class Parser {
       }
 
       default: {
-        throw new Error(
-          `Unexpected token: ${token.type} at position ${token.position}`
+        throw new ParserError(
+          `Unexpected token: ${this.tokenName(token.type)}`,
+          token.position,
+          this.input
         )
       }
     }
@@ -241,8 +281,10 @@ export class Parser {
   public parse(): ASTNode {
     const node = this.expr()
     if (this.currentToken.type !== TokenType.EOF) {
-      throw new Error(
-        `Unexpected token: ${this.currentToken.type} at position ${this.currentToken.position}`
+      throw new ParserError(
+        `Unexpected token: ${this.tokenName(this.currentToken.type)}`,
+        this.currentToken.position,
+        this.input
       )
     }
     return node

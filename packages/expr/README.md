@@ -8,56 +8,16 @@
 
 **Modern, High-performance, and Type-safe Expression Engine for TypeScript**
 
-`@ithinku/expr` is a zero-dependency expression parsing and evaluation library designed for secure dynamic logic execution. It supports extensive mathematical operations, logical reasoning, and function calls, while offering "Native Function Compilation" to achieve near-native JavaScript performance.
+`@ithinku/expr` is a zero-dependency expression parsing and evaluation library. It perfectly combines security with performance, serving both as a secure sandbox engine and a high-speed JIT-compiled evaluator.
 
 ---
 
 ## ✨ Key Features
 
-- **🔒 Ultra Secure**: Custom-built lexer and parser. No `eval()` or `new Function()`, completely eliminating injection risks.
-- **🚀 Top Performance**: Supports pre-compiling AST into native JS functions (JIT), boosting performance by 10-100x compared to traditional tree traversal.
+- **🔒 Dual Modes**: Choose between ultra-secure tree-traversal (Sandbox) or extreme-speed native code generation (JIT).
+- **🚀 Top Performance**: JIT compilation boosts performance by 10-100x compared to traditional interpreters.
 - **🛠️ Scenario Oriented**: Built-in support for deep property access (`a.b.c`), ternary operators, and string template concatenation.
-- **💪 Type Safe**: Written in strict TypeScript, providing full type definitions and an AST Visitor pattern interface.
-
----
-
-## 📖 Typical Use Cases
-
-### 1. 🧩 Low-Code / No-Code Platforms
-Used for configuring component properties or deriving data via formulas.
-```typescript
-// Config: Background turns red when stock is below safety level
-const formula = 'stock < safetyLevel ? "red" : "white"';
-const style = {
-  backgroundColor: Expression.evaluate(formula, { stock: 5, safetyLevel: 10 })
-};
-```
-
-### 2. 🛡️ Rule Engines & Form Validation
-Dynamically generate business logic validation results.
-```typescript
-// Rule: Adult and signed agreement, OR has parental consent
-const rule = '(age >= 18 && hasSigned) || hasParentalConsent';
-const canAccess = Expression.evaluate(rule, {
-  age: 16,
-  hasSigned: false,
-  hasParentalConsent: true
-});
-```
-
-### 3. 📝 Template Interpolation
-Lightweight expression calculation for template engines (like Vue/React).
-```typescript
-// Parse variables in templates
-const template = 'Hello, ${upper(user.name)}! You have ${count + 1} messages.';
-```
-
-### 4. ⚡ High-Performance Data Processing
-Maintain peak performance when iterating over massive datasets using `compileToFunction`.
-```typescript
-const filterFn = Expression.compileToFunction('item.price * item.tax > 100');
-const expensiveItems = largeArray.filter(item => filterFn({ item }));
-```
+- **💪 Type Safe**: Written in strict TypeScript, providing full type definitions and an AST Visitor interface.
 
 ---
 
@@ -72,57 +32,54 @@ pnpm add @ithinku/expr
 ```typescript
 import { Expression } from '@ithinku/expr';
 
-// 1. Simple Evaluation
-Expression.evaluate('1 + 2 * 3'); // 7
+// 1. Simple Evaluation (Default Sandbox Mode)
+Expression.evaluate('score >= 60 ? "Pass" : "Fail"', { score: 85 }); // "Pass"
 
 // 2. Variables & Deep Access
-const context = { user: { score: 95 }, base: 10 };
-Expression.evaluate('user.score + base', context); // 105
+const context = { user: { profile: { name: 'Alice' } } };
+Expression.evaluate('user.profile.name', context); // "Alice"
 
-// 3. Logic & Ternary Operators
-Expression.evaluate('score >= 60 ? "Pass" : "Fail"', { score: 80 }); // "Pass"
+// 3. Pre-compile (For repeated execution)
+const runner = Expression.compile('a + b * c');
+runner({ a: 1, b: 2, c: 3 }); // 7
 ```
+
+---
+
+## 🔒 Execution Modes & Security
+
+The engine provides different execution paths to balance security and performance:
+
+| Mode | Method | Implementation | Security | Use Case |
+| :--- | :--- | :--- | :--- | :--- |
+| **Sandbox** | `.evaluate()` | AST Tree Traversal | **Highest** (No `eval`/`new Function`) | Untrusted user input |
+| **JIT** | `.compileToFunction()` | AST to Native Code | **High** (Controlled CodeGen) | Hot loops, Big data processing |
+
+> **Security Note**: `compileToFunction` uses `new Function` internally for peak performance. However, the code is generated from a validated AST, making it significantly safer than raw `eval()`.
 
 ---
 
 ## 🎨 Feature Overview
 
-| Category | Supported Features | Example |
-| :--- | :--- | :--- |
-| **Arithmetic** | `+`, `-`, `*`, `/`, `%` (modulo), `**` (power) | `2 ** 10 === 1024` |
-| **Comparison** | `<`, `>`, `<=`, `>=`, `==`, `!=` | `age >= 18` |
-| **Logical** | `&&` (AND), `||` (OR), `!` (NOT) | `!isValid && hasError` |
-| **Numeric** | Integer, Decimal, Scientific Notation | `1.2e3`, `.5`, `1e-5` |
-| **String** | Single/Double quotes, Escaping, Concatenation | `'Hello ' + name` |
-| **Functions** | Math (sin/cos/max...), String (len/trim...) | `max(a, b, c)`, `len(str)` |
+### Supported Operators
+- **Arithmetic**: `+`, `-`, `*`, `/`, `%` (modulo), `**` (power)
+- **Comparison**: `<`, `>`, `<=`, `>=`, `==`, `!=`
+- **Logical**: `&&` (AND), `||` (OR), `!` (NOT) — *Supports short-circuiting*
+- **Conditional**: Ternary operator `a ? b : c`
+- **Group**: Parentheses `( )` for precedence
+
+### Built-in Functions
+| Category | Functions |
+| :--- | :--- |
+| **Math** | `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow` |
+| **String** | `len(s)`, `upper(s)`, `lower(s)`, `trim(s)` |
 
 ---
 
-## ⚡ Performance Optimization
-
-`@ithinku/expr` provides two compilation modes for different execution frequencies:
-
-### Mode A: Pre-parse
-**Use Case**: Same expression executed multiple times in a complex environment.
-```typescript
-const compiled = Expression.compile('x * y'); 
-compiled({ x: 10, y: 2 }); // Reuses AST, avoids re-parsing string
-```
-
-### Mode B: Native Compilation 🚀
-**Use Case**: Extreme speed for hot loops or big data processing.
-```typescript
-const fastFn = Expression.compileToFunction('a + b'); 
-// Generates native JS code from AST, near-native speed
-fastFn({ a: 1, b: 2 });
-```
-
----
-
-## 🧩 Extensibility
+## 🧩 Advanced Usage
 
 ### Custom Functions
-Inject your own business functions into the engine:
+Inject business logic directly into the engine:
 ```typescript
 const functions = {
   isVip: (user) => user.level > 5,
@@ -132,7 +89,37 @@ Expression.evaluate('isVip(user) ? format(price) : price', context, functions);
 ```
 
 ### AST Visitor Pattern
-Use the `ASTVisitor` interface to customize AST traversal behavior (e.g., static analysis, formatting).
+Use the `ASTVisitor` interface to customize traversal (e.g., for static analysis or linting).
+
+### Debugging Tools
+Visualize the AST structure using `AST.stringify()`:
+```typescript
+import { AST, Expression } from '@ithinku/expr';
+const ast = Expression.parse('x + y * 2');
+console.log(AST.stringify(ast));
+```
+
+---
+
+## 🚨 Error Handling
+
+The engine provides structured error classes for precise debugging:
+
+| Error Class | Trigger | Special Method |
+| :--- | :--- | :--- |
+| `LexerError` | Invalid characters, unterminated strings | `getContext()` |
+| `ParserError` | Syntax errors (missing operands, etc.) | `getContext()` |
+| `EvaluationError` | Runtime errors (division by zero, undefined variable) | — |
+
+```typescript
+try {
+  Expression.evaluate('2 +');
+} catch (e) {
+  if (e instanceof ParserError) {
+    console.log(e.getContext()); // Shows line/column with arrow pointer
+  }
+}
+```
 
 ---
 
