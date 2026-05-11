@@ -38,79 +38,79 @@ const isType = (type: unknown): TypeValue | 'Unknown' => {
   return 'Unknown'
 }
 
-const isArray = (arg: unknown): boolean => {
+const isArray = (arg: unknown = undefined): boolean => {
   return Array.isArray(arg)
 }
 
-const isObject = (arg: unknown): boolean => {
+const isObject = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Object'
 }
 
-const isString = (arg: unknown): boolean => {
+const isString = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'String'
 }
 
-const isNumber = (arg: unknown): boolean => {
+const isNumber = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Number' && !Number.isNaN(arg)
 }
 
-const isBoolean = (arg: unknown): boolean => {
+const isBoolean = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Boolean'
 }
 
-const isAsyncFunction = (arg: unknown): boolean => {
+const isAsyncFunction = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'AsyncFunction'
 }
 
-const isFunction = (arg: unknown): boolean => {
+const isFunction = (arg: unknown = undefined): boolean => {
   return typeof arg === 'function'
 }
 
-const isSymbol = (arg: unknown): boolean => {
+const isSymbol = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Symbol'
 }
 
-const isDate = (arg: unknown): boolean => {
+const isDate = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Date'
 }
 
-const isRegExp = (arg: unknown): boolean => {
+const isRegExp = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'RegExp'
 }
 
-const isError = (arg: unknown): boolean => {
+const isError = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Error'
 }
 
-const isPromise = (arg: unknown): boolean => {
+const isPromise = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Promise'
 }
 
-const isMap = (arg: unknown): boolean => {
+const isMap = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Map'
 }
 
-const isSet = (arg: unknown): boolean => {
+const isSet = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'Set'
 }
 
-const isWeakMap = (arg: unknown): boolean => {
+const isWeakMap = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'WeakMap'
 }
 
-const isWeakSet = (arg: unknown): boolean => {
+const isWeakSet = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'WeakSet'
 }
 
-const isBigInt = (arg: unknown): boolean => {
+const isBigInt = (arg: unknown = undefined): boolean => {
   return isType(arg) === 'BigInt'
 }
 
-const isUndefined = (arg: unknown): boolean => {
+const isUndefined = (arg: unknown = undefined): boolean => {
   return arg === undefined
 }
 
-const isNull = (arg: unknown): boolean => {
+const isNull = (arg: unknown = undefined): boolean => {
   return arg === null
 }
 
@@ -138,7 +138,7 @@ const isInt16Array = (arg: unknown): boolean => {
   return isType(arg) === 'Int16Array'
 }
 
-const isExist = (arg: unknown): boolean => {
+const isExist = (arg: unknown = undefined): boolean => {
   return !isNull(arg) && !isUndefined(arg)
 }
 
@@ -176,7 +176,7 @@ function isEmpty(arg: unknown): boolean {
   return false
 }
 
-const isTrue = (arg: unknown): boolean => {
+const isTrue = (arg: unknown = undefined): boolean => {
   if (arg === true) {
     return true
   }
