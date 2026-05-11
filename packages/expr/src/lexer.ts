@@ -1,3 +1,5 @@
+import { LexerError } from './errors'
+
 export enum TokenType {
   Number = 'Number',
   String = 'String',
@@ -102,7 +104,7 @@ export class Lexer {
 
     if (this.currentChar === '.') {
       if (hasDot) {
-        throw new Error(`Invalid number at position ${startPos}`)
+        throw new LexerError(`Invalid number`, startPos, this.input)
       }
       hasDot = true
       result += '.'
@@ -114,13 +116,13 @@ export class Lexer {
         this.advance()
       }
       if (fractionalDigits === 0) {
-        throw new Error(`Invalid number at position ${startPos}`)
+        throw new LexerError(`Invalid number`, startPos, this.input)
       }
       hasDigits = true
     }
 
     if (!hasDigits) {
-      throw new Error(`Invalid number at position ${startPos}`)
+      throw new LexerError(`Invalid number`, startPos, this.input)
     }
 
     if (this.currentChar && /[eE]/.test(this.currentChar)) {
@@ -137,7 +139,7 @@ export class Lexer {
         this.advance()
       }
       if (exponentDigits === 0) {
-        throw new Error(`Invalid number at position ${startPos}`)
+        throw new LexerError(`Invalid number`, startPos, this.input)
       }
     }
 
@@ -165,7 +167,7 @@ export class Lexer {
       if (this.currentChar === '\\') {
         this.advance()
         if (this.currentChar === null) {
-          throw new Error(`Unterminated string at position ${startPos}`)
+          throw new LexerError(`Unterminated string`, startPos, this.input)
         }
         const escaped: string = this.currentChar
         switch (escaped) {
@@ -184,7 +186,7 @@ export class Lexer {
     }
 
     if (this.currentChar === null) {
-      throw new Error(`Unterminated string at position ${startPos}`)
+      throw new LexerError(`Unterminated string`, startPos, this.input)
     }
     this.advance() // skip closing quote
 
@@ -279,8 +281,10 @@ export class Lexer {
               position: currentPos
             }
           }
-          throw new Error(
-            `Unexpected character: = at position ${currentPos}. Did you mean ==?`
+          throw new LexerError(
+            `Unexpected character: =. Did you mean ==?`,
+            currentPos,
+            this.input
           )
         }
         case '!': {
@@ -302,8 +306,10 @@ export class Lexer {
             this.advance()
             return { type: TokenType.And, value: '&&', position: currentPos }
           }
-          throw new Error(
-            `Unexpected character: & at position ${currentPos}. Did you mean &&?`
+          throw new LexerError(
+            `Unexpected character: &. Did you mean &&?`,
+            currentPos,
+            this.input
           )
         }
         case '|': {
@@ -312,8 +318,10 @@ export class Lexer {
             this.advance()
             return { type: TokenType.Or, value: '||', position: currentPos }
           }
-          throw new Error(
-            `Unexpected character: | at position ${currentPos}. Did you mean ||?`
+          throw new LexerError(
+            `Unexpected character: |. Did you mean ||?`,
+            currentPos,
+            this.input
           )
         }
         case ',': {
@@ -349,8 +357,10 @@ export class Lexer {
           return { type: TokenType.Dot, value: '.', position: currentPos }
         }
         default: {
-          throw new Error(
-            `Unexpected character: ${this.currentChar} at position ${this.position}`
+          throw new LexerError(
+            `Unexpected character: ${this.currentChar}`,
+            this.position,
+            this.input
           )
         }
       }

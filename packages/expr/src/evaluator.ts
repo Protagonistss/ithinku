@@ -10,6 +10,7 @@ import type {
   ConditionalNode
 } from './ast'
 import type { ASTVisitor } from './visitor'
+import { EvaluationError } from './errors'
 
 export type ExprValue = number | boolean | string
 
@@ -19,13 +20,25 @@ export interface Context {
   [key: string]: ExprValue | Context | ExprFunction
 }
 
+/**
+ * Options for configuring the Evaluator.
+ */
+export interface EvaluatorOptions {
+  /** Variable context object */
+  context?: Context
+  /** Custom functions to add to or replace built-ins */
+  functions?: Record<string, ExprFunction>
+  /** Whether to include built-in functions (default: true) */
+  enableBuiltinFunctions?: boolean
+}
+
 export const builtinFunctions: Record<string, ExprFunction> = {
   abs: (x) => Math.abs(x as number),
   ceil: (x) => Math.ceil(x as number),
   floor: (x) => Math.floor(x as number),
   round: (x) => Math.round(x as number),
   sqrt: (x) => {
-    if (x as number < 0) throw new Error('Square root of negative number')
+    if (x as number < 0) throw new EvaluationError('Square root of negative number')
     return Math.sqrt(x as number)
   },
   max: (...args) => Math.max(...args.map(Number)),
@@ -37,19 +50,19 @@ export const builtinFunctions: Record<string, ExprFunction> = {
   pow: (base, exp) => Math.pow(base as number, exp as number),
   len: (s) => {
     if (typeof s === 'string') return s.length
-    throw new TypeError('len() expects a string argument')
+    throw new EvaluationError('len() expects a string argument')
   },
   upper: (s) => {
     if (typeof s === 'string') return s.toUpperCase()
-    throw new TypeError('upper() expects a string argument')
+    throw new EvaluationError('upper() expects a string argument')
   },
   lower: (s) => {
     if (typeof s === 'string') return s.toLowerCase()
-    throw new TypeError('lower() expects a string argument')
+    throw new EvaluationError('lower() expects a string argument')
   },
   trim: (s) => {
     if (typeof s === 'string') return s.trim()
-    throw new TypeError('trim() expects a string argument')
+    throw new EvaluationError('trim() expects a string argument')
   }
 }
 
@@ -57,11 +70,30 @@ export class Evaluator implements ASTVisitor<ExprValue> {
   public context: Context
   private functions: Record<string, ExprFunction>
 
-  constructor(context: Context = {}, functions: Record<string, ExprFunction> = {}) {
-    this.context = context
-    this.functions = Object.keys(functions).length > 0
-      ? { ...builtinFunctions, ...functions }
-      : builtinFunctions
+  constructor(options?: EvaluatorOptions)
+  constructor(context: Context, functions?: Record<string, ExprFunction>)
+  constructor(contextOrOptions?: Context | EvaluatorOptions, functions: Record<string, ExprFunction> = {}) {
+    // Support both old-style (context, functions) and new-style (options) constructors
+    if (contextOrOptions && typeof contextOrOptions === 'object' && 'context' in contextOrOptions) {
+      // New-style: EvaluatorOptions
+      const options = contextOrOptions as EvaluatorOptions
+      this.context = options.context ?? {}
+      this.functions = this.mergeFunctions(options.functions, options.enableBuiltinFunctions ?? true)
+    } else {
+      // Old-style: backward compatible
+      this.context = (contextOrOptions as Context) ?? {}
+      this.functions = Object.keys(functions).length > 0
+        ? { ...builtinFunctions, ...functions }
+        : builtinFunctions
+    }
+  }
+
+  private mergeFunctions(
+    custom: Record<string, ExprFunction> = {},
+    includeBuiltins: boolean
+  ): Record<string, ExprFunction> {
+    if (!includeBuiltins) return custom
+    return { ...builtinFunctions, ...custom }
   }
 
   public static get builtins(): Record<string, ExprFunction> {
@@ -71,38 +103,38 @@ export class Evaluator implements ASTVisitor<ExprValue> {
   private resolveValue(obj: Context, path: string[]): ExprValue {
     const firstPart = path[0]
     if (!firstPart) {
-      throw new Error('Invalid variable name')
+      throw new EvaluationError('Invalid variable name')
     }
     const initial = obj[firstPart]
     if (initial === undefined) {
-      throw new Error(`Undefined variable: ${firstPart}`)
+      throw new EvaluationError(`Undefined variable: ${firstPart}`)
     }
     let current: ExprValue | Context | ExprFunction = initial
 
     for (let i = 1; i < path.length; i++) {
       const part = path[i]
       if (!part) {
-        throw new Error('Invalid variable name')
+        throw new EvaluationError('Invalid variable name')
       }
       if (typeof current === 'number' || typeof current === 'boolean' || typeof current === 'string' || typeof current === 'function') {
-        throw new TypeError(`Cannot access property ${part} of ${typeof current}`)
+        throw new EvaluationError(`Cannot access property ${part} of ${typeof current}`)
       }
       const next = current[part]
       if (next === undefined) {
-        throw new Error(`Undefined variable: ${path.slice(0, i + 1).join('.')}`)
+        throw new EvaluationError(`Undefined variable: ${path.slice(0, i + 1).join('.')}`)
       }
       current = next
     }
 
     if (typeof current !== 'number' && typeof current !== 'boolean' && typeof current !== 'string') {
-      throw new TypeError(`Expected primitive value but got object at ${path.join('.')}`)
+      throw new EvaluationError(`Expected primitive value but got object at ${path.join('.')}`)
     }
     return current
   }
 
   private toNumber(value: ExprValue): number {
     if (typeof value === 'number') return value
-    throw new TypeError(`Expected number but got boolean`)
+    throw new EvaluationError(`Expected number but got boolean`)
   }
 
   private toBoolean(value: ExprValue): boolean {
@@ -143,7 +175,7 @@ export class Evaluator implements ASTVisitor<ExprValue> {
   public visitCall(node: FunctionCallNode): ExprValue {
     const fn = this.functions[node.name]
     if (!fn) {
-      throw new Error(`Unknown function: ${node.name}`)
+      throw new EvaluationError(`Unknown function: ${node.name}`)
     }
     const args = node.args.map((arg) => this.evaluate(arg))
     return fn(...args)
@@ -209,11 +241,11 @@ export class Evaluator implements ASTVisitor<ExprValue> {
       case '-': return leftNum - rightNum
       case '*': return leftNum * rightNum
       case '/': {
-        if (rightNum === 0) throw new Error('Division by zero')
+        if (rightNum === 0) throw new EvaluationError('Division by zero')
         return leftNum / rightNum
       }
       case '%': {
-        if (rightNum === 0) throw new Error('Division by zero')
+        if (rightNum === 0) throw new EvaluationError('Division by zero')
         return leftNum % rightNum
       }
       case '**': return leftNum ** rightNum
@@ -233,14 +265,14 @@ export class Evaluator implements ASTVisitor<ExprValue> {
   public setVariable(name: string, value: ExprValue | Context): void {
     const parts = name.split('.')
     if (parts.length === 0 || !parts[0]) {
-      throw new Error('Invalid variable name')
+      throw new EvaluationError('Invalid variable name')
     }
     let current = this.context
 
     for (let i = 0; i < parts.length - 1; i++) {
       const part = parts[i]
       if (!part) {
-        throw new Error('Invalid variable name')
+        throw new EvaluationError('Invalid variable name')
       }
       if (!(part in current) || typeof current[part] === 'number' || typeof current[part] === 'boolean' || typeof current[part] === 'string' || typeof current[part] === 'function') {
         current[part] = {}
@@ -250,7 +282,7 @@ export class Evaluator implements ASTVisitor<ExprValue> {
 
     const lastPart = parts.at(-1)
     if (!lastPart) {
-      throw new Error('Invalid variable name')
+      throw new EvaluationError('Invalid variable name')
     }
     current[lastPart] = value
   }
@@ -260,6 +292,6 @@ export class Evaluator implements ASTVisitor<ExprValue> {
   }
 
   private unreachableOperator(operator: never): never {
-    throw new Error(`Unknown operator: ${operator}`)
+    throw new EvaluationError(`Unknown operator: ${operator}`)
   }
 }
