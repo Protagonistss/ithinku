@@ -3,8 +3,8 @@
   "version": "0.0.7",
   "description": "custom tsconfig for huangshan",
   "main": "tsconfig.json",
-  "types": "tsconfig.json",
   "exports": {
+    ".": "./tsconfig.json",
     "./tsconfig.json": "./tsconfig.json",
     "./base": "./tsconfig.base.json",
     "./base.json": "./tsconfig.base.json",

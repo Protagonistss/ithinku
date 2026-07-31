@@ -18,12 +18,6 @@ const config = defineConfig([
         file: 'dist/index.esm.js',
         format: 'es',
         sourcemap: true,
-      },
-      {
-        file: 'dist/index.umd.js',
-        format: 'umd',
-        name: 'Expr',
-        sourcemap: true,
       }
     ],
     plugins: [

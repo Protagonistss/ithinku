@@ -24,6 +24,7 @@
 | [`@ithinku/eslint-config-vue`](./packages/eslint-config-vue) | Vue 3 + TS 专用配置 | Vue 3 项目 |
 | [`@ithinku/eslint-config-react`](./packages/eslint-config-react) | React + TS 专用配置 | React 项目 |
 | [`@ithinku/tsconfig`](./packages/tsconfig) | 可复用的 TSConfig 基座 | 所有 TS 项目 |
+| [`@ithinku/oxlint-config`](./packages/oxlint-config) | 极速 Oxlint 配置（独立于 ESLint） | 极速首道 Lint / IDE 实时检查 |
 
 ## 🚀 快速开始
 

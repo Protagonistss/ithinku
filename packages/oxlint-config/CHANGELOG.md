@@ -1,0 +1,1 @@
+# @ithinku/oxlint-config

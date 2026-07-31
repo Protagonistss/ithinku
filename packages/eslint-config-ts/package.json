@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "ESLint config for TypeScript projects (Flat Config)",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "keywords": [
     "eslint",
     "typescript",
