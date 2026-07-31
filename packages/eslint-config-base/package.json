@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "Base ESLint configuration for JavaScript projects (Flat Config)",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "keywords": [
     "eslint",
     "javascript",

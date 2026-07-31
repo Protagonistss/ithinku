@@ -1,0 +1,56 @@
+{
+  "plugins": [
+    "oxc",
+    "typescript",
+    "unicorn"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": {
+    "builtin": true
+  },
+  "options": {
+    "reportUnusedDisableDirectives": "warn"
+  },
+  "ignorePatterns": [
+    "dist",
+    "build",
+    "out",
+    "coverage",
+    "node_modules",
+    "*.min.*",
+    "pnpm-lock.yaml",
+    "package-lock.json",
+    "yarn.lock",
+    "CHANGELOG.md"
+  ],
+  "rules": {},
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.{js,jsx,ts,tsx,mjs,mts,cjs,cts}",
+        "**/*.spec.{js,jsx,ts,tsx,mjs,mts,cjs,cts}",
+        "**/*.bench.{js,jsx,ts,tsx}",
+        "**/__tests__/**",
+        "**/__mocks__/**",
+        "**/tests/**",
+        "**/test/**"
+      ],
+      "plugins": [
+        "oxc",
+        "typescript",
+        "unicorn",
+        "jest",
+        "vitest"
+      ],
+      "env": {
+        "builtin": true,
+        "jest": true,
+        "vitest": true
+      }
+    }
+  ]
+}
