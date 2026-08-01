@@ -49,7 +49,7 @@ git add -A && git commit -m "chore: add changeset" && git push origin dev
 ```bash
 gh pr create --base main --head dev --title "<conventional commit 标题>"
 # 等 dev CI 通过（gh pr checks <PR编号> 全绿）
-gh pr merge <PR编号> --merge --delete-branch
+gh pr merge <PR编号> --merge   # ⚠️ dev→main 禁止 --delete-branch（dev 是长期分支）
 ```
 
 ### 2. 等待 release PR（Changesets 自动创建）
@@ -84,3 +84,4 @@ curl -s "https://registry.npmjs.org/@ithinku/<包名>" \
 - main 上的 release run 行为：**有 pending changeset → 开 release PR**；**无 pending changeset 但存在未发布版本 → 直接 publish**。
 - 本仓库 `.npmrc` 走 npmmirror 镜像，`npm view` 有镜像同步延迟；确认发布时**始终**用官方源 `--registry https://registry.npmjs.org` 或直接 `curl` registry 源头。
 - 发布是**两段式**：代码进 main 不会直接发，必须再合并 release PR 才 publish。若发现「代码已合并但没发布」，多半是 release PR 没合并。
+- **`gh pr merge` 的 `--delete-branch` 只用于临时分支**（如 `changeset-release/main`）。**dev→main PR 永远不要加 `--delete-branch`**——dev 是长期开发分支，加了会被删除。
