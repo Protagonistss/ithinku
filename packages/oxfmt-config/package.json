@@ -1,0 +1,45 @@
+{
+  "name": "@ithinku/oxfmt-config",
+  "version": "0.0.0",
+  "description": "Shareable oxfmt formatter configuration for modern JavaScript/TypeScript projects",
+  "license": "MIT",
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/oxfmt-config"
+  },
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
+  "keywords": [
+    "oxfmt",
+    "oxc",
+    "formatter",
+    "formatting",
+    "config",
+    "typescript",
+    "javascript"
+  ],
+  "exports": {
+    ".": "./index.json",
+    "./index.json": "./index.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.json",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "oxfmt": ">=0.60.0"
+  },
+  "peerDependenciesMeta": {
+    "oxfmt": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

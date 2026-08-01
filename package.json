@@ -15,6 +15,8 @@
     "lint": "eslint packages",
     "lint:oxlint": "oxlint -c packages/oxlint-config/index.json .",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:oxfmt": "oxfmt -c packages/oxfmt-config/index.json .",
+    "format:oxfmt:check": "oxfmt -c packages/oxfmt-config/index.json --check .",
     "release": "pnpm -r build && pnpm changeset:publish"
   },
   "engines": {
@@ -42,12 +44,14 @@
     "@changesets/cli": "^2.27.8",
     "@ithinku/eslint-config-base": "workspace:*",
     "@ithinku/eslint-config-ts": "workspace:*",
+    "@ithinku/oxfmt-config": "workspace:*",
     "@ithinku/oxlint-config": "workspace:*",
     "@ithinku/prettier-config": "workspace:^",
     "@ithinku/tsconfig": "workspace:*",
     "@types/node": "^20.11.19",
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
+    "oxfmt": "^0.61.0",
     "oxlint": "^1.76.0",
     "prettier": "^3.7.4",
     "rimraf": "^5.0.5",

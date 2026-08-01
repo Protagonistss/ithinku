@@ -1,0 +1,29 @@
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "quoteProps": "as-needed",
+  "endOfLine": "lf",
+  "insertFinalNewline": true,
+  "embeddedLanguageFormatting": "auto",
+  "sortImports": true,
+  "sortPackageJson": true,
+  "ignorePatterns": [
+    "dist",
+    "build",
+    "out",
+    "coverage",
+    "node_modules",
+    "*.min.*",
+    "pnpm-lock.yaml",
+    "package-lock.json",
+    "yarn.lock",
+    "CHANGELOG.md"
+  ]
+}
