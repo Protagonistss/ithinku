@@ -1,5 +1,7 @@
 # Changesets
 
+> ℹ️ **版本策略：默认使用 `patch`**。详见 [release skill](../.pi/skills/release/SKILL.md)。
+
 Workflow:
 
 1. Add a changeset
