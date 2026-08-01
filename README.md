@@ -44,12 +44,18 @@ Lint · 构建 · 工具函数 —— 一个 monorepo 全覆盖
 | [`@ithinku/eslint-config-react`](./packages/eslint-config-react) | [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-react?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-react) | React + TS 专用配置 |
 | [`@ithinku/oxlint-config`](./packages/oxlint-config) | [![npm](https://img.shields.io/npm/v/@ithinku/oxlint-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/oxlint-config) | Oxlint 极速配置（独立于 ESLint） |
 
+### 📐 格式化配置
+
+| 包 | 版本 | 描述 |
+| :--- | :---: | :--- |
+| [`@ithinku/prettier-config`](./packages/prettier-config) | [![npm](https://img.shields.io/npm/v/@ithinku/prettier-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/prettier-config) | 共享 Prettier 配置 |
+| [`@ithinku/oxfmt-config`](./packages/oxfmt-config) | [![npm](https://img.shields.io/npm/v/@ithinku/oxfmt-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/oxfmt-config) | oxfmt 极速格式化配置（Prettier 的 Rust 替代，独立设计） |
+
 ### ⚙️ 工程配置
 
 | 包 | 版本 | 描述 |
 | :--- | :---: | :--- |
 | [`@ithinku/tsconfig`](./packages/tsconfig) | [![npm](https://img.shields.io/npm/v/@ithinku/tsconfig?color=cb3837)](https://www.npmjs.com/package/@ithinku/tsconfig) | 可复用的 TSConfig 预设（base / dom / node / bundler，含 strict 变体） |
-| [`@ithinku/prettier-config`](./packages/prettier-config) | [![npm](https://img.shields.io/npm/v/@ithinku/prettier-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/prettier-config) | 共享 Prettier 配置 |
 
 ## 🚀 快速开始
 
@@ -98,6 +104,27 @@ pnpm add -D oxlint @ithinku/oxlint-config
 ```
 
 > 💡 Oxlint 与 ESLint 互补：Oxlint 负责速度（IDE / pre-commit），ESLint 负责深度（类型感知、框架规则）。
+
+### Oxfmt（极速格式化）
+
+Prettier 的 Rust 替代，秒级格式化：
+
+```bash
+pnpm add -D oxfmt @ithinku/oxfmt-config
+```
+
+oxfmt 不支持 `extends`，通过 `-c` 引用配置包，在 `package.json` 中添加：
+
+```json
+{
+  "scripts": {
+    "format": "oxfmt -c node_modules/@ithinku/oxfmt-config/index.json .",
+    "format:check": "oxfmt -c node_modules/@ithinku/oxfmt-config/index.json --check ."
+  }
+}
+```
+
+> ⚠️ oxfmt 仍为 `0.x`，配置可能随版本调整。
 
 ### TypeScript
 
@@ -155,6 +182,7 @@ pnpm -r test            # 运行测试（vitest）
 pnpm lint               # ESLint 检查
 pnpm lint:oxlint        # Oxlint 检查
 pnpm format             # Prettier 格式化
+pnpm format:oxfmt       # oxfmt 格式化（极速）
 pnpm changeset          # 添加变更记录
 ```
 
@@ -176,8 +204,9 @@ ithinku/
     ├── eslint-config-vue/   │
     ├── eslint-config-react/ ┘
     ├── oxlint-config/   Oxlint 配置
-    ├── tsconfig/        TSConfig 预设
-    └── prettier-config/ Prettier 配置
+    ├── oxfmt-config/    oxfmt 格式化
+    ├── prettier-config/ Prettier 配置
+    └── tsconfig/        TSConfig 预设
 ```
 
 ## 📄 License
