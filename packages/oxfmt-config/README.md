@@ -6,7 +6,7 @@ Built purely on oxfmt's own capabilities. oxfmt is the high-performance (Rust) f
 
 > ⚠️ **Experimental — oxfmt is still `0.x`.** Its configuration schema may change between versions. This package tracks the latest oxfmt; pin a version if you need stability.
 >
-> ℹ️ **`extends` is not supported by oxfmt** (unlike oxlint). Consume this package by pointing oxfmt at it via `-c` (see Usage). You **cannot** reference it from `.oxfmtrc.json`'s `extends` field.
+> ℹ️ **`extends` is not supported by oxfmt** (unlike oxlint). The recommended way to consume this package by name is via `oxfmt.config.ts` with `import`. A `-c <path>` fallback is also available for projects without a TS config.
 
 ## Requirements
 
@@ -22,9 +22,28 @@ npm install -D oxfmt @ithinku/oxfmt-config
 
 ## Usage
 
-### 1. `package.json` script (recommended)
+Pick **one** of the following. Option 1 is recommended.
 
-No `.oxfmtrc.json` needed — point oxfmt straight at the package:
+### 1. `oxfmt.config.ts` with `import` (recommended)
+
+The modern, idiomatic way. oxfmt auto-discovers `oxfmt.config.ts`, so no `-c` flag is needed. The config is imported by package name (resolved by Node) and is fully typed.
+
+```ts
+// oxfmt.config.ts
+import { defineConfig } from 'oxfmt'
+import ithinku from '@ithinku/oxfmt-config'
+
+export default defineConfig(ithinku)
+```
+
+```bash
+oxfmt .          # format in place
+oxfmt --check .  # check without writing (for CI)
+```
+
+### 2. `package.json` script with `-c` (no TS config)
+
+Point oxfmt at the package's JSON entry by path:
 
 ```json
 {
@@ -40,14 +59,6 @@ pnpm format        # format in place
 pnpm format:check  # check without writing (for CI)
 ```
 
-### 2. `.oxfmtrc.json` + `-c` at the root
-
-If you keep a root `.oxfmtrc.json` for editor integration, you still run oxfmt with `-c` pointing at this package (because `extends` doesn't work):
-
-```bash
-oxfmt -c node_modules/@ithinku/oxfmt-config/index.json .
-```
-
 ## What's included
 
 | Option | Value | Rationale |
@@ -55,9 +66,9 @@ oxfmt -c node_modules/@ithinku/oxfmt-config/index.json .
 | `printWidth` | `100` | Comfortable on modern displays (wider than the classic 80) |
 | `tabWidth` | `2` | JS/TS community default |
 | `useTabs` | `false` | Spaces |
-| `semi` | `true` | Avoid ASI pitfalls |
+| `semi` | `false` | No semicolons — leaner, modern style |
 | `singleQuote` | `true` | JS mainstream preference; JSX stays double (`jsxSingleQuote: false`) |
-| `trailingComma` | `"all"` | Diff/merge-friendly multi-line trailing commas |
+| `trailingComma` | `"none"` | No trailing commas — minimal output |
 | `bracketSpacing` | `true` | `{ foo }` over `{foo}` |
 | `arrowParens` | `"always"` | `(x) => x` consistency |
 | `quoteProps` | `"as-needed"` | Only quote object keys when required |
@@ -72,7 +83,18 @@ oxfmt -c node_modules/@ithinku/oxfmt-config/index.json .
 
 ## Overriding
 
-Layer your own settings on top with a local config that re-declares options (oxfmt merges `-c` config with CLI args). Simplest: copy what you need from this package into your `.oxfmtrc.json` and tweak.
+In `oxfmt.config.ts`, spread the base config and tweak:
+
+```ts
+import { defineConfig } from 'oxfmt'
+import ithinku from '@ithinku/oxfmt-config'
+
+export default defineConfig({
+  ...ithinku,
+  printWidth: 120,    // your override
+  sortImports: false  // disable import sorting
+})
+```
 
 ## Relationship with `@ithinku/prettier-config`
 

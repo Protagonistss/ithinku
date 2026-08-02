@@ -23,12 +23,18 @@
     "javascript"
   ],
   "exports": {
-    ".": "./index.json",
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "default": "./index.json"
+    },
     "./index.json": "./index.json",
     "./package.json": "./package.json"
   },
   "files": [
     "index.json",
+    "index.mjs",
+    "index.d.ts",
     "README.md"
   ],
   "peerDependencies": {

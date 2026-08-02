@@ -4,7 +4,7 @@ A shareable [Oxlint](https://oxc.rs/) configuration for modern JavaScript / Type
 
 Built purely on Oxlint's own capabilities — it does **not** depend on ESLint or any ESLint plugin. Use it standalone, or as a fast first-pass linter alongside `@ithinku/eslint-config-*` for deeper (type-aware / framework-specific) rules.
 
-> ℹ️ Oxlint's `extends` only resolves **file paths**, not npm package names (ESLint-style "shareable configs" are not supported). See the usage section for the supported ways to consume this package.
+> ℹ️ Oxlint's `.oxlintrc.json` `extends` only resolves **file paths**, not npm package names (ESLint-style shareable configs are not supported there). To consume this package by name — the way you would an ESLint config — use `oxlint.config.ts` with `import` (recommended below). The JSON + `extends` path form is kept as a fallback for projects that don't use a TS config.
 
 ## Requirements
 
@@ -23,17 +23,21 @@ npm install -D oxlint @ithinku/oxlint-config
 
 ## Usage
 
-Pick **one** of the following. All three are equivalent in effect.
+Pick **one** of the following. Option 1 is recommended.
 
-### 1. `.oxlintrc.json` with `extends` (recommended)
+### 1. `oxlint.config.ts` with `import` (recommended)
 
-Create `.oxlintrc.json` in your project root:
+The modern, idiomatic way. Oxlint auto-discovers `oxlint.config.ts`, so no `-c` flag is needed. The config is imported by package name (resolved by Node), fully typed, and easy to override.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "extends": ["./node_modules/@ithinku/oxlint-config/index.json"]
-}
+```ts
+// oxlint.config.ts
+import { defineConfig } from 'oxlint'
+import ithinku from '@ithinku/oxlint-config'
+
+export default defineConfig({
+  extends: [ithinku],
+  // rules: { 'no-console': 'warn' } // your overrides
+})
 ```
 
 Then run:
@@ -42,9 +46,22 @@ Then run:
 oxlint .
 ```
 
-### 2. `package.json` script with `-c`
+### 2. `.oxlintrc.json` with `extends` (fallback — no TS config)
 
-No config file needed — point Oxlint straight at the package:
+If you prefer a static JSON config (or don't want a `.ts` file), reference the package's JSON entry by path:
+
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": ["./node_modules/@ithinku/oxlint-config/index.json"]
+}
+```
+
+```bash
+oxlint .
+```
+
+### 3. `package.json` script with `-c` (no config file at all)
 
 ```json
 {
@@ -52,22 +69,6 @@ No config file needed — point Oxlint straight at the package:
     "lint": "oxlint -c node_modules/@ithinku/oxlint-config/index.json ."
   }
 }
-```
-
-### 3. `oxlint.config.ts` with `import`
-
-For ESM projects that prefer a programmatic config (experimental Oxlint feature, runs via Node.js):
-
-```ts
-// oxlint.config.ts
-import { defineConfig } from 'oxlint'
-// Note: importing JSON requires `resolveJsonModule` / a JS wrapper.
-// Simplest: re-export from a tiny local file, or inline the object.
-import ithinku from './node_modules/@ithinku/oxlint-config/index.json' with { type: 'json' }
-
-export default defineConfig({
-  extends: [ithinku]
-})
 ```
 
 ## What's included
@@ -83,22 +84,24 @@ export default defineConfig({
 | `env.builtin` | `true` | Built-in globals (e.g. `console`) |
 | `overrides` (test files) | enables `jest` + `vitest` plugins & globals | Test files get the right globals automatically |
 
-`rules` is intentionally left empty — the category presets drive everything. Add your own rule overrides in your local `.oxlintrc.json` / `rules` block.
+`rules` is intentionally left empty — the category presets drive everything. Add your own rule overrides in your `oxlint.config.ts` / `.oxlintrc.json` `rules` block.
 
 ## Extending / overriding
 
-Layer your own config on top — later entries win:
+In `oxlint.config.ts`, later `extends` entries win, and top-level `rules` / `plugins` override:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "extends": ["./node_modules/@ithinku/oxlint-config/index.json"],
-  "plugins": ["oxc", "typescript", "unicorn", "import", "react", "jsx-a11y"],
-  "rules": {
-    "typescript/no-explicit-any": "warn",
-    "no-console": "warn"
+```ts
+import { defineConfig } from 'oxlint'
+import ithinku from '@ithinku/oxlint-config'
+
+export default defineConfig({
+  extends: [ithinku],
+  plugins: ['oxc', 'typescript', 'unicorn', 'import', 'react', 'jsx-a11y'],
+  rules: {
+    'typescript/no-explicit-any': 'warn',
+    'no-console': 'warn'
   }
-}
+})
 ```
 
 > Note: Oxlint's `plugins` array **replaces** (not merges) the base plugin set, so re-list the base plugins when adding new ones.

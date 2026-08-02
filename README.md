@@ -95,15 +95,17 @@ export default [
 pnpm add -D oxlint @ithinku/oxlint-config
 ```
 
-```jsonc
-// .oxlintrc.json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "extends": ["./node_modules/@ithinku/oxlint-config/index.json"]
-}
+```ts
+// oxlint.config.ts
+import { defineConfig } from 'oxlint'
+import ithinku from '@ithinku/oxlint-config'
+
+export default defineConfig({ extends: [ithinku] })
 ```
 
 > 💡 Oxlint 与 ESLint 互补：Oxlint 负责速度（IDE / pre-commit），ESLint 负责深度（类型感知、框架规则）。
+>
+> 不想用 TS 配置？也可用 `.oxlintrc.json` 的 `extends` 指向包内 JSON：`"extends": ["./node_modules/@ithinku/oxlint-config/index.json"]`。
 
 ### Oxfmt（极速格式化）
 
@@ -113,16 +115,15 @@ Prettier 的 Rust 替代，秒级格式化：
 pnpm add -D oxfmt @ithinku/oxfmt-config
 ```
 
-oxfmt 不支持 `extends`，通过 `-c` 引用配置包，在 `package.json` 中添加：
+```ts
+// oxfmt.config.ts
+import { defineConfig } from 'oxfmt'
+import ithinku from '@ithinku/oxfmt-config'
 
-```json
-{
-  "scripts": {
-    "format": "oxfmt -c node_modules/@ithinku/oxfmt-config/index.json .",
-    "format:check": "oxfmt -c node_modules/@ithinku/oxfmt-config/index.json --check ."
-  }
-}
+export default defineConfig(ithinku)
 ```
+
+不想用 TS 配置？也可在 `package.json` 里 `-c` 指向包内 JSON：`oxfmt -c node_modules/@ithinku/oxfmt-config/index.json .`。
 
 > ⚠️ oxfmt 仍为 `0.x`，配置可能随版本调整。
 
