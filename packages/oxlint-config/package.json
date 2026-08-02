@@ -1,6 +1,6 @@
 {
   "name": "@ithinku/oxlint-config",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Shareable Oxlint configuration for modern JavaScript/TypeScript projects",
   "license": "MIT",
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
