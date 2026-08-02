@@ -1,5 +1,11 @@
 # @ithinku/oxfmt-config
 
+## 0.1.2
+
+### Patch Changes
+
+- e3b090c: Fix type declarations to use `Required<...>` so config fields are non-optional (e.g. `ignorePatterns: string[]` instead of `string[] | undefined`). Resolves TS2488 when iterating or spreading config arrays in `*.config.ts`.
+
 ## 0.1.1
 
 ### Patch Changes
