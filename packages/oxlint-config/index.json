@@ -39,13 +39,6 @@
         "**/tests/**",
         "**/test/**"
       ],
-      "plugins": [
-        "oxc",
-        "typescript",
-        "unicorn",
-        "jest",
-        "vitest"
-      ],
       "env": {
         "builtin": true,
         "jest": true,
