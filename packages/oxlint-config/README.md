@@ -82,7 +82,7 @@ oxlint .
 | `categories.pedantic / style / restriction / nursery` | _off_ | Too noisy or experimental; opt in per-rule if you want them |
 | `options.reportUnusedDisableDirectives` | `true` | Surfaces stale `oxlint-disable` / `eslint-disable` comments |
 | `env.builtin` | `true` | Built-in globals (e.g. `console`) |
-| `overrides` (test files) | enables `jest` + `vitest` plugins & globals | Test files get the right globals automatically |
+| `overrides` (test files) | sets `jest` + `vitest` test globals | Test files (`*.test.*`, `*.spec.*`, `*.bench.*`, `__tests__/**`, `__mocks__/**`, `tests/**`, `test/**`) get the right globals automatically. No test-specific rules are enabled here — add them in your own `rules` if needed (e.g. `vitest/no-focused-tests`). |
 
 `rules` is intentionally left empty — the category presets drive everything. Add your own rule overrides in your `oxlint.config.ts` / `.oxlintrc.json` `rules` block.
 
