@@ -91,8 +91,10 @@ import ithinku from '@ithinku/oxfmt-config'
 
 export default defineConfig({
   ...ithinku,
-  printWidth: 120,    // your override
-  sortImports: false  // disable import sorting
+  ignorePatterns: [
+    ...ithinku.ignorePatterns, // keep the built-in ignores
+    '**/*.d.ts'                // add your own
+  ]
 })
 ```
 
