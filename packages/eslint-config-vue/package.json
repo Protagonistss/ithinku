@@ -19,13 +19,19 @@
   },
   "dependencies": {
     "@ithinku/eslint-config-ts": "workspace:*",
-    "eslint-plugin-vue": "^9.22.0",
-    "vue-eslint-parser": "^9.4.0"
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.11.1",
+    "vue-eslint-parser": "^10.4.1"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0",
+    "eslint": "^9.0.0 || ^10.0.0",
     "typescript": "^5.0.0",
     "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"

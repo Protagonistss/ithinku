@@ -36,12 +36,13 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@vitest/coverage-v8": "^1.0.0",
-    "@vitest/ui": "^1.2.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/ui": "^5.0.5",
     "prettier": "^3.7.4",
     "rollup": "^4.9.6",
     "rollup-plugin-dts": "^6.1.0",
-    "vitest": "^1.0.0"
+    "vite": "^8.0.0",
+    "vitest": "^5.0.5"
   },
   "publishConfig": {
     "access": "public"
