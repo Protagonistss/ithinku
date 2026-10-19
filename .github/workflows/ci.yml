@@ -38,6 +38,9 @@ jobs:
       - name: Lint (oxlint)
         run: pnpm lint:oxlint
 
+      - name: Lint (eslint)
+        run: pnpm lint
+
       - name: Test
         run: pnpm -r test
 

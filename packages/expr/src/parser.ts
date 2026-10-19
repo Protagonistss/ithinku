@@ -1,8 +1,17 @@
 import type { ASTNode, ComparisonOperator } from './ast'
 import { AST } from './ast'
+import { ParserError } from './errors'
 import type { Token } from './lexer'
 import { TokenType, Lexer } from './lexer'
-import { ParserError } from './errors'
+
+const COMPARISON_OPERATORS: Partial<Record<TokenType, ComparisonOperator>> = {
+  [TokenType.Less]: '<',
+  [TokenType.Greater]: '>',
+  [TokenType.LessEqual]: '<=',
+  [TokenType.GreaterEqual]: '>=',
+  [TokenType.Equal]: '==',
+  [TokenType.NotEqual]: '!='
+}
 
 export class Parser {
   private lexer: Lexer
@@ -171,15 +180,26 @@ export class Parser {
       this.currentToken.type === TokenType.Modulo
     ) {
       const token = this.currentToken
-      if (token.type === TokenType.Multiply) {
+      switch (token.type) {
+      case TokenType.Multiply: {
         this.eat(TokenType.Multiply)
         node = AST.createBinaryOp('*', node, this.factor())
-      } else if (token.type === TokenType.Divide) {
+      
+      break;
+      }
+      case TokenType.Divide: {
         this.eat(TokenType.Divide)
         node = AST.createBinaryOp('/', node, this.factor())
-      } else if (token.type === TokenType.Modulo) {
+      
+      break;
+      }
+      case TokenType.Modulo: {
         this.eat(TokenType.Modulo)
         node = AST.createBinaryOp('%', node, this.factor())
+      
+      break;
+      }
+      // No default
       }
     }
 
@@ -220,15 +240,14 @@ export class Parser {
       this.currentToken.type === TokenType.NotEqual
     ) {
       const token = this.currentToken
-      const opMap: Partial<Record<TokenType, ComparisonOperator>> = {
-        [TokenType.Less]: '<',
-        [TokenType.Greater]: '>',
-        [TokenType.LessEqual]: '<=',
-        [TokenType.GreaterEqual]: '>=',
-        [TokenType.Equal]: '==',
-        [TokenType.NotEqual]: '!='
+      const op = COMPARISON_OPERATORS[token.type]
+      if (op === undefined) {
+        throw new ParserError(
+          `Unexpected token: ${this.tokenName(token.type)}`,
+          token.position,
+          this.input
+        )
       }
-      const op = opMap[token.type]!
       this.eat(token.type)
       node = AST.createBinaryOp(op, node, this.additive())
     }

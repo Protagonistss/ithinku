@@ -23,21 +23,34 @@ export interface ASTVisitor<T> {
 
 export function walk<T>(node: ASTNode, visitor: ASTVisitor<T>): T {
   switch (node.type) {
-    case 'number':
+    case 'number': {
       return visitor.visitNumber(node)
-    case 'boolean':
+    }
+    case 'boolean': {
       return visitor.visitBoolean(node)
-    case 'string':
+    }
+    case 'string': {
       return visitor.visitString(node)
-    case 'binary':
+    }
+    case 'binary': {
       return visitor.visitBinary(node)
-    case 'unary':
+    }
+    case 'unary': {
       return visitor.visitUnary(node)
-    case 'identifier':
+    }
+    case 'identifier': {
       return visitor.visitIdentifier(node)
-    case 'call':
+    }
+    case 'call': {
       return visitor.visitCall(node)
-    case 'conditional':
+    }
+    case 'conditional': {
       return visitor.visitConditional(node)
+    }
+    default: {
+      // Exhaustiveness check：新增节点类型时这里会编译报错
+      const exhaustive: never = node
+      return exhaustive
+    }
   }
 }

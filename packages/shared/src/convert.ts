@@ -1,22 +1,22 @@
-import { isObject, isArray, isDate, isMap, isSet } from './type'
 import { camelCase, snakeCase, kebabCase } from './str'
+import { isObject, isArray, isDate, isMap, isSet } from './type'
 
 const toNumber = (value: unknown, defaultValue?: number): number => {
   if (typeof value === 'number') return value
   if (typeof value === 'boolean') return value ? 1 : 0
   if (value === null || value === undefined) {
-    return defaultValue !== undefined ? defaultValue : NaN
+    return defaultValue === undefined ? Number.NaN : defaultValue
   }
   if (typeof value === 'string') {
     const trimmed = value.trim()
-    if (trimmed === '') return defaultValue !== undefined ? defaultValue : NaN
+    if (trimmed === '') return defaultValue === undefined ? Number.NaN : defaultValue
     const num = Number(trimmed)
-    return Number.isNaN(num) ? (defaultValue !== undefined ? defaultValue : NaN) : num
+    return Number.isNaN(num) ? (defaultValue === undefined ? Number.NaN : defaultValue) : num
   }
-  return defaultValue !== undefined ? defaultValue : NaN
+  return defaultValue === undefined ? Number.NaN : defaultValue
 }
 
-const toString = (value: unknown): string => {
+const toString = (value?: unknown): string => {
   if (value === null) return 'null'
   if (value === undefined) return 'undefined'
   if (typeof value === 'string') return value
@@ -29,7 +29,7 @@ const toString = (value: unknown): string => {
   return String(value)
 }
 
-const toBoolean = (value: unknown): boolean => {
+const toBoolean = (value?: unknown): boolean => {
   if (typeof value === 'boolean') return value
   if (typeof value === 'number') return Number.isFinite(value) && value !== 0
   if (typeof value === 'string') {
@@ -40,7 +40,7 @@ const toBoolean = (value: unknown): boolean => {
   return false
 }
 
-const toArray = <T>(value: T | T[] | null | undefined): T[] => {
+const toArray = <T>(value?: T | T[] | null): T[] => {
   if (value === null || value === undefined) return []
   if (isArray(value)) return [...(value as T[])]
   if (isSet(value)) return [...(value as unknown as Set<T>)]
@@ -60,7 +60,7 @@ const toFloat = (
   const { precision, defaultValue } = options ?? {}
   const num = toNumber(value, defaultValue)
   if (Number.isNaN(num)) return num
-  return precision !== undefined ? parseFloat(num.toFixed(precision)) : num
+  return precision === undefined ? num : Number.parseFloat(num.toFixed(precision))
 }
 
 const toJSON = (value: unknown, replacer?: unknown, space?: number): string => {

@@ -1,10 +1,20 @@
 packages:
   - 'packages/**'
 
+autoInstallPeers: false
+
+overrides:
+  # 临时钉住：rollup 4.64.10 / postcss 8.5.31 均为 2026-10-18 发布，
+  # 未过 minimumReleaseAge 冷却期，CI (pnpm 11) 会拒绝。
+  # 待发布满 24h 后可移除并重新解析。
+  rollup: 4.64.9
+  postcss: 8.5.30
+
 onlyBuiltDependencies:
   - esbuild
   - unrs-resolver
 
+# pnpm 11 起改名 allowBuilds（map 形式），onlyBuiltDependencies 已不再读取
 allowBuilds:
   esbuild: true
   unrs-resolver: true

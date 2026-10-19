@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import { avg, max, min, mode, median, sum, sort } from '../../arr'
 
 describe('Array Utils Consistency', () => {

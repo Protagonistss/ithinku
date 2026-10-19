@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
+
 import { Expression, ParserError, LexerError, EvaluationError, Parser } from '../index'
 
 describe('Expression Integration', () => {
@@ -54,8 +55,8 @@ describe('Expression Integration', () => {
       expect(() => Expression.evaluate('2 @ 3')).toThrow(LexerError)
       try {
         Expression.evaluate('2 @ 3')
-      } catch (e) {
-        expect((e as LexerError).getContext()).toContain('line 1')
+      } catch (error) {
+        expect((error as LexerError).getContext()).toContain('line 1')
       }
     })
 
@@ -63,8 +64,8 @@ describe('Expression Integration', () => {
       expect(() => Expression.evaluate('2 +')).toThrow(ParserError)
       try {
         Expression.evaluate('2 +')
-      } catch (e) {
-        const error = e as ParserError
+      } catch (error_) {
+        const error = error_ as ParserError
         expect(error.message).toBeDefined()
         expect(error.getContext()).toBeDefined()
       }
@@ -74,8 +75,8 @@ describe('Expression Integration', () => {
       expect(() => Expression.evaluate('undefined_var')).toThrow(EvaluationError)
       try {
         Expression.evaluate('undefined_var')
-      } catch (e) {
-        expect((e as EvaluationError).message).toContain('Undefined variable')
+      } catch (error) {
+        expect((error as EvaluationError).message).toContain('Undefined variable')
       }
     })
 
@@ -83,8 +84,8 @@ describe('Expression Integration', () => {
       expect(() => Expression.evaluate('1 / 0')).toThrow(EvaluationError)
       try {
         Expression.evaluate('1 / 0')
-      } catch (e) {
-        expect((e as EvaluationError).message).toContain('Division by zero')
+      } catch (error) {
+        expect((error as EvaluationError).message).toContain('Division by zero')
       }
     })
   })

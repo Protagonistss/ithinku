@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import {
   toNumber,
   toString,
@@ -54,7 +55,7 @@ describe('Convert Utils', () => {
 
     it('converts null/undefined', () => {
       expect(toString(null)).toBe('null')
-      expect(toString(undefined)).toBe('undefined')
+      expect(toString()).toBe('undefined')
     })
 
     it('converts array to string', () => {
@@ -92,7 +93,7 @@ describe('Convert Utils', () => {
     })
 
     it('returns false for NaN', () => {
-      expect(toBoolean(NaN)).toBe(false)
+      expect(toBoolean(Number.NaN)).toBe(false)
     })
 
     it('returns false for Infinity', () => {
@@ -104,7 +105,7 @@ describe('Convert Utils', () => {
       expect(toBoolean([])).toBe(false)
       expect(toBoolean({})).toBe(false)
       expect(toBoolean(null)).toBe(false)
-      expect(toBoolean(undefined)).toBe(false)
+      expect(toBoolean()).toBe(false)
     })
   })
 
@@ -115,7 +116,7 @@ describe('Convert Utils', () => {
 
     it('returns empty for null/undefined', () => {
       expect(toArray(null)).toEqual([])
-      expect(toArray(undefined)).toEqual([])
+      expect(toArray()).toEqual([])
     })
 
     it('copies existing array', () => {
@@ -147,11 +148,11 @@ describe('Convert Utils', () => {
 
   describe('toFloat', () => {
     it('returns float as-is', () => {
-      expect(toFloat(3.14159)).toBe(3.14159)
+      expect(toFloat(3.141_59)).toBe(3.141_59)
     })
 
     it('rounds with precision', () => {
-      expect(toFloat(3.14159, { precision: 2 })).toBe(3.14)
+      expect(toFloat(3.141_59, { precision: 2 })).toBe(3.14)
     })
 
     it('returns default for invalid', () => {

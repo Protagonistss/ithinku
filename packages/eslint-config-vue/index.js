@@ -1,12 +1,13 @@
 const tsConfig = require('@ithinku/eslint-config-ts')
 const pluginVue = require('eslint-plugin-vue')
 const tseslint = require('typescript-eslint')
+const configPrettier = require('eslint-config-prettier')
 
 module.exports = [
   ...tsConfig,
   ...pluginVue.configs['flat/recommended'],
   {
-    files: ['*.vue', '**/*.vue'],
+    files: ['**/*.vue'],
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
@@ -24,30 +25,10 @@ module.exports = [
       'vue/no-v-html': 'warn',
       'vue/require-default-prop': 'off',
       'vue/require-prop-types': 'off',
-      'vue/max-attributes-per-line': [
-        'warn',
-        {
-          singleline: 5,
-          multiline: 1
-        }
-      ],
-      'vue/html-self-closing': [
-        'error',
-        {
-          html: {
-            void: 'always',
-            normal: 'always',
-            component: 'always'
-          }
-        }
-      ],
-      'vue/html-closing-bracket-newline': [
-        'error',
-        {
-          singleline: 'never',
-          multiline: 'always'
-        }
-      ],
+      // 模板格式化（max-attributes-per-line / html-self-closing /
+      // html-closing-bracket-newline）交给 Prettier / oxfmt 处理，
+      // 不在此重复开启（eslint-config-prettier 已关闭这些规则，
+      // 再开启会与格式化器互相打架）
       'vue/component-name-in-template-casing': [
         'error',
         'PascalCase',
@@ -86,5 +67,9 @@ module.exports = [
       'vue/no-watch-after-await': 'error',
       'vue/no-mutating-props': 'error'
     }
-  }
+  },
+  // 收尾再加载一次 eslint-config-prettier：
+  // plugin-vue 的 flat/recommended 会重新启用模板格式化规则，
+  // 若不最后关闭，会与 Prettier / oxfmt 互相打架
+  configPrettier
 ]

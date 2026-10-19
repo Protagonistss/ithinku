@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import {
   createMap,
   objToMap,
@@ -122,7 +123,7 @@ describe('Map Utils', () => {
     })
 
     it('handles NaN correctly', () => {
-      expect(hasValue(new Map([['a', NaN]]), NaN)).toBe(true)
+      expect(hasValue(new Map([['a', Number.NaN]]), Number.NaN)).toBe(true)
     })
 
     it('returns false for missing value', () => {

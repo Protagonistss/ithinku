@@ -102,8 +102,7 @@ const union = <T>(...sets: Array<Set<T>>): Set<T> => {
 
 const intersection = <T>(...sets: Array<Set<T>>): Set<T> => {
   if (sets.length === 0) return new Set<T>()
-  const first = sets[0]!
-  const rest = sets.slice(1)
+  const [first = new Set<T>(), ...rest] = sets
   const result = new Set<T>()
   for (const value of first) {
     if (rest.every(s => s.has(value))) {

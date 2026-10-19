@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import { ExprError, LexerError, ParserError, EvaluationError } from '../errors'
 
 describe('ExprError', () => {

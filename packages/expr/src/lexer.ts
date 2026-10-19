@@ -171,13 +171,20 @@ export class Lexer {
         }
         const escaped: string = this.currentChar
         switch (escaped) {
-          case 'n': result += '\n'; break
-          case 't': result += '\t'; break
-          case 'r': result += '\r'; break
-          case '\\': result += '\\'; break
-          case "'": result += "'"; break
-          case '"': result += '"'; break
-          default: result += escaped
+          case 'n': { result += '\n'; break
+          }
+          case 't': { result += '\t'; break
+          }
+          case 'r': { result += '\r'; break
+          }
+          case '\\': { result += '\\'; break
+          }
+          case "'": { result += "'"; break
+          }
+          case '"': { result += '"'; break
+          }
+          default: { result += escaped
+          }
         }
       } else {
         result += this.currentChar
@@ -203,7 +210,7 @@ export class Lexer {
 
       const nextChar = this.peek()
       if (
-        Lexer.isDigit(this.currentChar!) ||
+        Lexer.isDigit(this.currentChar) ||
         (this.currentChar === '.' && nextChar !== null && Lexer.isDigit(nextChar))
       ) {
         return this.readNumber()
@@ -213,7 +220,7 @@ export class Lexer {
         return this.readString(this.currentChar)
       }
 
-      if (Lexer.isAlpha(this.currentChar!)) {
+      if (Lexer.isAlpha(this.currentChar)) {
         return this.readIdentifier()
       }
 

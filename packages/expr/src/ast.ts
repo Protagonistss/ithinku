@@ -87,22 +87,35 @@ export class AST {
   public static stringify(node: ASTNode, indent = 0): string {
     const spaces = '  '.repeat(indent)
     switch (node.type) {
-      case 'number':
+      case 'number': {
         return `${spaces}Number(${node.value})`
-      case 'boolean':
+      }
+      case 'boolean': {
         return `${spaces}Boolean(${node.value})`
-      case 'string':
+      }
+      case 'string': {
         return `${spaces}String("${node.value}")`
-      case 'binary':
+      }
+      case 'binary': {
         return `${spaces}Binary(${node.operator}\n${this.stringify(node.left, indent + 1)}\n${this.stringify(node.right, indent + 1)}\n${spaces})`
-      case 'unary':
+      }
+      case 'unary': {
         return `${spaces}Unary(${node.operator}\n${this.stringify(node.operand, indent + 1)}\n${spaces})`
-      case 'identifier':
+      }
+      case 'identifier': {
         return `${spaces}Identifier(${node.path.join('.')})`
-      case 'call':
+      }
+      case 'call': {
         return `${spaces}Call(${node.name} [${node.args.map(() => '_').join(', ')}]`
-      case 'conditional':
+      }
+      case 'conditional': {
         return `${spaces}Conditional(\n  if:\n${this.stringify(node.condition, indent + 2)}\n  then:\n${this.stringify(node.consequent, indent + 2)}\n  else:\n${this.stringify(node.alternate, indent + 2)}\n${spaces})`
+      }
+      default: {
+        // Exhaustiveness check：新增节点类型时这里会编译报错
+        const exhaustive: never = node
+        return exhaustive
+      }
     }
   }
 

@@ -41,7 +41,7 @@ const mode = (arr: number[]): number[] => {
   }
 
   return [...counts.entries()]
-    .filter(([_, count]) => count === maxCount)
+    .filter(([, count]) => count === maxCount)
     .map(([num]) => num)
 }
 
