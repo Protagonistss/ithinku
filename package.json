@@ -40,6 +40,12 @@
     "url": "https://github.com/Protagonistss/ithinku/issues"
   },
   "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "pnpm": {
+    "overrides": {
+      "rollup": "4.64.9",
+      "postcss": "8.5.30"
+    }
+  },
   "devDependencies": {
     "@changesets/cli": "^2.27.8",
     "@ithinku/eslint-config-base": "workspace:*",
