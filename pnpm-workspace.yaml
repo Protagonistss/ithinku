@@ -3,6 +3,12 @@ packages:
 
 autoInstallPeers: false
 
+# changesets action 的 git checkout/reset 会触碰 lockfile mtime，
+# 触发 verify-deps-before-run 误报（无 TTY 时直接报错）。
+# CI 每次均为全新 frozen 安装，无需此校验。
+# 待本地 pnpm 升级到 11、移除 package.json 的 pnpm 字段后可重新开启。
+verifyDepsBeforeRun: false
+
 overrides:
   # 临时钉住：rollup 4.64.10 / postcss 8.5.31 均为 2026-10-18 发布，
   # 未过 minimumReleaseAge 冷却期，CI (pnpm 11) 会拒绝。
