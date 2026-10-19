@@ -13,3 +13,8 @@ overrides:
 onlyBuiltDependencies:
   - esbuild
   - unrs-resolver
+
+# pnpm 11 起改名 allowBuilds（map 形式），onlyBuiltDependencies 已不再读取
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
