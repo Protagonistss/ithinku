@@ -1,5 +1,12 @@
 # @ithinku/eslint-config-react
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [df83991]
+  - @ithinku/eslint-config-ts@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
