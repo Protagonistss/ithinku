@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import {
   deepClone,
   deepMerge,
@@ -81,7 +82,7 @@ describe('Object Utils', () => {
     })
 
     it('ignores non-existent keys', () => {
-      expect(pick({ a: 1 } as Record<string, unknown>, ['a'])).toEqual({ a: 1 })
+      expect(pick({ a: 1 }, ['a'])).toEqual({ a: 1 })
     })
   })
 
@@ -171,7 +172,7 @@ describe('Object Utils', () => {
   describe('isEmptyDeep', () => {
     it('returns true for null/undefined', () => {
       expect(isEmptyDeep(null)).toBe(true)
-      expect(isEmptyDeep(undefined)).toBe(true)
+      expect(isEmptyDeep()).toBe(true)
     })
 
     it('returns true for empty string/array', () => {
@@ -193,7 +194,7 @@ describe('Object Utils', () => {
     it('compares primitives', () => {
       expect(isEqual(1, 1)).toBe(true)
       expect(isEqual('a', 'a')).toBe(true)
-      expect(isEqual(NaN, NaN)).toBe(true)
+      expect(isEqual(Number.NaN, Number.NaN)).toBe(true)
     })
 
     it('compares objects deeply', () => {

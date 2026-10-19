@@ -9,8 +9,8 @@ import type {
   FunctionCallNode,
   ConditionalNode
 } from './ast'
-import type { ASTVisitor } from './visitor'
 import { EvaluationError } from './errors'
+import type { ASTVisitor } from './visitor'
 
 export type ExprValue = number | boolean | string
 
@@ -145,14 +145,27 @@ export class Evaluator implements ASTVisitor<ExprValue> {
 
   public evaluate(node: ASTNode): ExprValue {
     switch (node.type) {
-      case 'number': return this.visitNumber(node)
-      case 'boolean': return this.visitBoolean(node)
-      case 'string': return this.visitString(node)
-      case 'binary': return this.visitBinary(node)
-      case 'unary': return this.visitUnary(node)
-      case 'identifier': return this.visitIdentifier(node)
-      case 'call': return this.visitCall(node)
-      case 'conditional': return this.visitConditional(node)
+      case 'number': { return this.visitNumber(node)
+      }
+      case 'boolean': { return this.visitBoolean(node)
+      }
+      case 'string': { return this.visitString(node)
+      }
+      case 'binary': { return this.visitBinary(node)
+      }
+      case 'unary': { return this.visitUnary(node)
+      }
+      case 'identifier': { return this.visitIdentifier(node)
+      }
+      case 'call': { return this.visitCall(node)
+      }
+      case 'conditional': { return this.visitConditional(node)
+      }
+      default: {
+        // Exhaustiveness check：新增节点类型时这里会编译报错
+        const exhaustive: never = node
+        return exhaustive
+      }
     }
   }
 
@@ -223,9 +236,12 @@ export class Evaluator implements ASTVisitor<ExprValue> {
         if (typeof left === 'string' && typeof right === 'string') return left >= right
         return this.toNumber(left) >= this.toNumber(right)
       }
-      case '==': return left === right
-      case '!=': return left !== right
-      default: break
+      case '==': { return left === right
+      }
+      case '!=': { return left !== right
+      }
+      default: { break
+      }
     }
 
     // Arithmetic operators - + supports string concatenation
@@ -237,9 +253,12 @@ export class Evaluator implements ASTVisitor<ExprValue> {
     const rightNum = this.toNumber(right)
 
     switch (operator) {
-      case '+': return leftNum + rightNum
-      case '-': return leftNum - rightNum
-      case '*': return leftNum * rightNum
+      case '+': { return leftNum + rightNum
+      }
+      case '-': { return leftNum - rightNum
+      }
+      case '*': { return leftNum * rightNum
+      }
       case '/': {
         if (rightNum === 0) throw new EvaluationError('Division by zero')
         return leftNum / rightNum
@@ -248,7 +267,8 @@ export class Evaluator implements ASTVisitor<ExprValue> {
         if (rightNum === 0) throw new EvaluationError('Division by zero')
         return leftNum % rightNum
       }
-      case '**': return leftNum ** rightNum
+      case '**': { return leftNum ** rightNum
+      }
       default: {
         return this.unreachableOperator(operator)
       }

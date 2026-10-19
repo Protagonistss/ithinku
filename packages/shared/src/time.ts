@@ -45,7 +45,7 @@ const format = (
   const date = new Date(timestamp)
 
   if (Number.isNaN(date.getTime())) {
-    throw new Error('Invalid Date')
+    throw new TypeError('Invalid Date')
   }
 
   const fmtStr = options.format || defaultFormat
@@ -68,7 +68,7 @@ const format = (
     SSS: padStart(milliseconds, 3)
   }
 
-  return fmtStr.replace(
+  return fmtStr.replaceAll(
     /YYYY|MM|DD|HH|mm|ss|SSS/g,
     match => matches[match] ?? match
   )

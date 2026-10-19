@@ -1,9 +1,9 @@
 const splitWords = (str: string): string[] => {
   return str
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
-    .replace(/(\d)([a-zA-Z])/g, '$1 $2')
-    .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+    .replaceAll(/([a-z])([A-Z])/g, '$1 $2')
+    .replaceAll(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    .replaceAll(/(\d)([a-zA-Z])/g, '$1 $2')
+    .replaceAll(/([a-zA-Z])(\d)/g, '$1 $2')
     .split(/[\s\-_]+/)
     .filter(word => word.length > 0)
     .map(word => word.toLowerCase())
@@ -49,7 +49,7 @@ const truncate = (
 }
 
 const template = (str: string, data: Record<string, unknown>): string => {
-  return str.replace(/\{(\w+)\}/g, (match, key: string) => {
+  return str.replaceAll(/\{(\w+)\}/g, (match, key: string) => {
     return key in data ? String(data[key]) : match
   })
 }
@@ -68,7 +68,7 @@ const mask = (
 }
 
 const trim = (str: string): string => {
-  return str.replace(/\s+/g, ' ').trim()
+  return str.replaceAll(/\s+/g, ' ').trim()
 }
 
 const words = (str: string): string[] => {
@@ -76,7 +76,7 @@ const words = (str: string): string[] => {
 }
 
 const countChars = (str: string): number => {
-  return Array.from(str).length
+  return [...str].length
 }
 
 export {

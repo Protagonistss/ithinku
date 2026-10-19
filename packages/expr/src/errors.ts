@@ -25,8 +25,7 @@ export class ExprError extends Error {
     let lineNum = 0
     let colNum = this.position
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i]
+    for (const [i, line] of lines.entries()) {
       if (line !== undefined && colNum <= line.length) {
         lineNum = i + 1
         break
@@ -36,7 +35,7 @@ export class ExprError extends Error {
     }
 
     const line = lines[lineNum - 1] || ''
-    const pointer = ' '.repeat(Math.max(0, colNum)) + '^'
+    const pointer = `${' '.repeat(Math.max(0, colNum))  }^`
 
     // Display column as 1-indexed for user-friendly output
     return `${this.message}\n  at line ${lineNum}, column ${colNum + 1}\n\n  ${line}\n  ${pointer}`

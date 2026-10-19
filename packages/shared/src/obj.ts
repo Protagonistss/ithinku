@@ -11,14 +11,10 @@ const deepMerge = <T extends Record<string, unknown>>(...objects: Array<T>): T =
     for (const key of Object.keys(obj)) {
       const targetVal = result[key]
       const sourceVal = (obj as Record<string, unknown>)[key]
-      if (isObject(targetVal) && isObject(sourceVal)) {
-        result[key] = deepMerge(
+      result[key] = isObject(targetVal) && isObject(sourceVal) ? deepMerge(
           targetVal as Record<string, unknown>,
           sourceVal as Record<string, unknown>
-        )
-      } else {
-        result[key] = deepClone(sourceVal)
-      }
+        ) : deepClone(sourceVal);
     }
   }
   return result as T
@@ -76,13 +72,13 @@ const set = <T extends Record<string, unknown>>(
 
   const result = { ...obj } as Record<string, unknown>
   let current = result
-  for (let i = 0; i < keys.length - 1; i++) {
-    const key = keys[i]!
+  const lastKey = keys.at(-1) ?? ''
+  for (const key of keys.slice(0, -1)) {
     const next = current[key]
     current[key] = isObject(next) ? { ...(next as Record<string, unknown>) } : {}
     current = current[key] as Record<string, unknown>
   }
-  current[keys[keys.length - 1]!] = value
+  current[lastKey] = value
   return result as T
 }
 
@@ -107,19 +103,19 @@ const unflatten = (obj: Record<string, unknown>): Record<string, unknown> => {
   for (const [key, value] of Object.entries(obj)) {
     const parts = key.split('.')
     let current = result
-    for (let i = 0; i < parts.length - 1; i++) {
-      const k = parts[i]!
+    const lastPart = parts.at(-1) ?? ''
+    for (const k of parts.slice(0, -1)) {
       if (!(k in current)) {
         current[k] = {}
       }
       current = current[k] as Record<string, unknown>
     }
-    current[parts[parts.length - 1]!] = value
+    current[lastPart] = value
   }
   return result
 }
 
-const isEmptyDeep = (value: unknown): boolean => {
+const isEmptyDeep = (value?: unknown): boolean => {
   if (value === null || value === undefined) return true
   if (typeof value === 'string') return value.length === 0
   if (isArray(value)) return (value as unknown[]).length === 0

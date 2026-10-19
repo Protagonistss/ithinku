@@ -164,8 +164,8 @@ describe('Expression', () => {
 
   it('should support custom functions', () => {
     const customFunctions = {
-      double: (x: number) => x * 2,
-      add: (a: number, b: number) => a + b
+      double: (x: unknown) => (x as number) * 2,
+      add: (a: unknown, b: unknown) => (a as number) + (b as number)
     }
     expect(Expression.evaluate('double(5)', {}, customFunctions)).toBe(10)
     expect(Expression.evaluate('add(3, 4)', {}, customFunctions)).toBe(7)
@@ -212,8 +212,8 @@ describe('Expression', () => {
   })
 
   it('should support escape sequences in strings', () => {
-    expect(Expression.evaluate('"hello\\nworld"')).toBe('hello\nworld')
-    expect(Expression.evaluate('"tab\\there"')).toBe('tab\there')
+    expect(Expression.evaluate(String.raw`"hello\nworld"`)).toBe('hello\nworld')
+    expect(Expression.evaluate(String.raw`"tab\there"`)).toBe('tab\there')
   })
 
   it('should use string functions', () => {
@@ -284,7 +284,7 @@ describe('Expression', () => {
 
   it('should compile with custom functions', () => {
     const fn = Expression.compileToFunction('double(x)', {
-      double: (x: number) => x * 2
+      double: (x: unknown) => (x as number) * 2
     })
     expect(fn({ x: 5 })).toBe(10)
   })

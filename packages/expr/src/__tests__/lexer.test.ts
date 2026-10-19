@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { Lexer, TokenType } from '../lexer'
 import { LexerError } from '../errors'
+import { Lexer, TokenType } from '../lexer'
 
 describe('Lexer', () => {
   it('should tokenize numbers', () => {
@@ -202,8 +202,8 @@ describe('Lexer', () => {
     expect(() => lexer.nextToken()).toThrow(LexerError)
     try {
       lexer.nextToken()
-    } catch (e) {
-      expect((e as LexerError).message).toContain('Unexpected character: @')
+    } catch (error) {
+      expect((error as LexerError).message).toContain('Unexpected character: @')
     }
   })
 
@@ -212,8 +212,8 @@ describe('Lexer', () => {
     expect(() => lexer.nextToken()).toThrow(LexerError)
     try {
       lexer.nextToken()
-    } catch (e) {
-      expect((e as LexerError).message).toContain('Invalid number')
+    } catch (error) {
+      expect((error as LexerError).message).toContain('Invalid number')
     }
   })
 
@@ -304,7 +304,7 @@ describe('Lexer', () => {
   })
 
   it('should tokenize string with escape sequences', () => {
-    const lexer = new Lexer('"hello\\nworld"')
+    const lexer = new Lexer(String.raw`"hello\nworld"`)
     expect(lexer.nextToken()).toEqual({
       type: TokenType.String,
       value: 'hello\nworld',

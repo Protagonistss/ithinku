@@ -1,8 +1,8 @@
 import type { ASTNode } from './ast'
+import { LRUCache } from './cache'
 import type { Context, ExprValue, ExprFunction } from './evaluator'
 import { Evaluator, builtinFunctions } from './evaluator'
 import { Parser } from './parser'
-import { LRUCache } from './cache'
 
 export * from './lexer'
 export * from './ast'
@@ -14,16 +14,24 @@ export * from './cache'
 export type { SourceLocation } from './ast'
 export type { EvaluatorOptions } from './evaluator'
 
+const throwFn = (msg: string): never => {
+  throw new Error(msg)
+}
+
 function compileASTToJS(node: ASTNode): string {
   switch (node.type) {
-    case 'number':
+    case 'number': {
       return String(node.value)
-    case 'boolean':
+    }
+    case 'boolean': {
       return String(node.value)
-    case 'string':
+    }
+    case 'string': {
       return JSON.stringify(node.value)
-    case 'identifier':
+    }
+    case 'identifier': {
       return node.path.reduce((acc, key) => `${acc}[${JSON.stringify(key)}]`, 'ctx')
+    }
     case 'unary': {
       const operand = compileASTToJS(node.operand)
       if (node.operator === '!') return `(!(${operand}))`
@@ -48,8 +56,14 @@ function compileASTToJS(node: ASTNode): string {
       const fnAccess = `_fn[${JSON.stringify(node.name)}]`
       return `${fnAccess}(${args})`
     }
-    case 'conditional':
+    case 'conditional': {
       return `((${compileASTToJS(node.condition)})?(${compileASTToJS(node.consequent)}):(${compileASTToJS(node.alternate)}))`
+    }
+    default: {
+      // Exhaustiveness check：新增节点类型时这里会编译报错
+      const exhaustive: never = node
+      return exhaustive
+    }
   }
 }
 
@@ -205,8 +219,6 @@ export class Expression {
     const allFns = Object.keys(functions).length > 0
       ? { ...builtinFunctions, ...functions }
       : builtinFunctions
-
-    const throwFn = (msg: string): never => { throw new Error(msg) }
 
     return (context: Context = {}) => fn(context, allFns, throwFn)
   }
