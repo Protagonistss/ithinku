@@ -56,8 +56,9 @@ module.exports = [
         }
       ],
       '@typescript-eslint/prefer-as-const': 'error',
-      // Note: explicit-function-return-type requires type information (project service)
-      // Users should configure languageOptions.parserOptions.project in their own config if they want type-aware rules enabled globally
+      // Note: type-aware 规则（no-unnecessary-type-assertion / prefer-optional-chain）
+      // 未在此启用：它们要求 parserOptions.project，否则对未配置 typed-linting 的
+      // 使用方会直接报错崩溃。需要时请自行配置 project 后启用。
       '@typescript-eslint/explicit-function-return-type': [
         'warn',
         {
@@ -70,8 +71,6 @@ module.exports = [
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/no-empty-interface': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
-      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-      '@typescript-eslint/prefer-optional-chain': 'error',
       '@typescript-eslint/unified-signatures': 'error'
     }
   }

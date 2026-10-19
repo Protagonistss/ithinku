@@ -10,7 +10,7 @@ module.exports = [
     files: [
       'packages/eslint-config-*/**/*.js', 
       'eslint.config.js', 
-      '**/.prettierrc.js',
+      '**/.prettierrc.{js,cjs}',
       '**/*.mjs' // Rollup configs often use ESM syntax but might trigger some CJS rules if misidentified, but mainly for 'no-require-imports' if they use require.
     ],
     rules: {
@@ -32,9 +32,12 @@ module.exports = [
         ],
         tsconfigRootDir: __dirname
       }
+    },
+    // 本仓库已配置 project，这里显式启用 type-aware 规则
+    // （config-ts 为了对无 project 的使用方安全，默认不含这些规则）
+    rules: {
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error'
     }
-  },
-  // Disable type-aware rules for files not in tsconfig (like vitest.config.ts if strictly not included)
-  // Or simpler: just ensure they are included or ignored. 
-  // For now, let's assume tsconfig.test.json includes them or we accept the error if not (and user fixes tsconfig).
+  }
 ];
