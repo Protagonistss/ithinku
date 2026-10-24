@@ -27,7 +27,8 @@
     "access": "public"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest run"
   },
   "dependencies": {
     "@ithinku/eslint-config-base": "workspace:*",
