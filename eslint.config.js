@@ -14,10 +14,9 @@ module.exports = [
   // CommonJS Config Files & Rollup Configs
   {
     files: [
-      'packages/eslint-config-*/**/*.js', 
-      'eslint.config.js', 
-      '**/.prettierrc.{js,cjs}',
-      '**/*.mjs' // Rollup configs often use ESM syntax but might trigger some CJS rules if misidentified, but mainly for 'no-require-imports' if they use require.
+      'packages/eslint-config-*/**/*.js',
+      'eslint.config.js',
+      '**/*.mjs'
     ],
     rules: {
       'unicorn/prefer-module': 'off',

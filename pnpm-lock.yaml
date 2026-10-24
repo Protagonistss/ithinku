@@ -23,9 +23,6 @@ importers:
       '@ithinku/oxlint-config':
         specifier: workspace:*
         version: link:packages/oxlint-config
-      '@ithinku/prettier-config':
-        specifier: workspace:^
-        version: link:packages/prettier-config
       '@ithinku/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
@@ -41,9 +38,6 @@ importers:
       oxlint:
         specifier: ^1.88.0
         version: 1.88.0
-      prettier:
-        specifier: ^3.7.4
-        version: 3.9.10
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
@@ -159,9 +153,6 @@ importers:
 
   packages/expr:
     devDependencies:
-      '@ithinku/prettier-config':
-        specifier: workspace:^
-        version: link:../prettier-config
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.8(rollup@4.65.0)
@@ -177,9 +168,6 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^5.0.5
         version: 5.0.5(vitest@5.0.5)
-      prettier:
-        specifier: ^3.7.4
-        version: 3.9.10
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
@@ -210,9 +198,6 @@ importers:
 
   packages/shared:
     devDependencies:
-      '@ithinku/prettier-config':
-        specifier: workspace:^
-        version: link:../prettier-config
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.8(rollup@4.65.0)
@@ -228,9 +213,6 @@ importers:
       '@vitest/ui':
         specifier: ^5.0.5
         version: 5.0.5(vitest@5.0.5)
-      prettier:
-        specifier: ^3.7.4
-        version: 3.9.10
       rollup:
         specifier: ^4.9.6
         version: 4.65.0
@@ -2555,11 +2537,6 @@ packages:
   prettier@2.8.8:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
-
-  prettier@3.9.10:
-    resolution: {integrity: sha512-skGHTH1Yb9QvaTC4hWnRTzEYtCpApF0UMBPz+t/0ZPzP8ihefo/btKd+QA7pUE0fEwA1SbS/NmhyEcstdXOIdA==}
-    engines: {node: '>=14'}
     hasBin: true
 
   prop-types@15.8.1:
@@ -5364,8 +5341,6 @@ snapshots:
   prelude-ls@1.2.1: {}
 
   prettier@2.8.8: {}
-
-  prettier@3.9.10: {}
 
   prop-types@15.8.1:
     dependencies:

@@ -29,8 +29,7 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\""
+    "lint:fix": "eslint src --fix"
   },
   "keywords": [
     "utils",
@@ -49,13 +48,11 @@
     "url": "https://github.com/Protagonistss/ithinku/issues"
   },
   "devDependencies": {
-    "@ithinku/prettier-config": "workspace:^",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@vitest/coverage-v8": "^5.0.5",
     "@vitest/ui": "^5.0.5",
-    "prettier": "^3.7.4",
     "rollup": "^4.9.6",
     "rollup-plugin-dts": "^6.1.0",
     "vite": "^8.0.0",
