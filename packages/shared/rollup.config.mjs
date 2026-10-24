@@ -1,9 +1,10 @@
-import { defineConfig } from 'rollup'
-import typescript from '@rollup/plugin-typescript'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import dts from 'rollup-plugin-dts'
 import { readFileSync } from 'node:fs'
+
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { defineConfig } from 'rollup'
+import dts from 'rollup-plugin-dts'
 
 const pkg = JSON.parse(readFileSync(new URL('package.json', import.meta.url)))
 
@@ -40,4 +41,4 @@ export default defineConfig([
     output: [{ file: pkg.types, format: 'es' }],
     plugins: [dts()]
   }
-]) 
+])

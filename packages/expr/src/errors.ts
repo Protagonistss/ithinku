@@ -35,7 +35,7 @@ export class ExprError extends Error {
     }
 
     const line = lines[lineNum - 1] || ''
-    const pointer = `${' '.repeat(Math.max(0, colNum))  }^`
+    const pointer = `${' '.repeat(Math.max(0, colNum))}^`
 
     // Display column as 1-indexed for user-friendly output
     return `${this.message}\n  at line ${lineNum}, column ${colNum + 1}\n\n  ${line}\n  ${pointer}`

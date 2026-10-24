@@ -24,11 +24,7 @@ describe('Evaluator', () => {
   })
 
   it('should evaluate simple expressions', () => {
-    const ast = AST.createBinaryOp(
-      '+',
-      AST.createNumber(2),
-      AST.createNumber(3)
-    )
+    const ast = AST.createBinaryOp('+', AST.createNumber(2), AST.createNumber(3))
     expect(evaluator.evaluate(ast)).toBe(5)
   })
 
@@ -61,18 +57,12 @@ describe('Evaluator', () => {
   })
 
   it('should handle division by zero', () => {
-    const ast = AST.createBinaryOp(
-      '/',
-      AST.createNumber(1),
-      AST.createNumber(0)
-    )
+    const ast = AST.createBinaryOp('/', AST.createNumber(1), AST.createNumber(0))
     expect(() => evaluator.evaluate(ast)).toThrow('Division by zero')
   })
 
   it('should throw error for undefined variables', () => {
-    expect(() => evaluator.evaluate(AST.createIdentifier(['z']))).toThrow(
-      'Undefined variable: z'
-    )
+    expect(() => evaluator.evaluate(AST.createIdentifier(['z']))).toThrow('Undefined variable: z')
   })
 
   it('should throw error for invalid nested properties', () => {
@@ -93,35 +83,33 @@ describe('Evaluator', () => {
   })
 
   it('should evaluate modulo operator', () => {
-    const ast = AST.createBinaryOp(
-      '%',
-      AST.createNumber(10),
-      AST.createNumber(3)
-    )
+    const ast = AST.createBinaryOp('%', AST.createNumber(10), AST.createNumber(3))
     expect(evaluator.evaluate(ast)).toBe(1)
   })
 
   it('should evaluate power operator', () => {
-    const ast = AST.createBinaryOp(
-      '**',
-      AST.createNumber(2),
-      AST.createNumber(3)
-    )
+    const ast = AST.createBinaryOp('**', AST.createNumber(2), AST.createNumber(3))
     expect(evaluator.evaluate(ast)).toBe(8)
   })
 
   it('should evaluate comparison operators', () => {
-    expect(evaluator.evaluate(AST.createBinaryOp('>', AST.createNumber(3), AST.createNumber(2)))).toBe(true)
-    expect(evaluator.evaluate(AST.createBinaryOp('<', AST.createNumber(3), AST.createNumber(2)))).toBe(false)
-    expect(evaluator.evaluate(AST.createBinaryOp('==', AST.createNumber(3), AST.createNumber(3)))).toBe(true)
-    expect(evaluator.evaluate(AST.createBinaryOp('!=', AST.createNumber(3), AST.createNumber(2)))).toBe(true)
+    expect(
+      evaluator.evaluate(AST.createBinaryOp('>', AST.createNumber(3), AST.createNumber(2)))
+    ).toBe(true)
+    expect(
+      evaluator.evaluate(AST.createBinaryOp('<', AST.createNumber(3), AST.createNumber(2)))
+    ).toBe(false)
+    expect(
+      evaluator.evaluate(AST.createBinaryOp('==', AST.createNumber(3), AST.createNumber(3)))
+    ).toBe(true)
+    expect(
+      evaluator.evaluate(AST.createBinaryOp('!=', AST.createNumber(3), AST.createNumber(2)))
+    ).toBe(true)
   })
 
   it('should evaluate logical operators', () => {
     expect(
-      evaluator.evaluate(
-        AST.createBinaryOp('&&', AST.createBoolean(true), AST.createBoolean(true))
-      )
+      evaluator.evaluate(AST.createBinaryOp('&&', AST.createBoolean(true), AST.createBoolean(true)))
     ).toBe(true)
     expect(
       evaluator.evaluate(

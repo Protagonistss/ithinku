@@ -24,7 +24,11 @@ const toString = (value?: unknown): string => {
   if (isDate(value)) return (value as Date).toISOString()
   if (isArray(value)) return (value as unknown[]).join(',')
   if (isObject(value)) {
-    try { return JSON.stringify(value) } catch { return '[object Object]' }
+    try {
+      return JSON.stringify(value)
+    } catch {
+      return '[object Object]'
+    }
   }
   return String(value)
 }
@@ -90,7 +94,7 @@ const transformKeys = (
     if (deep && isObject(value)) {
       result[newKey] = transformKeys(value as Record<string, unknown>, transform, deep)
     } else if (deep && isArray(value)) {
-      result[newKey] = (value as unknown[]).map(item =>
+      result[newKey] = (value as unknown[]).map((item) =>
         isObject(item) ? transformKeys(item as Record<string, unknown>, transform, deep) : item
       )
     } else {

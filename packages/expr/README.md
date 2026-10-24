@@ -24,24 +24,26 @@
 ## 🚀 Quick Start
 
 ### Installation
+
 ```bash
 pnpm add @ithinku/expr
 ```
 
 ### Basic Usage
+
 ```typescript
-import { Expression } from '@ithinku/expr';
+import { Expression } from '@ithinku/expr'
 
 // 1. Simple Evaluation (Default Sandbox Mode)
-Expression.evaluate('score >= 60 ? "Pass" : "Fail"', { score: 85 }); // "Pass"
+Expression.evaluate('score >= 60 ? "Pass" : "Fail"', { score: 85 }) // "Pass"
 
 // 2. Variables & Deep Access
-const context = { user: { profile: { name: 'Alice' } } };
-Expression.evaluate('user.profile.name', context); // "Alice"
+const context = { user: { profile: { name: 'Alice' } } }
+Expression.evaluate('user.profile.name', context) // "Alice"
 
 // 3. Pre-compile (For repeated execution)
-const runner = Expression.compile('a + b * c');
-runner({ a: 1, b: 2, c: 3 }); // 7
+const runner = Expression.compile('a + b * c')
+runner({ a: 1, b: 2, c: 3 }) // 7
 ```
 
 ---
@@ -50,10 +52,10 @@ runner({ a: 1, b: 2, c: 3 }); // 7
 
 The engine provides different execution paths to balance security and performance:
 
-| Mode | Method | Implementation | Security | Use Case |
-| :--- | :--- | :--- | :--- | :--- |
-| **Sandbox** | `.evaluate()` | AST Tree Traversal | **Highest** (No `eval`/`new Function`) | Untrusted user input |
-| **JIT** | `.compileToFunction()` | AST to Native Code | **High** (Controlled CodeGen) | Hot loops, Big data processing |
+| Mode        | Method                 | Implementation     | Security                               | Use Case                       |
+| :---------- | :--------------------- | :----------------- | :------------------------------------- | :----------------------------- |
+| **Sandbox** | `.evaluate()`          | AST Tree Traversal | **Highest** (No `eval`/`new Function`) | Untrusted user input           |
+| **JIT**     | `.compileToFunction()` | AST to Native Code | **High** (Controlled CodeGen)          | Hot loops, Big data processing |
 
 > **Security Note**: `compileToFunction` uses `new Function` internally for peak performance. However, the code is generated from a validated AST, making it significantly safer than raw `eval()`.
 
@@ -62,41 +64,48 @@ The engine provides different execution paths to balance security and performanc
 ## 🎨 Feature Overview
 
 ### Supported Operators
+
 - **Arithmetic**: `+`, `-`, `*`, `/`, `%` (modulo), `**` (power)
 - **Comparison**: `<`, `>`, `<=`, `>=`, `==`, `!=`
-- **Logical**: `&&` (AND), `||` (OR), `!` (NOT) — *Supports short-circuiting*
+- **Logical**: `&&` (AND), `||` (OR), `!` (NOT) — _Supports short-circuiting_
 - **Conditional**: Ternary operator `a ? b : c`
 - **Group**: Parentheses `( )` for precedence
 
 ### Built-in Functions
-| Category | Functions |
-| :--- | :--- |
-| **Math** | `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow` |
-| **String** | `len(s)`, `upper(s)`, `lower(s)`, `trim(s)` |
+
+| Category   | Functions                                                                                |
+| :--------- | :--------------------------------------------------------------------------------------- |
+| **Math**   | `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow` |
+| **String** | `len(s)`, `upper(s)`, `lower(s)`, `trim(s)`                                              |
 
 ---
 
 ## 🧩 Advanced Usage
 
 ### Custom Functions
+
 Inject business logic directly into the engine:
+
 ```typescript
 const functions = {
   isVip: (user) => user.level > 5,
   format: (val) => val.toFixed(2)
-};
-Expression.evaluate('isVip(user) ? format(price) : price', context, functions);
+}
+Expression.evaluate('isVip(user) ? format(price) : price', context, functions)
 ```
 
 ### AST Visitor Pattern
+
 Use the `ASTVisitor` interface to customize traversal (e.g., for static analysis or linting).
 
 ### Debugging Tools
+
 Visualize the AST structure using `AST.stringify()`:
+
 ```typescript
-import { AST, Expression } from '@ithinku/expr';
-const ast = Expression.parse('x + y * 2');
-console.log(AST.stringify(ast));
+import { AST, Expression } from '@ithinku/expr'
+const ast = Expression.parse('x + y * 2')
+console.log(AST.stringify(ast))
 ```
 
 ---
@@ -105,18 +114,18 @@ console.log(AST.stringify(ast));
 
 The engine provides structured error classes for precise debugging:
 
-| Error Class | Trigger | Special Method |
-| :--- | :--- | :--- |
-| `LexerError` | Invalid characters, unterminated strings | `getContext()` |
-| `ParserError` | Syntax errors (missing operands, etc.) | `getContext()` |
-| `EvaluationError` | Runtime errors (division by zero, undefined variable) | — |
+| Error Class       | Trigger                                               | Special Method |
+| :---------------- | :---------------------------------------------------- | :------------- |
+| `LexerError`      | Invalid characters, unterminated strings              | `getContext()` |
+| `ParserError`     | Syntax errors (missing operands, etc.)                | `getContext()` |
+| `EvaluationError` | Runtime errors (division by zero, undefined variable) | —              |
 
 ```typescript
 try {
-  Expression.evaluate('2 +');
+  Expression.evaluate('2 +')
 } catch (e) {
   if (e instanceof ParserError) {
-    console.log(e.getContext()); // Shows line/column with arrow pointer
+    console.log(e.getContext()) // Shows line/column with arrow pointer
   }
 }
 ```

@@ -61,11 +61,7 @@ describe('Parser', () => {
       AST.createBinaryOp(
         '*',
         AST.createIdentifier(['x']),
-        AST.createBinaryOp(
-          '+',
-          AST.createIdentifier(['y']),
-          AST.createIdentifier(['z', 'value'])
-        )
+        AST.createBinaryOp('+', AST.createIdentifier(['y']), AST.createIdentifier(['z', 'value']))
       )
     )
   })

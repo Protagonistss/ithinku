@@ -33,9 +33,7 @@ describe('Expression', () => {
       }
     }
 
-    expect(
-      Expression.evaluate('user.score * user.stats.multiplier', context)
-    ).toBe(200)
+    expect(Expression.evaluate('user.score * user.stats.multiplier', context)).toBe(200)
   })
 
   it('should handle operator precedence', () => {
@@ -68,9 +66,7 @@ describe('Expression', () => {
 
   it('should throw error for invalid property access', () => {
     const context = { x: 10 }
-    expect(() => Expression.evaluate('x.y', context)).toThrow(
-      'Cannot access property y of number'
-    )
+    expect(() => Expression.evaluate('x.y', context)).toThrow('Cannot access property y of number')
   })
 
   it('should evaluate modulo operator', () => {
@@ -173,15 +169,11 @@ describe('Expression', () => {
   })
 
   it('should throw error for unknown functions', () => {
-    expect(() => Expression.evaluate('unknown(1)')).toThrow(
-      'Unknown function: unknown'
-    )
+    expect(() => Expression.evaluate('unknown(1)')).toThrow('Unknown function: unknown')
   })
 
   it('should throw error for sqrt of negative number', () => {
-    expect(() => Expression.evaluate('sqrt(-1)')).toThrow(
-      'Square root of negative number'
-    )
+    expect(() => Expression.evaluate('sqrt(-1)')).toThrow('Square root of negative number')
   })
 
   it('should support no-argument function calls', () => {
@@ -225,9 +217,7 @@ describe('Expression', () => {
 
   it('should support strings in context', () => {
     expect(Expression.evaluate('name', { name: 'Alice' })).toBe('Alice')
-    expect(Expression.evaluate('"Hello, " + name', { name: 'Alice' })).toBe(
-      'Hello, Alice'
-    )
+    expect(Expression.evaluate('"Hello, " + name', { name: 'Alice' })).toBe('Hello, Alice')
   })
 
   it('should throw error for unterminated strings', () => {
@@ -253,12 +243,8 @@ describe('Expression', () => {
 
   it('should evaluate ternary with variables', () => {
     const context = { score: 85 }
-    expect(
-      Expression.evaluate('score >= 60 ? "pass" : "fail"', context)
-    ).toBe('pass')
-    expect(
-      Expression.evaluate('score >= 90 ? "A" : score >= 60 ? "B" : "C"', context)
-    ).toBe('B')
+    expect(Expression.evaluate('score >= 60 ? "pass" : "fail"', context)).toBe('pass')
+    expect(Expression.evaluate('score >= 90 ? "A" : score >= 60 ? "B" : "C"', context)).toBe('B')
   })
 
   it('should handle ternary with truthy numbers', () => {

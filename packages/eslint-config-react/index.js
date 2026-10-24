@@ -36,10 +36,7 @@ module.exports = [
       'react/prop-types': 'off', // 使用 TypeScript 时不需要 PropTypes
       'react/jsx-props-no-spreading': 'off', // 允许 props 展开
       'react/require-default-props': 'off', // TypeScript 中有默认值类型
-      'react/jsx-filename-extension': [
-        'error',
-        { extensions: ['.jsx', '.tsx'] }
-      ],
+      'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
       'react/function-component-definition': [
         'error',
         {

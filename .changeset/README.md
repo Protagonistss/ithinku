@@ -12,4 +12,5 @@ Workflow:
    - `pnpm release`
 
 Notes:
- - `pnpm changeset:publish` runs `changeset publish` without building.
+
+- `pnpm changeset:publish` runs `changeset publish` without building.

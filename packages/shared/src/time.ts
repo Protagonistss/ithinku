@@ -16,15 +16,9 @@ type TimeFormat =
   | `${HourFormat}:${MinuteFormat}`
   | `${HourFormat}:${MinuteFormat}:${SecondFormat}`
 
-type TimeFormatWithMillis =
-  `${HourFormat}:${MinuteFormat}:${SecondFormat}.${MillisecondFormat}`
+type TimeFormatWithMillis = `${HourFormat}:${MinuteFormat}:${SecondFormat}.${MillisecondFormat}`
 type DateTimeFormat = `${DateFormat} ${TimeFormat | TimeFormatWithMillis}`
-type Format =
-  | DateFormat
-  | TimeFormat
-  | TimeFormatWithMillis
-  | DateTimeFormat
-  | string // 放宽类型限制以支持任意格式字符串，如 "YYYY年MM月"
+type Format = DateFormat | TimeFormat | TimeFormatWithMillis | DateTimeFormat | string // 放宽类型限制以支持任意格式字符串，如 "YYYY年MM月"
 
 interface FormatOptions {
   format?: Format
@@ -38,10 +32,7 @@ const padStart = (num: number, len = 2): string => {
   return num.toString().padStart(len, '0')
 }
 
-const format = (
-  timestamp: number | Date | string,
-  options: FormatOptions = {}
-): string => {
+const format = (timestamp: number | Date | string, options: FormatOptions = {}): string => {
   const date = new Date(timestamp)
 
   if (Number.isNaN(date.getTime())) {
@@ -68,10 +59,7 @@ const format = (
     SSS: padStart(milliseconds, 3)
   }
 
-  return fmtStr.replaceAll(
-    /YYYY|MM|DD|HH|mm|ss|SSS/g,
-    match => matches[match] ?? match
-  )
+  return fmtStr.replaceAll(/YYYY|MM|DD|HH|mm|ss|SSS/g, (match) => matches[match] ?? match)
 }
 
 export { format }

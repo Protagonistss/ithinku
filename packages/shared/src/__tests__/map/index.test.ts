@@ -23,7 +23,10 @@ import {
 describe('Map Utils', () => {
   describe('createMap', () => {
     it('creates a Map from entries', () => {
-      const m = createMap([['a', 1], ['b', 2]])
+      const m = createMap([
+        ['a', 1],
+        ['b', 2]
+      ])
       expect(m.get('a')).toBe(1)
       expect(m.get('b')).toBe(2)
       expect(m.size).toBe(2)
@@ -70,7 +73,14 @@ describe('Map Utils', () => {
 
   describe('filterMap', () => {
     it('filters Map entries by predicate', () => {
-      const m = filterMap(new Map([['a', 1], ['b', 2], ['c', 3]]), v => v > 1)
+      const m = filterMap(
+        new Map([
+          ['a', 1],
+          ['b', 2],
+          ['c', 3]
+        ]),
+        (v) => v > 1
+      )
       expect(m.size).toBe(2)
       expect(m.has('a')).toBe(false)
     })
@@ -82,7 +92,13 @@ describe('Map Utils', () => {
 
   describe('mapValues', () => {
     it('maps over Map values', () => {
-      const m = mapValues(new Map([['a', 1], ['b', 2]]), v => v * 10)
+      const m = mapValues(
+        new Map([
+          ['a', 1],
+          ['b', 2]
+        ]),
+        (v) => v * 10
+      )
       expect(m.get('a')).toBe(10)
       expect(m.get('b')).toBe(20)
     })
@@ -90,7 +106,14 @@ describe('Map Utils', () => {
 
   describe('pickMap', () => {
     it('picks specified keys', () => {
-      const m = pickMap(new Map([['a', 1], ['b', 2], ['c', 3]]), ['a', 'c'])
+      const m = pickMap(
+        new Map([
+          ['a', 1],
+          ['b', 2],
+          ['c', 3]
+        ]),
+        ['a', 'c']
+      )
       expect(m.size).toBe(2)
       expect(m.has('b')).toBe(false)
     })
@@ -103,7 +126,14 @@ describe('Map Utils', () => {
 
   describe('omitMap', () => {
     it('omits specified keys', () => {
-      const m = omitMap(new Map([['a', 1], ['b', 2], ['c', 3]]), ['b'])
+      const m = omitMap(
+        new Map([
+          ['a', 1],
+          ['b', 2],
+          ['c', 3]
+        ]),
+        ['b']
+      )
       expect(m.size).toBe(2)
       expect(m.has('b')).toBe(false)
     })
@@ -111,7 +141,12 @@ describe('Map Utils', () => {
 
   describe('invertMap', () => {
     it('inverts keys and values', () => {
-      const m = invertMap(new Map([['a', 1], ['b', 2]]))
+      const m = invertMap(
+        new Map([
+          ['a', 1],
+          ['b', 2]
+        ])
+      )
       expect(m.get(1)).toBe('a')
       expect(m.get(2)).toBe('b')
     })
@@ -133,11 +168,19 @@ describe('Map Utils', () => {
 
   describe('findKey', () => {
     it('finds key by predicate', () => {
-      expect(findKey(new Map([['a', 1], ['b', 2]]), v => v === 2)).toBe('b')
+      expect(
+        findKey(
+          new Map([
+            ['a', 1],
+            ['b', 2]
+          ]),
+          (v) => v === 2
+        )
+      ).toBe('b')
     })
 
     it('returns undefined when not found', () => {
-      expect(findKey(new Map([['a', 1]]), v => v === 99)).toBeUndefined()
+      expect(findKey(new Map([['a', 1]]), (v) => v === 99)).toBeUndefined()
     })
   })
 })

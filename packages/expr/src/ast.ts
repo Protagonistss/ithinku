@@ -139,10 +139,7 @@ export class AST {
     return { type: 'binary', operator, left, right }
   }
 
-  public static createUnaryOp(
-    operator: UnaryOperator,
-    operand: ASTNode
-  ): UnaryOpNode {
+  public static createUnaryOp(operator: UnaryOperator, operand: ASTNode): UnaryOpNode {
     return { type: 'unary', operator, operand }
   }
 

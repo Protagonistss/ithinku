@@ -24,24 +24,26 @@
 ## 🚀 快速上手
 
 ### 安装
+
 ```bash
 pnpm add @ithinku/expr
 ```
 
 ### 基础用法
+
 ```typescript
-import { Expression } from '@ithinku/expr';
+import { Expression } from '@ithinku/expr'
 
 // 1. 简单求值 (默认安全沙箱模式)
-Expression.evaluate('score >= 60 ? "及格" : "不及格"', { score: 85 }); // "及格"
+Expression.evaluate('score >= 60 ? "及格" : "不及格"', { score: 85 }) // "及格"
 
 // 2. 变量与深层访问
-const context = { user: { profile: { name: 'Alice' } } };
-Expression.evaluate('user.profile.name', context); // "Alice"
+const context = { user: { profile: { name: 'Alice' } } }
+Expression.evaluate('user.profile.name', context) // "Alice"
 
 // 3. 预编译 (适合重复执行)
-const runner = Expression.compile('a + b * c');
-runner({ a: 1, b: 2, c: 3 }); // 7
+const runner = Expression.compile('a + b * c')
+runner({ a: 1, b: 2, c: 3 }) // 7
 ```
 
 ---
@@ -50,10 +52,10 @@ runner({ a: 1, b: 2, c: 3 }); // 7
 
 为了平衡安全与性能，引擎提供了两种求值路径：
 
-| 模式 | 方法 | 实现原理 | 安全性 | 建议场景 |
-| :--- | :--- | :--- | :--- | :--- |
-| **沙箱模式** | `.evaluate()` | 纯 AST 树遍历 | **最高** (无 `eval/new Function`) | 处理不可信的用户输入 |
-| **JIT 编译** | `.compileToFunction()` | AST 转原生代码 | **高** (受控的代码生成) | 在高性能循环或大数据处理中使用 |
+| 模式         | 方法                   | 实现原理       | 安全性                            | 建议场景                       |
+| :----------- | :--------------------- | :------------- | :-------------------------------- | :----------------------------- |
+| **沙箱模式** | `.evaluate()`          | 纯 AST 树遍历  | **最高** (无 `eval/new Function`) | 处理不可信的用户输入           |
+| **JIT 编译** | `.compileToFunction()` | AST 转原生代码 | **高** (受控的代码生成)           | 在高性能循环或大数据处理中使用 |
 
 > **安全提示**：`compileToFunction` 在内部通过 `new Function` 生成代码以获取极致性能，但其代码是由经过验证的 AST 生成，依然比直接调用 `eval` 安全得多。
 
@@ -62,41 +64,48 @@ runner({ a: 1, b: 2, c: 3 }); // 7
 ## 🎨 特性一览
 
 ### 支持的运算符
+
 - **算术**: `+`, `-`, `*`, `/`, `%` (取模), `**` (幂)
 - **比较**: `<`, `>`, `<=`, `>=`, `==`, `!=`
-- **逻辑**: `&&` (与), `||` (或), `!` (非) — *支持短路求值*
+- **逻辑**: `&&` (与), `||` (或), `!` (非) — _支持短路求值_
 - **条件**: 三元运算符 `a ? b : c`
 - **分组**: 括号 `( )` 改变优先级
 
 ### 内置函数清单
-| 类别 | 函数列表 |
-| :--- | :--- |
-| **数学** | `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow` |
-| **字符串** | `len(s)`, `upper(s)`, `lower(s)`, `trim(s)` |
+
+| 类别       | 函数列表                                                                                 |
+| :--------- | :--------------------------------------------------------------------------------------- |
+| **数学**   | `abs`, `ceil`, `floor`, `round`, `sqrt`, `max`, `min`, `sin`, `cos`, `tan`, `log`, `pow` |
+| **字符串** | `len(s)`, `upper(s)`, `lower(s)`, `trim(s)`                                              |
 
 ---
 
 ## 🧩 进阶扩展
 
 ### 自定义函数
+
 你可以向引擎注入自定义的业务函数：
+
 ```typescript
 const functions = {
   isVip: (user) => user.level > 5,
   format: (val) => val.toFixed(2)
-};
-Expression.evaluate('isVip(user) ? format(price) : price', context, functions);
+}
+Expression.evaluate('isVip(user) ? format(price) : price', context, functions)
 ```
 
 ### AST 访问者模式 (Visitor Pattern)
+
 通过暴露的 `ASTVisitor` 接口，你可以自定义 AST 的遍历行为（如实现静态分析、代码格式化等）。
 
 ### 调试工具
+
 使用 `AST.stringify()` 可视化 AST 结构：
+
 ```typescript
-import { AST, Expression } from '@ithinku/expr';
-const ast = Expression.parse('x + y * 2');
-console.log(AST.stringify(ast));
+import { AST, Expression } from '@ithinku/expr'
+const ast = Expression.parse('x + y * 2')
+console.log(AST.stringify(ast))
 ```
 
 ---
@@ -105,18 +114,18 @@ console.log(AST.stringify(ast));
 
 引擎提供三种结构化错误类，每种都携带清晰的上下文信息：
 
-| 错误类 | 触发场景 | 特殊方法 |
-| :--- | :--- | :--- |
-| `LexerError` | 非法字符、未闭合字符串 | `getContext()` |
-| `ParserError` | 语法错误（缺少操作数等） | `getContext()` |
-| `EvaluationError` | 运行时错误（除零、未定义变量等） | — |
+| 错误类            | 触发场景                         | 特殊方法       |
+| :---------------- | :------------------------------- | :------------- |
+| `LexerError`      | 非法字符、未闭合字符串           | `getContext()` |
+| `ParserError`     | 语法错误（缺少操作数等）         | `getContext()` |
+| `EvaluationError` | 运行时错误（除零、未定义变量等） | —              |
 
 ```typescript
 try {
-  Expression.evaluate('1 + * 2');
+  Expression.evaluate('1 + * 2')
 } catch (e) {
   if (e instanceof ParserError) {
-    console.log(e.getContext()); // 带行号、列号和箭头指向的上下文
+    console.log(e.getContext()) // 带行号、列号和箭头指向的上下文
   }
 }
 ```

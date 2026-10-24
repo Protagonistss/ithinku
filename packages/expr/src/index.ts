@@ -212,13 +212,15 @@ export class Expression {
   ): (context?: Context) => ExprValue {
     const ast = this.parse(expression)
     const jsCode = compileASTToJS(ast)
-    const fn = new Function('ctx', '_fn', '_throw', `"use strict";return ${jsCode};`) as
-      (ctx: Context, fn: Record<string, ExprFunction>, throwFn: (msg: string) => never) => ExprValue
+    const fn = new Function('ctx', '_fn', '_throw', `"use strict";return ${jsCode};`) as (
+      ctx: Context,
+      fn: Record<string, ExprFunction>,
+      throwFn: (msg: string) => never
+    ) => ExprValue
 
     // Merge functions with builtins
-    const allFns = Object.keys(functions).length > 0
-      ? { ...builtinFunctions, ...functions }
-      : builtinFunctions
+    const allFns =
+      Object.keys(functions).length > 0 ? { ...builtinFunctions, ...functions } : builtinFunctions
 
     return (context: Context = {}) => fn(context, allFns, throwFn)
   }

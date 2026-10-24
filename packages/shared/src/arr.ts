@@ -40,9 +40,7 @@ const mode = (arr: number[]): number[] => {
     maxCount = Math.max(maxCount, count)
   }
 
-  return [...counts.entries()]
-    .filter(([, count]) => count === maxCount)
-    .map(([num]) => num)
+  return [...counts.entries()].filter(([, count]) => count === maxCount).map(([num]) => num)
 }
 
 const median = (arr: number[]): number | undefined => {
@@ -68,9 +66,7 @@ const len = (arr: unknown[]): number => {
   return arr.length
 }
 
-const objToArr = <T extends Record<string, unknown>>(
-  obj: T
-): Array<[string, T[keyof T]]> => {
+const objToArr = <T extends Record<string, unknown>>(obj: T): Array<[string, T[keyof T]]> => {
   return Object.entries(obj) as Array<[string, T[keyof T]]>
 }
 

@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module'
+
 import { ESLint } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
@@ -28,6 +29,6 @@ describe('@ithinku/eslint-config-react', () => {
     })
     const [result] = await eslint.lintText(source, { filePath: 'example.jsx' })
     expect(result.fatalErrorCount).toBe(0)
-    expect(result.messages.some(message => message.fatal)).toBe(false)
+    expect(result.messages.some((message) => message.fatal)).toBe(false)
   })
 })

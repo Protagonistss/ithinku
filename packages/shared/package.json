@@ -2,10 +2,29 @@
   "name": "@ithinku/shared",
   "version": "0.0.3",
   "description": "Shared utilities for iThinkU projects",
+  "keywords": [
+    "shared",
+    "typescript",
+    "utils"
+  ],
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
+  "license": "MIT",
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/shared"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,9 +32,9 @@
       "require": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
@@ -31,22 +50,6 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
-  "keywords": [
-    "utils",
-    "shared",
-    "typescript"
-  ],
-  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
-  "license": "MIT",
-  "homepage": "https://github.com/Protagonistss/ithinku#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Protagonistss/ithinku.git",
-    "directory": "packages/shared"
-  },
-  "bugs": {
-    "url": "https://github.com/Protagonistss/ithinku/issues"
-  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -57,8 +60,5 @@
     "rollup-plugin-dts": "^6.1.0",
     "vite": "^8.0.0",
     "vitest": "^5.0.5"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

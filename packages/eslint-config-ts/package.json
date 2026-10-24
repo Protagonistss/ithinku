@@ -2,47 +2,47 @@
   "name": "@ithinku/eslint-config-ts",
   "version": "0.1.1",
   "description": "ESLint config for TypeScript projects (Flat Config)",
-  "main": "index.js",
-  "files": [
-    "index.js"
-  ],
-  "scripts": {
-    "test": "vitest run"
-  },
   "keywords": [
-    "eslint",
-    "typescript",
     "config",
-    "flat-config"
+    "eslint",
+    "flat-config",
+    "typescript"
   ],
-  "author": "ithinku",
-  "license": "MIT",
   "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
+  "license": "MIT",
+  "author": "ithinku",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Protagonistss/ithinku.git",
     "directory": "packages/eslint-config-ts"
   },
-  "bugs": {
-    "url": "https://github.com/Protagonistss/ithinku/issues"
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
   },
-  "engines": {
-    "node": ">=20.19.0"
+  "scripts": {
+    "test": "vitest run"
   },
   "dependencies": {
     "@ithinku/eslint-config-base": "workspace:*",
     "typescript-eslint": "^8.0.0"
   },
-  "peerDependencies": {
-    "eslint": "^9.38.0",
-    "typescript": "^5.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
     "eslint": "^9.39.5",
     "typescript": "^5.8.3",
     "vitest": "^5.0.5"
+  },
+  "peerDependencies": {
+    "eslint": "^9.38.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }

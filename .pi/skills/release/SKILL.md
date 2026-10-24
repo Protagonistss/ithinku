@@ -24,6 +24,7 @@ pnpm changeset
 ```
 
 交互式选择：
+
 - **包**：勾选受影响的包
 - **级别：选 `patch`**（强制默认；仅当用户明确指定时才选其他）
 - **摘要**：简述变更
@@ -32,7 +33,7 @@ pnpm changeset
 
 ```markdown
 ---
-"@ithinku/<包名>": patch
+'@ithinku/<包名>': patch
 ---
 
 <变更摘要>

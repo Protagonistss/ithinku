@@ -29,32 +29,32 @@ Lint · 构建 · 工具函数 —— 一个 monorepo 全覆盖
 
 ### 🛠️ 工具库
 
-| 包 | 版本 | 描述 |
-| :--- | :---: | :--- |
+| 包                                     |                                                        版本                                                        | 描述                                                                |
+| :------------------------------------- | :----------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------ |
 | [`@ithinku/shared`](./packages/shared) | [![npm](https://img.shields.io/npm/v/@ithinku/shared?color=cb3837)](https://www.npmjs.com/package/@ithinku/shared) | 类型安全的通用工具函数库（Array / Object / String / Time / Type …） |
-| [`@ithinku/expr`](./packages/expr) | [![npm](https://img.shields.io/npm/v/@ithinku/expr?color=cb3837)](https://www.npmjs.com/package/@ithinku/expr) | 表达式解析与求值引擎（词法分析 + AST + 求值） |
+| [`@ithinku/expr`](./packages/expr)     |   [![npm](https://img.shields.io/npm/v/@ithinku/expr?color=cb3837)](https://www.npmjs.com/package/@ithinku/expr)   | 表达式解析与求值引擎（词法分析 + AST + 求值）                       |
 
 ### 🎨 Lint 配置
 
-| 包 | 版本 | 描述 |
-| :--- | :---: | :--- |
-| [`@ithinku/eslint-config-base`](./packages/eslint-config-base) | [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-base?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-base) | ESLint v9 基础 Flat Config（纯 JS） |
-| [`@ithinku/eslint-config-ts`](./packages/eslint-config-ts) | [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-ts?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-ts) | TypeScript 增强配置 |
-| [`@ithinku/eslint-config-vue`](./packages/eslint-config-vue) | [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-vue?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-vue) | Vue 3 + TS 专用配置 |
-| [`@ithinku/eslint-config-react`](./packages/eslint-config-react) | [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-react?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-react) | React + TS 专用配置 |
-| [`@ithinku/oxlint-config`](./packages/oxlint-config) | [![npm](https://img.shields.io/npm/v/@ithinku/oxlint-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/oxlint-config) | Oxlint 极速配置（独立于 ESLint） |
+| 包                                                               |                                                                     版本                                                                     | 描述                                |
+| :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------- |
+| [`@ithinku/eslint-config-base`](./packages/eslint-config-base)   |  [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-base?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-base)  | ESLint v9 基础 Flat Config（纯 JS） |
+| [`@ithinku/eslint-config-ts`](./packages/eslint-config-ts)       |    [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-ts?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-ts)    | TypeScript 增强配置                 |
+| [`@ithinku/eslint-config-vue`](./packages/eslint-config-vue)     |   [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-vue?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-vue)   | Vue 3 + TS 专用配置                 |
+| [`@ithinku/eslint-config-react`](./packages/eslint-config-react) | [![npm](https://img.shields.io/npm/v/@ithinku/eslint-config-react?color=cb3837)](https://www.npmjs.com/package/@ithinku/eslint-config-react) | React + TS 专用配置                 |
+| [`@ithinku/oxlint-config`](./packages/oxlint-config)             |       [![npm](https://img.shields.io/npm/v/@ithinku/oxlint-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/oxlint-config)       | Oxlint 极速配置（独立于 ESLint）    |
 
 ### 📐 格式化配置
 
-| 包 | 版本 | 描述 |
-| :--- | :---: | :--- |
-| [`@ithinku/prettier-config`](./packages/prettier-config) | [![npm](https://img.shields.io/npm/v/@ithinku/prettier-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/prettier-config) | 共享 Prettier 配置 |
-| [`@ithinku/oxfmt-config`](./packages/oxfmt-config) | [![npm](https://img.shields.io/npm/v/@ithinku/oxfmt-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/oxfmt-config) | oxfmt 极速格式化配置（Prettier 的 Rust 替代，独立设计） |
+| 包                                                       |                                                                 版本                                                                 | 描述                                                    |
+| :------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------ |
+| [`@ithinku/prettier-config`](./packages/prettier-config) | [![npm](https://img.shields.io/npm/v/@ithinku/prettier-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/prettier-config) | 共享 Prettier 配置                                      |
+| [`@ithinku/oxfmt-config`](./packages/oxfmt-config)       |    [![npm](https://img.shields.io/npm/v/@ithinku/oxfmt-config?color=cb3837)](https://www.npmjs.com/package/@ithinku/oxfmt-config)    | oxfmt 极速格式化配置（Prettier 的 Rust 替代，独立设计） |
 
 ### ⚙️ 工程配置
 
-| 包 | 版本 | 描述 |
-| :--- | :---: | :--- |
+| 包                                         |                                                          版本                                                          | 描述                                                                  |
+| :----------------------------------------- | :--------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------- |
 | [`@ithinku/tsconfig`](./packages/tsconfig) | [![npm](https://img.shields.io/npm/v/@ithinku/tsconfig?color=cb3837)](https://www.npmjs.com/package/@ithinku/tsconfig) | 可复用的 TSConfig 预设（base / dom / node / bundler，含 strict 变体） |
 
 ## 🚀 快速开始
@@ -96,9 +96,9 @@ pnpm add -D oxlint @ithinku/oxlint-config
 ```
 
 ```ts
+import ithinku from '@ithinku/oxlint-config'
 // oxlint.config.ts
 import { defineConfig } from 'oxlint'
-import ithinku from '@ithinku/oxlint-config'
 
 export default defineConfig({ extends: [ithinku] })
 ```
@@ -116,9 +116,9 @@ pnpm add -D oxfmt @ithinku/oxfmt-config
 ```
 
 ```ts
+import ithinku from '@ithinku/oxfmt-config'
 // oxfmt.config.ts
 import { defineConfig } from 'oxfmt'
-import ithinku from '@ithinku/oxfmt-config'
 
 export default defineConfig(ithinku)
 ```

@@ -20,10 +20,7 @@ const mergeMap = <K, V>(...maps: Array<Map<K, V>>): Map<K, V> => {
   return result
 }
 
-const filterMap = <K, V>(
-  map: Map<K, V>,
-  predicate: (value: V, key: K) => boolean
-): Map<K, V> => {
+const filterMap = <K, V>(map: Map<K, V>, predicate: (value: V, key: K) => boolean): Map<K, V> => {
   const result = new Map<K, V>()
   for (const [key, value] of map) {
     if (predicate(value, key)) {
@@ -33,10 +30,7 @@ const filterMap = <K, V>(
   return result
 }
 
-const mapValues = <K, V, R>(
-  map: Map<K, V>,
-  fn: (value: V, key: K) => R
-): Map<K, R> => {
+const mapValues = <K, V, R>(map: Map<K, V>, fn: (value: V, key: K) => R): Map<K, R> => {
   const result = new Map<K, R>()
   for (const [key, value] of map) {
     result.set(key, fn(value, key))
@@ -80,10 +74,7 @@ const hasValue = <K, V>(map: Map<K, V>, value: V): boolean => {
   return false
 }
 
-const findKey = <K, V>(
-  map: Map<K, V>,
-  predicate: (value: V, key: K) => boolean
-): K | undefined => {
+const findKey = <K, V>(map: Map<K, V>, predicate: (value: V, key: K) => boolean): K | undefined => {
   for (const [key, value] of map) {
     if (predicate(value, key)) return key
   }
@@ -105,7 +96,7 @@ const intersection = <T>(...sets: Array<Set<T>>): Set<T> => {
   const [first = new Set<T>(), ...rest] = sets
   const result = new Set<T>()
   for (const value of first) {
-    if (rest.every(s => s.has(value))) {
+    if (rest.every((s) => s.has(value))) {
       result.add(value)
     }
   }
@@ -115,7 +106,7 @@ const intersection = <T>(...sets: Array<Set<T>>): Set<T> => {
 const difference = <T>(set: Set<T>, ...others: Array<Set<T>>): Set<T> => {
   const result = new Set<T>()
   for (const value of set) {
-    if (!others.some(s => s.has(value))) {
+    if (!others.some((s) => s.has(value))) {
       result.add(value)
     }
   }

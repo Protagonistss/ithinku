@@ -11,10 +11,10 @@ const deepMerge = <T extends Record<string, unknown>>(...objects: Array<T>): T =
     for (const key of Object.keys(obj)) {
       const targetVal = result[key]
       const sourceVal = (obj as Record<string, unknown>)[key]
-      result[key] = isObject(targetVal) && isObject(sourceVal) ? deepMerge(
-          targetVal as Record<string, unknown>,
-          sourceVal as Record<string, unknown>
-        ) : deepClone(sourceVal);
+      result[key] =
+        isObject(targetVal) && isObject(sourceVal)
+          ? deepMerge(targetVal as Record<string, unknown>, sourceVal as Record<string, unknown>)
+          : deepClone(sourceVal)
     }
   }
   return result as T
@@ -47,12 +47,8 @@ const omit = <T extends Record<string, unknown>, K extends keyof T>(
   return result as Omit<T, K>
 }
 
-const get = <T = unknown>(
-  obj: Record<string, unknown>,
-  path: string,
-  defaultValue?: T
-): T => {
-  const keys = path.split('.').filter(k => k !== '')
+const get = <T = unknown>(obj: Record<string, unknown>, path: string, defaultValue?: T): T => {
+  const keys = path.split('.').filter((k) => k !== '')
   if (keys.length === 0) return defaultValue as T
   let current: unknown = obj
   for (const key of keys) {
@@ -62,12 +58,8 @@ const get = <T = unknown>(
   return current === undefined ? (defaultValue as T) : (current as T)
 }
 
-const set = <T extends Record<string, unknown>>(
-  obj: T,
-  path: string,
-  value: unknown
-): T => {
-  const keys = path.split('.').filter(k => k !== '')
+const set = <T extends Record<string, unknown>>(obj: T, path: string, value: unknown): T => {
+  const keys = path.split('.').filter((k) => k !== '')
   if (keys.length === 0) return obj
 
   const result = { ...obj } as Record<string, unknown>
@@ -82,10 +74,7 @@ const set = <T extends Record<string, unknown>>(
   return result as T
 }
 
-const flatten = (
-  obj: Record<string, unknown>,
-  prefix = ''
-): Record<string, unknown> => {
+const flatten = (obj: Record<string, unknown>, prefix = ''): Record<string, unknown> => {
   const result: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(obj)) {
     const newKey = prefix ? `${prefix}.${key}` : key
@@ -120,7 +109,7 @@ const isEmptyDeep = (value?: unknown): boolean => {
   if (typeof value === 'string') return value.length === 0
   if (isArray(value)) return (value as unknown[]).length === 0
   if (isObject(value)) {
-    return Object.values(value as Record<string, unknown>).every(v => isEmptyDeep(v))
+    return Object.values(value as Record<string, unknown>).every((v) => isEmptyDeep(v))
   }
   return false
 }
@@ -130,7 +119,10 @@ const isEqual = (a: unknown, b: unknown): boolean => {
   if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return false
 
   if (isDate(a) && isDate(b)) return (a as Date).getTime() === (b as Date).getTime()
-  if (isRegExp(a) && isRegExp(b)) return (a as RegExp).source === (b as RegExp).source && (a as RegExp).flags === (b as RegExp).flags
+  if (isRegExp(a) && isRegExp(b))
+    return (
+      (a as RegExp).source === (b as RegExp).source && (a as RegExp).flags === (b as RegExp).flags
+    )
 
   if (isMap(a) && isMap(b)) {
     const mapA = a as Map<unknown, unknown>
@@ -165,21 +157,10 @@ const isEqual = (a: unknown, b: unknown): boolean => {
     const keysA = Object.keys(objA)
     const keysB = Object.keys(objB)
     if (keysA.length !== keysB.length) return false
-    return keysA.every(key => isEqual(objA[key], objB[key]))
+    return keysA.every((key) => isEqual(objA[key], objB[key]))
   }
 
   return false
 }
 
-export {
-  deepClone,
-  deepMerge,
-  pick,
-  omit,
-  get,
-  set,
-  flatten,
-  unflatten,
-  isEmptyDeep,
-  isEqual
-}
+export { deepClone, deepMerge, pick, omit, get, set, flatten, unflatten, isEmptyDeep, isEqual }

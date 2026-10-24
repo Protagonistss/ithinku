@@ -179,25 +179,25 @@ export class Parser {
     ) {
       const token = this.currentToken
       switch (token.type) {
-      case TokenType.Multiply: {
-        this.eat(TokenType.Multiply)
-        node = AST.createBinaryOp('*', node, this.factor())
-      
-      break;
-      }
-      case TokenType.Divide: {
-        this.eat(TokenType.Divide)
-        node = AST.createBinaryOp('/', node, this.factor())
-      
-      break;
-      }
-      case TokenType.Modulo: {
-        this.eat(TokenType.Modulo)
-        node = AST.createBinaryOp('%', node, this.factor())
-      
-      break;
-      }
-      // No default
+        case TokenType.Multiply: {
+          this.eat(TokenType.Multiply)
+          node = AST.createBinaryOp('*', node, this.factor())
+
+          break
+        }
+        case TokenType.Divide: {
+          this.eat(TokenType.Divide)
+          node = AST.createBinaryOp('/', node, this.factor())
+
+          break
+        }
+        case TokenType.Modulo: {
+          this.eat(TokenType.Modulo)
+          node = AST.createBinaryOp('%', node, this.factor())
+
+          break
+        }
+        // No default
       }
     }
 

@@ -2,6 +2,26 @@
   "name": "@ithinku/expr",
   "version": "0.0.3",
   "description": "A TypeScript expression parser library",
+  "keywords": [
+    "ast",
+    "expression",
+    "parser",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
+  "license": "MIT",
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/expr"
+  },
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
@@ -13,9 +33,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c",
     "prebuild": "pnpm clean",
@@ -28,23 +48,6 @@
     "clean": "rimraf dist",
     "prepublishOnly": "pnpm run clean && pnpm run build",
     "debug": "node --experimental-transform-types --import ./scripts/register-ts.mjs src/index.ts"
-  },
-  "keywords": [
-    "expression",
-    "parser",
-    "typescript",
-    "ast"
-  ],
-  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
-  "license": "MIT",
-  "homepage": "https://github.com/Protagonistss/ithinku#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Protagonistss/ithinku.git",
-    "directory": "packages/expr"
-  },
-  "bugs": {
-    "url": "https://github.com/Protagonistss/ithinku/issues"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -59,8 +62,5 @@
     "typescript": "^5.8.2",
     "vite": "^8.0.0",
     "vitest": "^5.0.5"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

@@ -5,8 +5,8 @@ const splitWords = (str: string): string[] => {
     .replaceAll(/(\d)([a-zA-Z])/g, '$1 $2')
     .replaceAll(/([a-zA-Z])(\d)/g, '$1 $2')
     .split(/[\s\-_]+/)
-    .filter(word => word.length > 0)
-    .map(word => word.toLowerCase())
+    .filter((word) => word.length > 0)
+    .map((word) => word.toLowerCase())
 }
 
 const camelCase = (str: string): string => {
@@ -28,7 +28,7 @@ const snakeCase = (str: string): string => {
 
 const pascalCase = (str: string): string => {
   return splitWords(str)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join('')
 }
 
@@ -37,10 +37,7 @@ const capitalize = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-const truncate = (
-  str: string,
-  options?: { length?: number; suffix?: string }
-): string => {
+const truncate = (str: string, options?: { length?: number; suffix?: string }): string => {
   const { length = str.length, suffix = '...' } = options ?? {}
   if (str.length <= length) return str
   const suffixLen = suffix.length
@@ -54,10 +51,7 @@ const template = (str: string, data: Record<string, unknown>): string => {
   })
 }
 
-const mask = (
-  str: string,
-  options?: { start?: number; end?: number; char?: string }
-): string => {
+const mask = (str: string, options?: { start?: number; end?: number; char?: string }): string => {
   const { start = 0, end = 0, char = '*' } = options ?? {}
   if (str.length === 0) return ''
   if (start === 0 && end === 0) return char.repeat(str.length)

@@ -29,9 +29,9 @@ Pick **one** of the following. Option 1 is recommended.
 The modern, idiomatic way. oxfmt auto-discovers `oxfmt.config.ts`, so no `-c` flag is needed. The config is imported by package name (resolved by Node) and is fully typed.
 
 ```ts
+import ithinku from '@ithinku/oxfmt-config'
 // oxfmt.config.ts
 import { defineConfig } from 'oxfmt'
-import ithinku from '@ithinku/oxfmt-config'
 
 export default defineConfig(ithinku)
 ```
@@ -61,23 +61,23 @@ pnpm format:check  # check without writing (for CI)
 
 ## What's included
 
-| Option | Value | Rationale |
-| :--- | :--- | :--- |
-| `printWidth` | `100` | Comfortable on modern displays (wider than the classic 80) |
-| `tabWidth` | `2` | JS/TS community default |
-| `useTabs` | `false` | Spaces |
-| `semi` | `false` | No semicolons — leaner, modern style |
-| `singleQuote` | `true` | JS mainstream preference; JSX stays double (`jsxSingleQuote: false`) |
-| `trailingComma` | `"none"` | No trailing commas — minimal output |
-| `bracketSpacing` | `true` | `{ foo }` over `{foo}` |
-| `arrowParens` | `"always"` | `(x) => x` consistency |
-| `quoteProps` | `"as-needed"` | Only quote object keys when required |
-| `endOfLine` | `"lf"` | Consistent line endings across platforms |
-| `insertFinalNewline` | `true` | POSIX convention |
-| `embeddedLanguageFormatting` | `"auto"` | Format CSS-in-JS / markdown code blocks |
-| `sortImports` | `true` | **oxfmt-exclusive.** Auto-sort import statements |
-| `sortPackageJson` | `true` | **oxfmt-exclusive.** Auto-sort `package.json` keys |
-| `ignorePatterns` | dist/build/coverage/locks… | Skip generated & vendored files |
+| Option                       | Value                      | Rationale                                                            |
+| :--------------------------- | :------------------------- | :------------------------------------------------------------------- |
+| `printWidth`                 | `100`                      | Comfortable on modern displays (wider than the classic 80)           |
+| `tabWidth`                   | `2`                        | JS/TS community default                                              |
+| `useTabs`                    | `false`                    | Spaces                                                               |
+| `semi`                       | `false`                    | No semicolons — leaner, modern style                                 |
+| `singleQuote`                | `true`                     | JS mainstream preference; JSX stays double (`jsxSingleQuote: false`) |
+| `trailingComma`              | `"none"`                   | No trailing commas — minimal output                                  |
+| `bracketSpacing`             | `true`                     | `{ foo }` over `{foo}`                                               |
+| `arrowParens`                | `"always"`                 | `(x) => x` consistency                                               |
+| `quoteProps`                 | `"as-needed"`              | Only quote object keys when required                                 |
+| `endOfLine`                  | `"lf"`                     | Consistent line endings across platforms                             |
+| `insertFinalNewline`         | `true`                     | POSIX convention                                                     |
+| `embeddedLanguageFormatting` | `"auto"`                   | Format CSS-in-JS / markdown code blocks                              |
+| `sortImports`                | `true`                     | **oxfmt-exclusive.** Auto-sort import statements                     |
+| `sortPackageJson`            | `true`                     | **oxfmt-exclusive.** Auto-sort `package.json` keys                   |
+| `ignorePatterns`             | dist/build/coverage/locks… | Skip generated & vendored files                                      |
 
 > `sortImports` / `sortPackageJson` are oxfmt exclusives (Prettier needs plugins for these). They reorder code — if your project relies on a specific order, set them to `false` in a local override.
 
@@ -86,14 +86,14 @@ pnpm format:check  # check without writing (for CI)
 In `oxfmt.config.ts`, spread the base config and tweak:
 
 ```ts
-import { defineConfig } from 'oxfmt'
 import ithinku from '@ithinku/oxfmt-config'
+import { defineConfig } from 'oxfmt'
 
 export default defineConfig({
   ...ithinku,
   ignorePatterns: [
     ...ithinku.ignorePatterns, // keep the built-in ignores
-    '**/*.d.ts'                // add your own
+    '**/*.d.ts' // add your own
   ]
 })
 ```

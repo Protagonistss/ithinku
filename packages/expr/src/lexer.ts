@@ -42,18 +42,12 @@ export class Lexer {
   constructor(input: string) {
     this.input = input
     this.position = 0
-    this.currentChar =
-      this.position < this.input.length
-        ? this.input.charAt(this.position)
-        : null
+    this.currentChar = this.position < this.input.length ? this.input.charAt(this.position) : null
   }
 
   private advance(): void {
     this.position++
-    this.currentChar =
-      this.position < this.input.length
-        ? this.input.charAt(this.position)
-        : null
+    this.currentChar = this.position < this.input.length ? this.input.charAt(this.position) : null
   }
 
   private peek(): string | null {
@@ -171,19 +165,32 @@ export class Lexer {
         }
         const escaped: string = this.currentChar
         switch (escaped) {
-          case 'n': { result += '\n'; break
+          case 'n': {
+            result += '\n'
+            break
           }
-          case 't': { result += '\t'; break
+          case 't': {
+            result += '\t'
+            break
           }
-          case 'r': { result += '\r'; break
+          case 'r': {
+            result += '\r'
+            break
           }
-          case '\\': { result += '\\'; break
+          case '\\': {
+            result += '\\'
+            break
           }
-          case "'": { result += "'"; break
+          case "'": {
+            result += "'"
+            break
           }
-          case '"': { result += '"'; break
+          case '"': {
+            result += '"'
+            break
           }
-          default: { result += escaped
+          default: {
+            result += escaped
           }
         }
       } else {
@@ -288,11 +295,7 @@ export class Lexer {
               position: currentPos
             }
           }
-          throw new LexerError(
-            `Unexpected character: =. Did you mean ==?`,
-            currentPos,
-            this.input
-          )
+          throw new LexerError(`Unexpected character: =. Did you mean ==?`, currentPos, this.input)
         }
         case '!': {
           this.advance()
@@ -313,11 +316,7 @@ export class Lexer {
             this.advance()
             return { type: TokenType.And, value: '&&', position: currentPos }
           }
-          throw new LexerError(
-            `Unexpected character: &. Did you mean &&?`,
-            currentPos,
-            this.input
-          )
+          throw new LexerError(`Unexpected character: &. Did you mean &&?`, currentPos, this.input)
         }
         case '|': {
           this.advance()
@@ -325,11 +324,7 @@ export class Lexer {
             this.advance()
             return { type: TokenType.Or, value: '||', position: currentPos }
           }
-          throw new LexerError(
-            `Unexpected character: |. Did you mean ||?`,
-            currentPos,
-            this.input
-          )
+          throw new LexerError(`Unexpected character: |. Did you mean ||?`, currentPos, this.input)
         }
         case ',': {
           this.advance()

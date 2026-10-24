@@ -2,6 +2,31 @@
   "name": "@ithinku/tsconfig",
   "version": "0.0.7",
   "description": "custom tsconfig for huangshan",
+  "keywords": [
+    "tsconfig"
+  ],
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
+  "license": "MIT",
+  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/tsconfig"
+  },
+  "files": [
+    "tsconfig.json",
+    "tsconfig.base.json",
+    "tsconfig.strict.json",
+    "tsconfig.dom.json",
+    "tsconfig.dom-strict.json",
+    "tsconfig.node.json",
+    "tsconfig.node-strict.json",
+    "tsconfig.bundler.json",
+    "tsconfig.bundler-strict.json"
+  ],
   "main": "tsconfig.json",
   "exports": {
     ".": "./tsconfig.json",
@@ -22,31 +47,6 @@
     "./bundler.json": "./tsconfig.bundler.json",
     "./bundler-strict": "./tsconfig.bundler-strict.json",
     "./bundler-strict.json": "./tsconfig.bundler-strict.json"
-  },
-  "files": [
-    "tsconfig.json",
-    "tsconfig.base.json",
-    "tsconfig.strict.json",
-    "tsconfig.dom.json",
-    "tsconfig.dom-strict.json",
-    "tsconfig.node.json",
-    "tsconfig.node-strict.json",
-    "tsconfig.bundler.json",
-    "tsconfig.bundler-strict.json"
-  ],
-  "keywords": [
-    "tsconfig"
-  ],
-  "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
-  "license": "MIT",
-  "homepage": "https://github.com/Protagonistss/ithinku#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Protagonistss/ithinku.git",
-    "directory": "packages/tsconfig"
-  },
-  "bugs": {
-    "url": "https://github.com/Protagonistss/ithinku/issues"
   },
   "publishConfig": {
     "access": "public"

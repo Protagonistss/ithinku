@@ -2,4 +2,4 @@
 // inside `oxlint.config.ts`, instead of pointing `extends` at a node_modules path.
 // The JSON file remains the single source of truth.
 
-export {default} from './index.json' with { type: 'json' }
+export { default } from './index.json' with { type: 'json' }

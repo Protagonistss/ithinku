@@ -1,4 +1,4 @@
-const tsConfig = require('@ithinku/eslint-config-ts');
+const tsConfig = require('@ithinku/eslint-config-ts')
 
 module.exports = [
   ...tsConfig,
@@ -13,11 +13,7 @@ module.exports = [
   },
   // CommonJS Config Files & Rollup Configs
   {
-    files: [
-      'packages/eslint-config-*/**/*.js',
-      'eslint.config.js',
-      '**/*.mjs'
-    ],
+    files: ['packages/eslint-config-*/**/*.js', 'eslint.config.js', '**/*.mjs'],
     rules: {
       'unicorn/prefer-module': 'off',
       '@typescript-eslint/no-require-imports': 'off',
@@ -45,4 +41,4 @@ module.exports = [
       '@typescript-eslint/prefer-optional-chain': 'error'
     }
   }
-];
+]

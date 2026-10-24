@@ -2,25 +2,31 @@
   "name": "@ithinku/oxlint-config",
   "version": "0.0.1",
   "description": "Shareable Oxlint configuration for modern JavaScript/TypeScript projects",
+  "keywords": [
+    "config",
+    "javascript",
+    "lint",
+    "linter",
+    "oxc",
+    "oxlint",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
   "license": "MIT",
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
-  "homepage": "https://github.com/Protagonistss/ithinku#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Protagonistss/ithinku.git",
     "directory": "packages/oxlint-config"
   },
-  "bugs": {
-    "url": "https://github.com/Protagonistss/ithinku/issues"
-  },
-  "keywords": [
-    "oxlint",
-    "oxc",
-    "linter",
-    "lint",
-    "config",
-    "typescript",
-    "javascript"
+  "files": [
+    "index.json",
+    "index.mjs",
+    "index.d.ts",
+    "README.md"
   ],
   "exports": {
     ".": {
@@ -31,12 +37,9 @@
     "./index.json": "./index.json",
     "./package.json": "./package.json"
   },
-  "files": [
-    "index.json",
-    "index.mjs",
-    "index.d.ts",
-    "README.md"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "oxlint": ">=1.0.0"
   },
@@ -44,8 +47,5 @@
     "oxlint": {
       "optional": true
     }
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

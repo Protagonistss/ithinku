@@ -143,13 +143,7 @@ const isExist = (arg: unknown = undefined): boolean => {
 }
 
 function isEmpty(
-  arg:
-    | string
-    | unknown[]
-    | Record<string, unknown>
-    | Map<unknown, unknown>
-    | Set<unknown>
-    | boolean
+  arg: string | unknown[] | Record<string, unknown> | Map<unknown, unknown> | Set<unknown> | boolean
 ): boolean
 function isEmpty(arg: unknown): boolean {
   if (!isExist(arg)) {

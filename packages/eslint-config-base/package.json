@@ -2,32 +2,32 @@
   "name": "@ithinku/eslint-config-base",
   "version": "0.1.1",
   "description": "Base ESLint configuration for JavaScript projects (Flat Config)",
-  "main": "index.js",
-  "files": [
-    "index.js"
-  ],
-  "scripts": {
-    "test": "vitest run"
-  },
   "keywords": [
-    "eslint",
-    "javascript",
     "config",
-    "flat-config"
+    "eslint",
+    "flat-config",
+    "javascript"
   ],
-  "author": "ithinku",
-  "license": "MIT",
   "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
+  "license": "MIT",
+  "author": "ithinku",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Protagonistss/ithinku.git",
     "directory": "packages/eslint-config-base"
   },
-  "bugs": {
-    "url": "https://github.com/Protagonistss/ithinku/issues"
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
   },
-  "engines": {
-    "node": ">=20.19.0"
+  "scripts": {
+    "test": "vitest run"
   },
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
@@ -39,14 +39,14 @@
     "jsonc-eslint-parser": "^2.4.0",
     "yaml-eslint-parser": "^1.2.2"
   },
-  "peerDependencies": {
-    "eslint": "^9.38.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
     "eslint": "^9.39.5",
     "vitest": "^5.0.5"
+  },
+  "peerDependencies": {
+    "eslint": "^9.38.0"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }

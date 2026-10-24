@@ -38,7 +38,7 @@ export const builtinFunctions: Record<string, ExprFunction> = {
   floor: (x) => Math.floor(x as number),
   round: (x) => Math.round(x as number),
   sqrt: (x) => {
-    if (x as number < 0) throw new EvaluationError('Square root of negative number')
+    if ((x as number) < 0) throw new EvaluationError('Square root of negative number')
     return Math.sqrt(x as number)
   },
   max: (...args) => Math.max(...args.map(Number)),
@@ -72,19 +72,24 @@ export class Evaluator implements ASTVisitor<ExprValue> {
 
   constructor(options?: EvaluatorOptions)
   constructor(context: Context, functions?: Record<string, ExprFunction>)
-  constructor(contextOrOptions?: Context | EvaluatorOptions, functions: Record<string, ExprFunction> = {}) {
+  constructor(
+    contextOrOptions?: Context | EvaluatorOptions,
+    functions: Record<string, ExprFunction> = {}
+  ) {
     // Support both old-style (context, functions) and new-style (options) constructors
     if (contextOrOptions && typeof contextOrOptions === 'object' && 'context' in contextOrOptions) {
       // New-style: EvaluatorOptions
       const options = contextOrOptions as EvaluatorOptions
       this.context = options.context ?? {}
-      this.functions = this.mergeFunctions(options.functions, options.enableBuiltinFunctions ?? true)
+      this.functions = this.mergeFunctions(
+        options.functions,
+        options.enableBuiltinFunctions ?? true
+      )
     } else {
       // Old-style: backward compatible
       this.context = (contextOrOptions as Context) ?? {}
-      this.functions = Object.keys(functions).length > 0
-        ? { ...builtinFunctions, ...functions }
-        : builtinFunctions
+      this.functions =
+        Object.keys(functions).length > 0 ? { ...builtinFunctions, ...functions } : builtinFunctions
     }
   }
 
@@ -116,7 +121,12 @@ export class Evaluator implements ASTVisitor<ExprValue> {
       if (!part) {
         throw new EvaluationError('Invalid variable name')
       }
-      if (typeof current === 'number' || typeof current === 'boolean' || typeof current === 'string' || typeof current === 'function') {
+      if (
+        typeof current === 'number' ||
+        typeof current === 'boolean' ||
+        typeof current === 'string' ||
+        typeof current === 'function'
+      ) {
         throw new EvaluationError(`Cannot access property ${part} of ${typeof current}`)
       }
       const next = current[part]
@@ -126,7 +136,11 @@ export class Evaluator implements ASTVisitor<ExprValue> {
       current = next
     }
 
-    if (typeof current !== 'number' && typeof current !== 'boolean' && typeof current !== 'string') {
+    if (
+      typeof current !== 'number' &&
+      typeof current !== 'boolean' &&
+      typeof current !== 'string'
+    ) {
       throw new EvaluationError(`Expected primitive value but got object at ${path.join('.')}`)
     }
     return current
@@ -145,21 +159,29 @@ export class Evaluator implements ASTVisitor<ExprValue> {
 
   public evaluate(node: ASTNode): ExprValue {
     switch (node.type) {
-      case 'number': { return this.visitNumber(node)
+      case 'number': {
+        return this.visitNumber(node)
       }
-      case 'boolean': { return this.visitBoolean(node)
+      case 'boolean': {
+        return this.visitBoolean(node)
       }
-      case 'string': { return this.visitString(node)
+      case 'string': {
+        return this.visitString(node)
       }
-      case 'binary': { return this.visitBinary(node)
+      case 'binary': {
+        return this.visitBinary(node)
       }
-      case 'unary': { return this.visitUnary(node)
+      case 'unary': {
+        return this.visitUnary(node)
       }
-      case 'identifier': { return this.visitIdentifier(node)
+      case 'identifier': {
+        return this.visitIdentifier(node)
       }
-      case 'call': { return this.visitCall(node)
+      case 'call': {
+        return this.visitCall(node)
       }
-      case 'conditional': { return this.visitConditional(node)
+      case 'conditional': {
+        return this.visitConditional(node)
       }
       default: {
         // Exhaustiveness check：新增节点类型时这里会编译报错
@@ -236,11 +258,14 @@ export class Evaluator implements ASTVisitor<ExprValue> {
         if (typeof left === 'string' && typeof right === 'string') return left >= right
         return this.toNumber(left) >= this.toNumber(right)
       }
-      case '==': { return left === right
+      case '==': {
+        return left === right
       }
-      case '!=': { return left !== right
+      case '!=': {
+        return left !== right
       }
-      default: { break
+      default: {
+        break
       }
     }
 
@@ -253,11 +278,14 @@ export class Evaluator implements ASTVisitor<ExprValue> {
     const rightNum = this.toNumber(right)
 
     switch (operator) {
-      case '+': { return leftNum + rightNum
+      case '+': {
+        return leftNum + rightNum
       }
-      case '-': { return leftNum - rightNum
+      case '-': {
+        return leftNum - rightNum
       }
-      case '*': { return leftNum * rightNum
+      case '*': {
+        return leftNum * rightNum
       }
       case '/': {
         if (rightNum === 0) throw new EvaluationError('Division by zero')
@@ -267,7 +295,8 @@ export class Evaluator implements ASTVisitor<ExprValue> {
         if (rightNum === 0) throw new EvaluationError('Division by zero')
         return leftNum % rightNum
       }
-      case '**': { return leftNum ** rightNum
+      case '**': {
+        return leftNum ** rightNum
       }
       default: {
         return this.unreachableOperator(operator)
@@ -294,7 +323,13 @@ export class Evaluator implements ASTVisitor<ExprValue> {
       if (!part) {
         throw new EvaluationError('Invalid variable name')
       }
-      if (!(part in current) || typeof current[part] === 'number' || typeof current[part] === 'boolean' || typeof current[part] === 'string' || typeof current[part] === 'function') {
+      if (
+        !(part in current) ||
+        typeof current[part] === 'number' ||
+        typeof current[part] === 'boolean' ||
+        typeof current[part] === 'string' ||
+        typeof current[part] === 'function'
+      ) {
         current[part] = {}
       }
       current = current[part] as Context
