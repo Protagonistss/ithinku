@@ -232,7 +232,7 @@ describe('Type checking functions', () => {
 
   describe('isBigInt', () => {
     it('should return true for big integers', () => {
-      expect(isBigInt(BigInt(1))).toBe(true)
+      expect(isBigInt(2n)).toBe(true)
       expect(isBigInt(1n)).toBe(true)
     })
 

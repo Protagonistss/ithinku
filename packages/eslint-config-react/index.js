@@ -25,9 +25,9 @@ module.exports = [
       }
     },
     rules: {
-      // 引入推荐规则 (手动合并，因为部分插件尚未完全适配 Flat Config 的导出格式)
+      // react / jsx-a11y 仍使用 recommended.rules；react-hooks 7 改为 flat 导出
       ...pluginReact.configs.recommended.rules,
-      ...pluginReactHooks.configs.recommended.rules,
+      ...pluginReactHooks.configs.flat['recommended-latest'].rules,
       ...pluginJsxA11y.configs.recommended.rules,
 
       // React 最佳实践

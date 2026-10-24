@@ -62,7 +62,7 @@ export class Lexer {
   }
 
   private static isWhitespace(ch: string): boolean {
-    return ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r'
+    return ' \t\n\r'.includes(ch)
   }
 
   private static isDigit(ch: string): boolean {

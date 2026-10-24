@@ -73,5 +73,12 @@ module.exports = [
       '@typescript-eslint/no-inferrable-types': 'error',
       '@typescript-eslint/unified-signatures': 'error'
     }
+  },
+  {
+    files: ['**/*.json', '**/*.json5', '**/*.yaml', '**/*.yml'],
+    rules: {
+      // jsonc/yaml parser 会把整个文件当成表达式语句
+      '@typescript-eslint/no-unused-expressions': 'off'
+    }
   }
 ]

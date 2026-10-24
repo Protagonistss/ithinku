@@ -1,15 +1,17 @@
 const globals = require('globals')
-const pluginUnicorn = require('eslint-plugin-unicorn')
+const pluginUnicornModule = require('eslint-plugin-unicorn')
 const pluginPromise = require('eslint-plugin-promise')
 const pluginImportModule = require('eslint-plugin-import-x')
-const pluginComments = require('eslint-plugin-eslint-comments')
+const pluginComments = require('@eslint-community/eslint-plugin-eslint-comments')
 const configPrettier = require('eslint-config-prettier')
 const parserJsonc = require('jsonc-eslint-parser')
 const parserYaml = require('yaml-eslint-parser')
+
+// unicorn 65 起只提供 ESM，Node 20.19+ 的 require(esm) 会包一层 default
+const pluginUnicorn = pluginUnicornModule.default ?? pluginUnicornModule
 const pluginImport = pluginImportModule.importX ?? pluginImportModule.default ?? pluginImportModule
 
 module.exports = [
-  // 1. 全局忽略 (对应原 ignorePatterns)
   {
     ignores: [
       '*.min.*',
@@ -23,22 +25,22 @@ module.exports = [
       'package-lock.json',
       'pnpm-lock.yaml',
       'yarn.lock',
-      '__snapshots__',
-      '!.github',
-      '!.vitepress',
-      '!.vscode'
+      '__snapshots__'
     ]
   },
 
-  // 2. JavaScript 基础配置
+  // 插件自带的 flat recommended。规则名已随主版本变化，直接采用其导出。
+  pluginUnicorn.configs.recommended,
+  pluginPromise.configs['flat/recommended'],
+
   {
     languageOptions: {
-      ecmaVersion: 2022,
+      ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.es2021
+        ...globals.es2025
       },
       parserOptions: {
         ecmaFeatures: {
@@ -47,26 +49,18 @@ module.exports = [
       }
     },
     plugins: {
-      'unicorn': pluginUnicorn,
-      'promise': pluginPromise,
-      'import': pluginImport, // 映射为 import，保持规则兼容
-      'eslint-comments': pluginComments
+      import: pluginImport,
+      // recommended 仍是 eslintrc 形态（plugins 为字符串数组），这里按 flat config 自行注册
+      '@eslint-community/eslint-comments': pluginComments
     },
     rules: {
-      // 引入推荐规则
-      ...pluginUnicorn.configs['flat/recommended'].rules,
-      ...pluginPromise.configs['flat/recommended'].rules,
       ...pluginComments.configs.recommended.rules,
-      // import-x 暂无官方 flat recommended 导出，手动复用或配置
-      // 这里手动配置原有的 import 规则
-
-      // Import rules
       'import/order': [
         'error',
         {
-          'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
           'newlines-between': 'always',
-          'alphabetize': {order: 'asc'}
+          alphabetize: { order: 'asc' }
         }
       ],
       'import/first': 'error',
@@ -77,23 +71,6 @@ module.exports = [
       'import/no-cycle': 'warn',
       'import/no-self-import': 'error',
 
-      // Style rules
-      'semi': 'off',
-      'quotes': 'off',
-      'quote-props': 'off',
-      'indent': 'off',
-      'comma-spacing': 'off',
-      'comma-style': 'off',
-      'comma-dangle': 'off',
-      'no-multi-spaces': 'off',
-      'array-bracket-spacing': 'off',
-      'brace-style': 'off',
-      'block-spacing': 'off',
-      'space-before-function-paren': 'off',
-      'template-curly-spacing': 'off',
-      'arrow-parens': 'off',
-
-      // Best practices
       'no-unused-vars': 'off',
       'no-param-reassign': 'error',
       'no-var': 'error',
@@ -123,11 +100,9 @@ module.exports = [
       'prefer-spread': 'error',
       'prefer-template': 'error',
 
-      // Error prevention
       'no-debugger': 'error',
-      'no-console': ['error', {allow: ['warn', 'error']}],
+      'no-console': ['error', { allow: ['warn', 'error'] }],
       'no-constant-condition': 'warn',
-      'no-return-await': 'error',
       'require-await': 'error',
       'no-return-assign': 'error',
       'no-case-declarations': 'error',
@@ -138,61 +113,35 @@ module.exports = [
       'vars-on-top': 'error',
       'block-scoped-var': 'error',
       'consistent-return': 'error',
-      'complexity': ['warn', 10],
-      'eqeqeq': ['error', 'always'],
+      complexity: ['warn', 10],
+      eqeqeq: ['error', 'always'],
       'no-alert': 'warn',
 
-      // Comments
-      'spaced-comment': [
-        'error',
-        'always',
-        {
-          line: {
-            markers: ['/'],
-            exceptions: ['/', '#']
-          },
-          block: {
-            markers: ['!'],
-            exceptions: ['*'],
-            balanced: true
-          }
-        }
-      ],
-
-      // Unicorn rules overrides
+      // 与本配置既有宽松策略保持一致，避免 unicorn 新推荐规则突然改写存量代码风格
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/no-array-callback-reference': 'off',
       'unicorn/no-array-for-each': 'off',
-      'unicorn/filename-case': 'off'
+      'unicorn/filename-case': 'off',
+      // toSorted 需要 ES2023，本套配置的 tsconfig 仍以 ES2022 为 lib
+      'unicorn/no-array-sort': 'off'
     }
   },
 
-  // 3. JSON 文件配置
+  // JSON / YAML 只切换 parser。格式交给 oxfmt，核心格式规则作用不到这些 AST。
   {
-    files: ['*.json', '*.json5'],
+    files: ['**/*.json', '**/*.json5'],
     languageOptions: {
       parser: parserJsonc
-    },
-    rules: {
-      'quotes': ['error', 'double'],
-      'quote-props': ['error', 'always'],
-      'comma-dangle': ['error', 'never']
     }
   },
-
-  // 4. YAML 文件配置
   {
-    files: ['*.yaml', '*.yml'],
+    files: ['**/*.{yaml,yml}'],
     languageOptions: {
       parser: parserYaml
-    },
-    rules: {
-      'spaced-comment': 'off'
     }
   },
 
-  // 5. Prettier 配置 (最后加载以覆盖冲突规则)
   configPrettier
 ]

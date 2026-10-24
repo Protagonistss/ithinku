@@ -6,6 +6,9 @@
   "files": [
     "index.js"
   ],
+  "scripts": {
+    "test": "vitest run"
+  },
   "keywords": [
     "eslint",
     "javascript",
@@ -27,19 +30,23 @@
     "node": ">=20.19.0"
   },
   "dependencies": {
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import-x": "^4.16.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-unicorn": "^56.0.0",
+    "eslint-plugin-promise": "^7.3.0",
+    "eslint-plugin-unicorn": "65.0.1",
     "globals": "^17.0.0",
     "jsonc-eslint-parser": "^2.4.0",
     "yaml-eslint-parser": "^1.2.2"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0"
+    "eslint": "^9.38.0"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "vitest": "^5.0.5"
   }
 }

@@ -148,11 +148,11 @@ describe('Convert Utils', () => {
 
   describe('toFloat', () => {
     it('returns float as-is', () => {
-      expect(toFloat(3.141_59)).toBe(3.141_59)
+      expect(toFloat(3.14159)).toBe(3.14159)
     })
 
     it('rounds with precision', () => {
-      expect(toFloat(3.141_59, { precision: 2 })).toBe(3.14)
+      expect(toFloat(3.14159, { precision: 2 })).toBe(3.14)
     })
 
     it('returns default for invalid', () => {

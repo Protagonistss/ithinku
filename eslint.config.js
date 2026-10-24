@@ -5,6 +5,12 @@ module.exports = [
   {
     ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/.cursor/**']
   },
+  // import 排序交给 oxfmt 的 sortImports，避免和 ESLint 互相改写
+  {
+    rules: {
+      'import/order': 'off'
+    }
+  },
   // CommonJS Config Files & Rollup Configs
   {
     files: [

@@ -175,9 +175,7 @@ export class Parser {
     let node = this.factor()
 
     while (
-      this.currentToken.type === TokenType.Multiply ||
-      this.currentToken.type === TokenType.Divide ||
-      this.currentToken.type === TokenType.Modulo
+      [TokenType.Multiply, TokenType.Divide, TokenType.Modulo].includes(this.currentToken.type)
     ) {
       const token = this.currentToken
       switch (token.type) {
@@ -232,12 +230,14 @@ export class Parser {
     let node = this.additive()
 
     while (
-      this.currentToken.type === TokenType.Less ||
-      this.currentToken.type === TokenType.Greater ||
-      this.currentToken.type === TokenType.LessEqual ||
-      this.currentToken.type === TokenType.GreaterEqual ||
-      this.currentToken.type === TokenType.Equal ||
-      this.currentToken.type === TokenType.NotEqual
+      [
+        TokenType.Less,
+        TokenType.Greater,
+        TokenType.LessEqual,
+        TokenType.GreaterEqual,
+        TokenType.Equal,
+        TokenType.NotEqual
+      ].includes(this.currentToken.type)
     ) {
       const token = this.currentToken
       const op = COMPARISON_OPERATORS[token.type]

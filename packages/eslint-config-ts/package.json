@@ -6,6 +6,9 @@
   "files": [
     "index.js"
   ],
+  "scripts": {
+    "test": "vitest run"
+  },
   "keywords": [
     "eslint",
     "typescript",
@@ -31,10 +34,15 @@
     "typescript-eslint": "^8.0.0"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0",
+    "eslint": "^9.38.0",
     "typescript": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "typescript": "^5.8.3",
+    "vitest": "^5.0.5"
   }
 }
