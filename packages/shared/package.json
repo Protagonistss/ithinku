@@ -5,6 +5,14 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -31,6 +39,15 @@
   ],
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/shared"
+  },
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
   "devDependencies": {
     "@ithinku/prettier-config": "workspace:^",
     "@rollup/plugin-commonjs": "^25.0.7",

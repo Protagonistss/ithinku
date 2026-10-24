@@ -39,6 +39,15 @@
   ],
   "author": "huangshan <protagonisths@gmail.com> (https://github.com/Protagonistss)",
   "license": "MIT",
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/tsconfig"
+  },
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
   "publishConfig": {
     "access": "public"
   }

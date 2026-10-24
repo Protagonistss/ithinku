@@ -14,8 +14,17 @@
   ],
   "author": "ithinku",
   "license": "MIT",
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/eslint-config-base"
+  },
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
   "engines": {
-    "node": ">=18.18"
+    "node": ">=20.19.0"
   },
   "dependencies": {
     "eslint-config-prettier": "^10.1.8",
@@ -28,8 +37,7 @@
     "yaml-eslint-parser": "^1.2.2"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0",
-    "prettier": "^3.0.0"
+    "eslint": "^9.0.0"
   },
   "publishConfig": {
     "access": "public"

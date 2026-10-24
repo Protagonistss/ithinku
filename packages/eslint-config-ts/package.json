@@ -14,8 +14,17 @@
   ],
   "author": "ithinku",
   "license": "MIT",
+  "homepage": "https://github.com/Protagonistss/ithinku#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protagonistss/ithinku.git",
+    "directory": "packages/eslint-config-ts"
+  },
+  "bugs": {
+    "url": "https://github.com/Protagonistss/ithinku/issues"
+  },
   "engines": {
-    "node": ">=18.18"
+    "node": ">=20.19.0"
   },
   "dependencies": {
     "@ithinku/eslint-config-base": "workspace:*",

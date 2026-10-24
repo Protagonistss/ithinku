@@ -1,23 +1,26 @@
-import typescript from '@rollup/plugin-typescript';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import dts from 'rollup-plugin-dts';
-import { defineConfig } from 'rollup';
+import typescript from '@rollup/plugin-typescript'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import dts from 'rollup-plugin-dts'
+import { defineConfig } from 'rollup'
+import { readFileSync } from 'node:fs'
 
-const config = defineConfig([
-  // 主要的构建配置
+const pkg = JSON.parse(readFileSync(new URL('package.json', import.meta.url)))
+
+// 类型由 rollup-plugin-dts 从入口统一打包，避免把每个源文件的 .d.ts 发布出去
+export default defineConfig([
   {
     input: 'src/index.ts',
     output: [
       {
-        file: 'dist/index.cjs',
+        file: pkg.main,
         format: 'cjs',
-        sourcemap: true,
+        sourcemap: true
       },
       {
-        file: 'dist/index.esm.js',
+        file: pkg.module,
         format: 'es',
-        sourcemap: true,
+        sourcemap: true
       }
     ],
     plugins: [
@@ -25,21 +28,15 @@ const config = defineConfig([
       commonjs(),
       typescript({
         tsconfig: './tsconfig.build.json',
-        declaration: true,
-        declarationDir: './dist',
+        declaration: false,
+        declarationMap: false,
         exclude: ['**/__tests__/**']
       })
     ]
   },
-  // 类型定义构建配置
   {
-    input: 'dist/index.d.ts',
-    output: {
-      file: 'dist/index.d.ts',
-      format: 'es'
-    },
-    plugins: [dts()],
+    input: 'src/index.ts',
+    output: [{ file: pkg.types, format: 'es' }],
+    plugins: [dts()]
   }
-]);
-
-export default config; 
+])
