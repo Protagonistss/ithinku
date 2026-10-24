@@ -1,0 +1,3 @@
+# oxfmt 全量格式化，不计入 git blame
+# git config blame.ignoreRevsFile .git-blame-ignore-revs
+a393b9ffcb3b1e9fe17c72b12a426abd6e6ef345
