@@ -152,50 +152,43 @@ export class Lexer {
     return { type: TokenType.Identifier, value: result, position: startPos }
   }
 
+  private readEscapedChar(startPos: number): string {
+    this.advance()
+    if (this.currentChar === null) {
+      throw new LexerError(`Unterminated string`, startPos, this.input)
+    }
+    switch (this.currentChar) {
+      case 'n': {
+        return '\n'
+      }
+      case 't': {
+        return '\t'
+      }
+      case 'r': {
+        return '\r'
+      }
+      case '\\': {
+        return '\\'
+      }
+      case "'": {
+        return "'"
+      }
+      case '"': {
+        return '"'
+      }
+      default: {
+        return this.currentChar
+      }
+    }
+  }
+
   private readString(quote: string): Token {
     const startPos = this.position
     this.advance() // skip opening quote
     let result = ''
 
     while (this.currentChar !== null && this.currentChar !== quote) {
-      if (this.currentChar === '\\') {
-        this.advance()
-        if (this.currentChar === null) {
-          throw new LexerError(`Unterminated string`, startPos, this.input)
-        }
-        const escaped: string = this.currentChar
-        switch (escaped) {
-          case 'n': {
-            result += '\n'
-            break
-          }
-          case 't': {
-            result += '\t'
-            break
-          }
-          case 'r': {
-            result += '\r'
-            break
-          }
-          case '\\': {
-            result += '\\'
-            break
-          }
-          case "'": {
-            result += "'"
-            break
-          }
-          case '"': {
-            result += '"'
-            break
-          }
-          default: {
-            result += escaped
-          }
-        }
-      } else {
-        result += this.currentChar
-      }
+      result += this.currentChar === '\\' ? this.readEscapedChar(startPos) : this.currentChar
       this.advance()
     }
 

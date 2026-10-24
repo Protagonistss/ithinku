@@ -1,6 +1,21 @@
 import { describe, it, expect } from 'vitest'
 
-import { avg, max, min, mode, median, sum, sort } from '../../arr'
+import {
+  arrToObj,
+  arrToStr,
+  avg,
+  flat,
+  len,
+  max,
+  median,
+  min,
+  mode,
+  objToArr,
+  sort,
+  strToArr,
+  sum,
+  unique
+} from '../../arr'
 
 describe('Array Utils Consistency', () => {
   it('sort should not mutate the original array', () => {
@@ -33,6 +48,36 @@ describe('Array Utils Consistency', () => {
 
     it('mode should return empty array for empty input', () => {
       expect(mode([])).toEqual([])
+    })
+  })
+
+  describe('Transform helpers', () => {
+    it('flattens one level and drops duplicates', () => {
+      expect(flat([1, [2, 3], 4])).toEqual([1, 2, 3, 4])
+      expect(unique([1, 1, 2, 2, 3])).toEqual([1, 2, 3])
+      expect(len([1, 2, 3])).toBe(3)
+    })
+
+    it('converts between objects, arrays and strings', () => {
+      expect(objToArr({ a: 1, b: 'x' })).toEqual([
+        ['a', 1],
+        ['b', 'x']
+      ])
+      expect(
+        arrToObj([
+          ['a', 1],
+          ['b', 2]
+        ])
+      ).toEqual({ a: 1, b: 2 })
+      expect(arrToStr(['a', 'b', 'c'])).toBe('a,b,c')
+      expect(arrToStr(['a', 'b'], '|')).toBe('a|b')
+      expect(strToArr('a,b,c')).toEqual(['a', 'b', 'c'])
+      expect(strToArr('a|b', '|')).toEqual(['a', 'b'])
+    })
+
+    it('returns min and max for non-empty arrays', () => {
+      expect(min([3, 1, 2])).toBe(1)
+      expect(max([3, 1, 2])).toBe(3)
     })
   })
 

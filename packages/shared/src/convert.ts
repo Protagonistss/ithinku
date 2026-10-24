@@ -1,19 +1,23 @@
 import { camelCase, snakeCase, kebabCase } from './str'
 import { isObject, isArray, isDate, isMap, isSet } from './type'
 
+const fallbackNumber = (defaultValue?: number): number => {
+  return defaultValue === undefined ? Number.NaN : defaultValue
+}
+
+const parseNumericString = (value: string, defaultValue?: number): number => {
+  const trimmed = value.trim()
+  if (trimmed === '') return fallbackNumber(defaultValue)
+  const num = Number(trimmed)
+  return Number.isNaN(num) ? fallbackNumber(defaultValue) : num
+}
+
 const toNumber = (value: unknown, defaultValue?: number): number => {
   if (typeof value === 'number') return value
   if (typeof value === 'boolean') return value ? 1 : 0
-  if (value === null || value === undefined) {
-    return defaultValue === undefined ? Number.NaN : defaultValue
-  }
-  if (typeof value === 'string') {
-    const trimmed = value.trim()
-    if (trimmed === '') return defaultValue === undefined ? Number.NaN : defaultValue
-    const num = Number(trimmed)
-    return Number.isNaN(num) ? (defaultValue === undefined ? Number.NaN : defaultValue) : num
-  }
-  return defaultValue === undefined ? Number.NaN : defaultValue
+  if (value === null || value === undefined) return fallbackNumber(defaultValue)
+  if (typeof value === 'string') return parseNumericString(value, defaultValue)
+  return fallbackNumber(defaultValue)
 }
 
 const toString = (value?: unknown): string => {

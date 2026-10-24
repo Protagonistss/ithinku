@@ -114,53 +114,68 @@ const isEmptyDeep = (value?: unknown): boolean => {
   return false
 }
 
-const isEqual = (a: unknown, b: unknown): boolean => {
-  if (Object.is(a, b)) return true
-  if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return false
+function isEqualMap(a: unknown, b: unknown): boolean {
+  const mapA = a as Map<unknown, unknown>
+  const mapB = b as Map<unknown, unknown>
+  if (mapA.size !== mapB.size) return false
+  for (const [key, value] of mapA) {
+    if (!mapB.has(key) || !isEqual(value, mapB.get(key))) return false
+  }
+  return true
+}
 
+function isEqualSet(a: unknown, b: unknown): boolean {
+  const setA = a as Set<unknown>
+  const setB = b as Set<unknown>
+  if (setA.size !== setB.size) return false
+  for (const value of setA) {
+    if (!setB.has(value)) return false
+  }
+  return true
+}
+
+function isEqualArray(a: unknown, b: unknown): boolean {
+  const arrA = a as unknown[]
+  const arrB = b as unknown[]
+  if (arrA.length !== arrB.length) return false
+  return arrA.every((val, i) => isEqual(val, arrB[i]))
+}
+
+function isEqualObject(a: unknown, b: unknown): boolean {
+  const objA = a as Record<string, unknown>
+  const objB = b as Record<string, unknown>
+  const keysA = Object.keys(objA)
+  const keysB = Object.keys(objB)
+  if (keysA.length !== keysB.length) return false
+  return keysA.every((key) => isEqual(objA[key], objB[key]))
+}
+
+function isEqualTemporal(a: object, b: object): boolean | undefined {
   if (isDate(a) && isDate(b)) return (a as Date).getTime() === (b as Date).getTime()
-  if (isRegExp(a) && isRegExp(b))
+  if (isRegExp(a) && isRegExp(b)) {
     return (
       (a as RegExp).source === (b as RegExp).source && (a as RegExp).flags === (b as RegExp).flags
     )
-
-  if (isMap(a) && isMap(b)) {
-    const mapA = a as Map<unknown, unknown>
-    const mapB = b as Map<unknown, unknown>
-    if (mapA.size !== mapB.size) return false
-    for (const [key, value] of mapA) {
-      if (!mapB.has(key) || !isEqual(value, mapB.get(key))) return false
-    }
-    return true
   }
+  return undefined
+}
 
-  if (isSet(a) && isSet(b)) {
-    const setA = a as Set<unknown>
-    const setB = b as Set<unknown>
-    if (setA.size !== setB.size) return false
-    for (const value of setA) {
-      if (!setB.has(value)) return false
-    }
-    return true
-  }
+function isEqualCollection(a: object, b: object): boolean | undefined {
+  if (isMap(a) && isMap(b)) return isEqualMap(a, b)
+  if (isSet(a) && isSet(b)) return isEqualSet(a, b)
+  if (isArray(a) && isArray(b)) return isEqualArray(a, b)
+  if (isObject(a) && isObject(b)) return isEqualObject(a, b)
+  return undefined
+}
 
-  if (isArray(a) && isArray(b)) {
-    const arrA = a as unknown[]
-    const arrB = b as unknown[]
-    if (arrA.length !== arrB.length) return false
-    return arrA.every((val, i) => isEqual(val, arrB[i]))
-  }
+function isEqualByKind(a: object, b: object): boolean | undefined {
+  return isEqualTemporal(a, b) ?? isEqualCollection(a, b)
+}
 
-  if (isObject(a) && isObject(b)) {
-    const objA = a as Record<string, unknown>
-    const objB = b as Record<string, unknown>
-    const keysA = Object.keys(objA)
-    const keysB = Object.keys(objB)
-    if (keysA.length !== keysB.length) return false
-    return keysA.every((key) => isEqual(objA[key], objB[key]))
-  }
-
-  return false
+function isEqual(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true
+  if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return false
+  return isEqualByKind(a, b) ?? false
 }
 
 export { deepClone, deepMerge, pick, omit, get, set, flatten, unflatten, isEmptyDeep, isEqual }

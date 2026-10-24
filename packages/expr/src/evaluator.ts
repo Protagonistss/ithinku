@@ -20,6 +20,19 @@ export interface Context {
   [key: string]: ExprValue | Context | ExprFunction
 }
 
+const isScalar = (value: unknown): value is number | boolean | string | ExprFunction => {
+  return (
+    typeof value === 'number' ||
+    typeof value === 'boolean' ||
+    typeof value === 'string' ||
+    typeof value === 'function'
+  )
+}
+
+const isExprPrimitive = (value: unknown): value is ExprValue => {
+  return typeof value === 'number' || typeof value === 'boolean' || typeof value === 'string'
+}
+
 /**
  * Options for configuring the Evaluator.
  */
@@ -105,6 +118,22 @@ export class Evaluator implements ASTVisitor<ExprValue> {
     return builtinFunctions
   }
 
+  private readProperty(
+    current: ExprValue | Context | ExprFunction,
+    part: string,
+    path: string[],
+    index: number
+  ): ExprValue | Context | ExprFunction {
+    if (isScalar(current)) {
+      throw new EvaluationError(`Cannot access property ${part} of ${typeof current}`)
+    }
+    const next = current[part]
+    if (next === undefined) {
+      throw new EvaluationError(`Undefined variable: ${path.slice(0, index + 1).join('.')}`)
+    }
+    return next
+  }
+
   private resolveValue(obj: Context, path: string[]): ExprValue {
     const firstPart = path[0]
     if (!firstPart) {
@@ -121,26 +150,10 @@ export class Evaluator implements ASTVisitor<ExprValue> {
       if (!part) {
         throw new EvaluationError('Invalid variable name')
       }
-      if (
-        typeof current === 'number' ||
-        typeof current === 'boolean' ||
-        typeof current === 'string' ||
-        typeof current === 'function'
-      ) {
-        throw new EvaluationError(`Cannot access property ${part} of ${typeof current}`)
-      }
-      const next = current[part]
-      if (next === undefined) {
-        throw new EvaluationError(`Undefined variable: ${path.slice(0, i + 1).join('.')}`)
-      }
-      current = next
+      current = this.readProperty(current, part, path, i)
     }
 
-    if (
-      typeof current !== 'number' &&
-      typeof current !== 'boolean' &&
-      typeof current !== 'string'
-    ) {
+    if (!isExprPrimitive(current)) {
       throw new EvaluationError(`Expected primitive value but got object at ${path.join('.')}`)
     }
     return current
@@ -311,6 +324,14 @@ export class Evaluator implements ASTVisitor<ExprValue> {
     return !this.toBoolean(value)
   }
 
+  private ensureChild(current: Context, part: string): Context {
+    const child = current[part]
+    if (!(part in current) || isScalar(child)) {
+      current[part] = {}
+    }
+    return current[part] as Context
+  }
+
   public setVariable(name: string, value: ExprValue | Context): void {
     const parts = name.split('.')
     if (parts.length === 0 || !parts[0]) {
@@ -323,16 +344,7 @@ export class Evaluator implements ASTVisitor<ExprValue> {
       if (!part) {
         throw new EvaluationError('Invalid variable name')
       }
-      if (
-        !(part in current) ||
-        typeof current[part] === 'number' ||
-        typeof current[part] === 'boolean' ||
-        typeof current[part] === 'string' ||
-        typeof current[part] === 'function'
-      ) {
-        current[part] = {}
-      }
-      current = current[part] as Context
+      current = this.ensureChild(current, part)
     }
 
     const lastPart = parts.at(-1)

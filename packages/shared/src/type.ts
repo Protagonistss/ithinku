@@ -142,32 +142,24 @@ const isExist = (arg: unknown = undefined): boolean => {
   return !isNull(arg) && !isUndefined(arg)
 }
 
+const collectionSize = (arg: unknown): number | undefined => {
+  if (isString(arg)) return (arg as string).length
+  if (isArray(arg)) return (arg as unknown[]).length
+  if (isMap(arg)) return (arg as Map<unknown, unknown>).size
+  if (isSet(arg)) return (arg as Set<unknown>).size
+  if (isObject(arg)) return Object.keys(arg as Record<string, unknown>).length
+  return undefined
+}
+
 function isEmpty(
   arg: string | unknown[] | Record<string, unknown> | Map<unknown, unknown> | Set<unknown> | boolean
 ): boolean
 function isEmpty(arg: unknown): boolean {
-  if (!isExist(arg)) {
-    return true
-  }
-  if (isBoolean(arg) || isNumber(arg) || isFunction(arg) || isSymbol(arg)) {
-    return false
-  }
-  if (isString(arg)) {
-    return (arg as string).length === 0
-  }
-  if (isArray(arg)) {
-    return (arg as unknown[]).length === 0
-  }
-  if (isMap(arg)) {
-    return (arg as Map<unknown, unknown>).size === 0
-  }
-  if (isSet(arg)) {
-    return (arg as Set<unknown>).size === 0
-  }
-  if (isObject(arg)) {
-    return Object.keys(arg as Record<string, unknown>).length === 0
-  }
-  return false
+  if (!isExist(arg)) return true
+  if (isBoolean(arg) || isNumber(arg) || isFunction(arg) || isSymbol(arg)) return false
+  const size = collectionSize(arg)
+  if (size === undefined) return false
+  return size === 0
 }
 
 const isTrue = (arg: unknown = undefined): boolean => {

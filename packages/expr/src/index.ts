@@ -1,4 +1,4 @@
-import type { ASTNode } from './ast'
+import type { ASTNode, BinaryOpNode, UnaryOpNode } from './ast'
 import { LRUCache } from './cache'
 import type { Context, ExprValue, ExprFunction } from './evaluator'
 import { Evaluator, builtinFunctions } from './evaluator'
@@ -18,6 +18,25 @@ const throwFn = (msg: string): never => {
   throw new Error(msg)
 }
 
+function compileUnary(node: UnaryOpNode): string {
+  const operand = compileASTToJS(node.operand)
+  if (node.operator === '!') return `(!(${operand}))`
+  return `(${node.operator}(${operand}))`
+}
+
+function compileBinary(node: BinaryOpNode): string {
+  const left = compileASTToJS(node.left)
+  const right = compileASTToJS(node.right)
+  const op = node.operator
+  if (op === '+') {
+    return `(typeof (${left})==="string"||typeof (${right})==="string"?String(${left})+String(${right}):(${left})+(${right}))`
+  }
+  if (op === '/' || op === '%') {
+    return `((${right})===0?_throw("Division by zero"):(${left})${op}(${right}))`
+  }
+  return `((${left})${op}(${right}))`
+}
+
 function compileASTToJS(node: ASTNode): string {
   switch (node.type) {
     case 'number': {
@@ -33,23 +52,10 @@ function compileASTToJS(node: ASTNode): string {
       return node.path.reduce((acc, key) => `${acc}[${JSON.stringify(key)}]`, 'ctx')
     }
     case 'unary': {
-      const operand = compileASTToJS(node.operand)
-      if (node.operator === '!') return `(!(${operand}))`
-      return `(${node.operator}(${operand}))`
+      return compileUnary(node)
     }
     case 'binary': {
-      const left = compileASTToJS(node.left)
-      const right = compileASTToJS(node.right)
-      const op = node.operator
-      // String concatenation check for +
-      if (op === '+') {
-        return `(typeof (${left})==="string"||typeof (${right})==="string"?String(${left})+String(${right}):(${left})+(${right}))`
-      }
-      // Division by zero check
-      if (op === '/' || op === '%') {
-        return `((${right})===0?_throw("Division by zero"):(${left})${op}(${right}))`
-      }
-      return `((${left})${op}(${right}))`
+      return compileBinary(node)
     }
     case 'call': {
       const args = node.args.map(compileASTToJS).join(',')
